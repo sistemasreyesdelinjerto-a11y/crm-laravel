@@ -5,35 +5,24 @@
   </div>
 
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 px-6">
-        
-    <!-- Card Pacientes -->
-    <div class="bg-gradient-to-br from-indigo-50 to-white shadow-2xl rounded-3xl p-14 flex items-center justify-between hover:scale-105 transition-transform duration-300">
-      <div>
-        <h3 class="text-2xl font-bold text-gray-700">Pacientes</h3>
-        <p class="text-6xl font-extrabold text-indigo-600 mt-6 counter" data-target="120">0</p>
-      </div>
-      <div class="w-24 h-24 bg-indigo-100 rounded-2xl flex items-center justify-center">
-        <!-- Icono de usuario -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A11.955 11.955 0 0112 15c2.5 0 4.847.776 6.879 2.09M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </div>
-    </div>
+    @foreach($resultados as $resultado)
+      <div class="shadow-2xl rounded-3xl p-14 flex flex-col md:flex-row items-center justify-between hover:scale-105 transition-transform duration-300"
+           style="background: linear-gradient(to bottom right, {{ $resultado->color }}20, #ffffff);">
 
-    <!-- Card Folículos -->
-    <div class="bg-gradient-to-br from-green-50 to-white shadow-2xl rounded-3xl p-14 flex items-center justify-between hover:scale-105 transition-transform duration-300">
-      <div>
-        <h3 class="text-2xl font-bold text-gray-700">Folículos Trasplantados</h3>
-        <p class="text-6xl font-extrabold text-green-600 mt-6 counter" data-target="25400">0</p>
-      </div>
-      <div class="w-24 h-24 bg-green-100 rounded-2xl flex items-center justify-center">
-        <!-- Icono representativo (cabello) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-green-600" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C10.067 2 8.5 4.239 8.5 7c0 2.761 1.567 5 3.5 5s3.5-2.239 3.5-5c0-2.761-1.567-5-3.5-5zM5 22c0-4.418 3.582-8 8-8s8 3.582 8 8H5z"/>
-        </svg>
-      </div>
-    </div>
+        <div class="mb-6 md:mb-0">
+          <h3 class="text-2xl font-bold text-gray-700">{{ $resultado->titulo }}</h3>
+          <p class="text-6xl font-extrabold mt-6 counter" data-target="{{ $resultado->numero }}">0</p>
+        </div>
 
+        <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
+          @if($resultado->icono_svg)
+            <img src="{{ asset($resultado->icono_svg) }}" alt="Icono" class="w-12 h-12 object-contain">
+          @else
+            <span class="text-gray-400">Sin imagen</span>
+          @endif
+        </div>
+      </div>
+    @endforeach
   </div>
 </section>
 
