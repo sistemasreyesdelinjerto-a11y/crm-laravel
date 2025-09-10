@@ -19,6 +19,10 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
+Route::get('/dr-santana', function () {
+    return view('landing.dr_santana'); // nombre de la vista
+})->name('dr-santana');
+
 
 
 // Mostrar landing pública
@@ -36,6 +40,6 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::post('/landing/resultados', [PanelLandingController::class, 'storeResultado'])->name('landing.resultado.store');
     Route::put('/landing/resultados/{resultado}', [PanelLandingController::class, 'update'])->name('landing.resultado.update');
       // Quiénes Somos
-    Route::post('landing/quienes_somos', [LandingController::class, 'storeQuienesSomos'])->name('landing.quienes_somos.store');
+    Route::post('landing/quienes_somos', [panelLandingController::class, 'storeQuienesSomos'])->name('landing.quienes_somos.store');
     Route::put('landing/quienes_somos/{quienes_somos}', [LandingController::class, 'updateQuienesSomos'])->name('landing.quienes_somos.update');
 });
