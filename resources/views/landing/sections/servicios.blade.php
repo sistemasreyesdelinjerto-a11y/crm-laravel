@@ -11,8 +11,8 @@
                     <div
                         class="min-w-[100px] bg-gray-50 rounded-lg shadow-md overflow-hidden snap-center flex-shrink-0">
                         @if($servicio->imagen)
-                            <img src="{{ asset($servicio->imagen) }}" 
-                                 alt="{{ $servicio->titulo }}" 
+                            <img src="{{ asset($servicio->imagen) }}"
+                                 alt="{{ $servicio->titulo }}"
                                  class="w-full h-56 object-cover">
                         @else
                             <div class="w-full h-56 bg-gray-200 flex items-center justify-center text-gray-400">

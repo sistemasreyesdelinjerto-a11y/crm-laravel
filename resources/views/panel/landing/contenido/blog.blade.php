@@ -19,15 +19,15 @@
         <div class="relative">
 
             <!-- Botón Izquierda -->
-            <button onclick="scrollLeftBlog()" 
+            <button onclick="scrollLeftBlog()"
                 class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ‹
             </button>
 
             <!-- Scroll horizontal -->
-            <div id="blogScrollContainer" 
+            <div id="blogScrollContainer"
                 class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none">
-                
+
                 @foreach ($blogs as $blog)
                     <div class="min-w-[350px] bg-beigeNeutro shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
                         <h2 class="text-xl font-bold text-tealOscuro">{{ $blog->titulo }}</h2>
@@ -45,7 +45,7 @@
             </div>
 
             <!-- Botón Derecha -->
-            <button onclick="scrollRightBlog()" 
+            <button onclick="scrollRightBlog()"
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ›
             </button>
@@ -59,13 +59,13 @@
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear Encabezado</h2>
-                    <form action="{{ route('landing.blog.store') }}" method="POST"
+                    <form action="{{ route('panel.landing.blog.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
                         <input type="text" name="titulo" class="w-full border rounded p-2 mb-4" required>
                         <label class="block mb-2">Contenido</label>
-                         <textarea name="contenido" 
+                         <textarea name="contenido"
                                 class="w-full border rounded p-2 mb-4 resize-y" required>
                             </textarea>
                         <br><br>
@@ -85,7 +85,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar Resultado</h2>
-                        <form action="{{ route('landing.blog.update', $blog->id) }}" method="POST"
+                        <form action="{{ route('panel.landing.blog.update', $blog->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -93,7 +93,7 @@
                             <input type="text" name="titulo" value="{{ $blog->titulo }}"
                                 class="w-full border rounded p-2 mb-4">
                             <label class="block mb-2">Contenido</label>
-                            <textarea name="contenido" 
+                            <textarea name="contenido"
                                 class="w-full h-40 border rounded p-2 mb-4 resize-y">{{ $blog->contenido }}
                             </textarea>
                             <button type="submit"
@@ -101,7 +101,7 @@
                                 Cambios</button>
                             <br><br>
                         </form>
-                        <form action="{{ route('landing.blog.destroy', $blog->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta entrada?');">
+                        <form action="{{ route('panel.landing.blog.destroy', $blog->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta entrada?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm mt-4">
@@ -113,10 +113,10 @@
                 </div>
             @endforeach
 
-        
 
 
-    
+
+
 
 
     <!-- JS para scroll + arrastre -->

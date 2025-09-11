@@ -1,7 +1,7 @@
 <section id="encabezado" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
 <main class="flex-1 overflow-y-auto p-6 bg-gray-50" x-data="{ openCreate: false, editId: null }">
 
-    
+
     <!-- Título y botón Crear -->
     <div class="flex justify-between items-center mb-9">
         <h1 class="text-3xl font-bold text-tealOscuro">Conócenos</h1>
@@ -18,7 +18,7 @@
         <div class="relative">
 
             <!-- Botón Izquierda -->
-            <button onclick="scrollLeft()" 
+            <button onclick="scrollLeft()"
                 class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ‹-
             </button>
@@ -29,7 +29,7 @@
                     <div class="min-w-[300px] bg-beigeNeutro shadow-lg rounded-lg p-6 flex justify-between items-center hover:shadow-xl transition-shadow">
                         <div>
                             <h2 class="text-xl font-bold text-tealOscuro">{{ $enca->titulo }}</h2>
-                            <p class="text-tealOscuro mt-2">{{ $enca->subtitulo }}</p>   
+                            <p class="text-tealOscuro mt-2">{{ $enca->subtitulo }}</p>
                         </div>
                         <div class="flex flex-col items-end space-y-2">
                             <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
@@ -49,7 +49,7 @@
             </div>
 
             <!-- Botón Derecha -->
-            <button onclick="scrollRight()" 
+            <button onclick="scrollRight()"
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ->
             </button>
@@ -62,7 +62,7 @@
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear Encabezado</h2>
-                    <form action="{{ route('landing.encabezado.store') }}" method="POST"
+                    <form action="{{ route('panel.landing.encabezado.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
@@ -89,7 +89,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar Resultado</h2>
-                        <form action="{{ route('landing.encabezado.update', $enca->id) }}" method="POST"
+                        <form action="{{ route('panel.landing.encabezado.update', $enca->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -107,7 +107,7 @@
                                 class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro">Guardar
                                 Cambios</button>
                         </form>
-                        <form action="{{ route('landing.encabezado.destroy', $enca->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este encabezado?');">
+                        <form action="{{ route('panel.landing.encabezado.destroy', $enca->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este encabezado?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm mt-4">
