@@ -33,6 +33,23 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::get('/landing/resultados/create', [LandingController::class, 'createResultado'])->name('landing.resultado.create');
 Route::post('/landing/resultados', [LandingController::class, 'storeResultado'])->name('landing.resultado.store');
 
+// crear encabezado
+Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');
+Route::put('landing/encabezado/{encabezado}', [PanelLandingController::class, 'updateEncabezado'])->name('landing.encabezado.update');
+// eliminar encabezado
+Route::delete('landing/encabezado/{encabezado}', [PanelLandingController::class, 'destroyEncabezado'])->name('landing.encabezado.destroy');
+
+//Rutas de blog
+Route::post('landing/blog', [PanelLandingController::class, 'createBlog'])->name('landing.blog.store');
+Route::put('landing/blog/{blog}', [PanelLandingController::class, 'editBlog'])->name('landing.blog.update');
+//eliminar blog
+Route::delete('landing/blog/{blog}', [PanelLandingController::class, 'destroyBlog'])->name('landing.blog.destroy');
+
+//Rutas de servicios
+Route::post('landing/servicios', [PanelLandingController::class, 'createServicios'])->name('landing.servicios.store');
+Route::put('landing/servicios/{servicios}', [PanelLandingController::class, 'editServicios'])->name('landing.servicios.update');
+//eliminar servicios
+Route::delete('landing/servicios/{servicios}', [PanelLandingController::class, 'destroyServicios'])->name('landing.servicios.destroy');
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
     Route::get('/', [PanelController::class, 'index'])->name('panel.index');
