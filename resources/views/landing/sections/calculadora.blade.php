@@ -1,7 +1,7 @@
 <section id="calculadora" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
   <div class="max-w-6xl mx-auto text-center mb-16">
     <h2 class="text-5xl font-extrabold text-gray-800">Nuestros Resultados</h2>
-    <p class="text-xl text-gray-600 mt-4">Confianza respaldada por números reales</p>
+    <p class="text-xl text-gray-600 mt-4">Confianza respaldada por números realesssssss</p>
   </div>
 
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 px-6">

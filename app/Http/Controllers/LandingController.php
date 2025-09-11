@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Resultado;
+use App\Models\encabezado;
+use App\Models\blog;
+use App\Models\servicios;
 
 class LandingController extends Controller
 {
@@ -11,7 +14,10 @@ class LandingController extends Controller
     public function index()
     {
         $resultados = Resultado::all();
-        return view('landing.home', compact('resultados'));
+        $encabezados = encabezado::all();
+        $blogs = blog::all();
+        $servicios = servicios::all();
+        return view('landing.home', compact('resultados', 'encabezados', 'blogs', 'servicios'));
     }
 
 
