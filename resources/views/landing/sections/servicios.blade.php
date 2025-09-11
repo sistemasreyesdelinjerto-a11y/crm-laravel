@@ -1,5 +1,5 @@
 <section id="servicios" class="py-16 px-6 bg-white">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro text-center mb-10">Servicios</h2>
 
         <!-- Contenedor scroll horizontal -->
