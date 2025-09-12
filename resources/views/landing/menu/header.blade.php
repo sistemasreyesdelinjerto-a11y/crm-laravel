@@ -22,10 +22,10 @@
           <button class="flex items-center gap-1 hover:text-beigeCalido transition-all duration-300 hover:scale-105">
             Clínicas ▼
           </button>
-          <ul class="absolute left-1/2 -translate-x-1/2 mt-3 w-60 bg-beigeCalido text-verdeOscuro rounded-3xl shadow-2xl opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-500 transform -translate-y-2 group-hover:translate-y-0">
-            <li><a href="/santafe" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Santa Fe</a></li>
-            <li><a href="/pedregal" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Predregal</a></li>
-            <li><a href="/queretaro" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Querétaro</a></li>
+          <ul class="absolute left-1/2 -translate-x-1/2 mt-3 w-60 bg-beigeCalido text-verdeOscuro rounded-3xl shadow-2xl opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-5000 transform -translate-y-2 group-hover:translate-y-0">
+            <li><a href="{{ Route('landing.clinicas.santafe') }}" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Santa Fe</a></li>
+            <li><a href="{{ Route('landing.clinicas.pedregal') }}" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Predregal</a></li>
+            <li><a href="{{ Route('landing.clinicas.queretaro') }}" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Querétaro</a></li>
           </ul>
         </li>
 

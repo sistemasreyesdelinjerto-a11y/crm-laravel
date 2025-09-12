@@ -12,7 +12,7 @@
                 <p class="text-verdeOscuro/80 mb-6">Visítanos en nuestra sede de Querétaro.</p>
                 <div class="w-full h-96 rounded-2xl overflow-hidden shadow-lg">
                     <iframe class="w-full h-full"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!...AQUI_TU_EMBED_DE_QUERETARO..."
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1491.6842020530594!2d-100.4510173580255!3d20.688888366765383!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d3576b32abba61%3A0xaf0d3874c8a58b92!2sLos%20Reyes%20del%20Injerto%20Quer%C3%A9taro!5e1!3m2!1ses!2smx!4v1757632338313!5m2!1ses!2smx"
                         style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
@@ -29,10 +29,7 @@
                     <div id="carouselQueretaro" class="flex transition-transform duration-500">
                         @php
                             $imagenes = [
-                                'https://source.unsplash.com/800x500/?clinic,interior',
-                                'https://source.unsplash.com/800x500/?clinic,reception',
-                                'https://source.unsplash.com/800x500/?clinic,waiting',
-                                'https://source.unsplash.com/800x500/?clinic,room'
+                               '/public/images/clinica1QRO/QRO1.jpeg',
                             ];
                         @endphp
                         @foreach($imagenes as $img)

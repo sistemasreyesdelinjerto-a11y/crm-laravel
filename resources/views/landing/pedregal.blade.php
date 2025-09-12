@@ -12,8 +12,9 @@
                 <p class="text-verdeOscuro/80 mb-6">Visítanos en nuestra sede de Pedregal, CDMX.</p>
                 <div class="w-full h-96 rounded-2xl overflow-hidden shadow-lg">
                     <iframe class="w-full h-full"
-                        src="https://www.google.com/maps/embed?pb=TU_LINK_DE_PEDREGAL"
-                        style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.3755693542394!2d-99.21991174614952!3d19.323071500486666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cdff21c758114b%3A0xba3d659909ee858d!2sLos%20Reyes%20del%20Injerto%20Pedregal!5e1!3m2!1ses!2smx!4v1757631601394!5m2!1ses!2smx"
+                     style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
                 </div>
             </div>
         </section>

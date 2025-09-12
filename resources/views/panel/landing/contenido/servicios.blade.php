@@ -69,7 +69,7 @@
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear servicio</h2>
-                    <form action="{{ route('landing.servicios.store') }}" method="POST"
+                    <form action="{{ route('panel.landing.servicios.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
@@ -99,7 +99,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar servicio</h2>
-                        <form action="{{ route('landing.servicios.update', $serv->id) }}" method="POST"
+                        <form action="{{ route('panel.landing.servicios.update', $serv->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -121,7 +121,7 @@
                                 Cambios</button>
                             <br>
                         </form>
-                        <form action="{{ route('landing.servicios.destroy', $serv->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta entrada de servicio?');">
+                        <form action="{{ route('panel.landing.servicios.destroy', $serv->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta entrada de servicio?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm mt-4">

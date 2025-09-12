@@ -36,4 +36,21 @@ class LandingController extends Controller
 
         return redirect()->route('landing.index')->with('success', 'Resultado creado correctamente');
     }
+
+    // Mandar las vistas de las clinicas de la pagina principal
+
+    public function clinicaSantafe()
+    {
+        return view('landing.santafe');
+    }
+
+    public function clinicaPedregal()
+    {
+        return view('landing.pedregal');
+    }
+
+    public function clinicaQueretaro()
+    {
+        return view('landing.queretaro');
+    }
 }

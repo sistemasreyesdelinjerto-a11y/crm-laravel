@@ -20,7 +20,7 @@
             <!-- Botón Izquierda -->
             <button onclick="scrollLeft()" 
                 class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
-                ‹-
+              ‹
             </button>
 
             <!-- Scroll horizontal -->
@@ -51,7 +51,7 @@
             <!-- Botón Derecha -->
             <button onclick="scrollRight()" 
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
-                ->
+                ›
             </button>
         </div>
         @endif
@@ -62,7 +62,7 @@
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear Encabezado</h2>
-                    <form action="{{ route('landing.encabezado.store') }}" method="POST"
+                    <form action="{{ route('panel.landing.encabezado.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
@@ -89,7 +89,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar Resultado</h2>
-                        <form action="{{ route('landing.encabezado.update', $enca->id) }}" method="POST"
+                        <form action="{{ route('panel.landing.encabezado.update', $enca->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -107,7 +107,7 @@
                                 class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro">Guardar
                                 Cambios</button>
                         </form>
-                        <form action="{{ route('landing.encabezado.destroy', $enca->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este encabezado?');">
+                        <form action="{{ route('panel.landing.encabezado.destroy', $enca->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este encabezado?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm mt-4">
@@ -126,11 +126,11 @@
     const container = document.getElementById('scrollContainer');
 
     function scrollLeft() {
-        container.scrollBy({ left: -300, behavior: 'smooth' });
+        container.scrollBy({ left: -350, behavior: 'smooth' });
     }
 
     function scrollRight() {
-        container.scrollBy({ left: 300, behavior: 'smooth' });
+        container.scrollBy({ left: 350, behavior: 'smooth' });
     }
 </script>
 </main>

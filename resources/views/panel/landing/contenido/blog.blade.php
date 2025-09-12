@@ -59,7 +59,7 @@
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear Encabezado</h2>
-                    <form action="{{ route('landing.blog.store') }}" method="POST"
+                    <form action="{{ route('panel.landing.blog.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
@@ -85,7 +85,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar Resultado</h2>
-                        <form action="{{ route('landing.blog.update', $blog->id) }}" method="POST"
+                        <form action="{{ route('panel.landing.blog.update', $blog->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -101,7 +101,7 @@
                                 Cambios</button>
                             <br><br>
                         </form>
-                        <form action="{{ route('landing.blog.destroy', $blog->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta entrada?');">
+                        <form action="{{ route('panel.landing.blog.destroy', $blog->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta entrada?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm mt-4">
