@@ -39,7 +39,7 @@ class LandingController extends Controller
 
     // Mandar las vistas de las clinicas de la pagina principal
 
-    public function clinicaSantafe()
+    public function clinicaSantafe() 
     {
         return view('landing.santafe');
     }

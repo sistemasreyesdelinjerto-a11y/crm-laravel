@@ -19,15 +19,15 @@
         <div class="relative">
 
             <!-- Botón Izquierda -->
-            <button onclick="scrollLeftBlog()" 
+            <button onclick="scrollLeftBlog()"
                 class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ‹
             </button>
 
             <!-- Scroll horizontal -->
-            <div id="blogScrollContainer" 
+            <div id="blogScrollContainer"
                 class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none">
-                
+
                 @foreach ($blogs as $blog)
                     <div class="min-w-[350px] bg-beigeNeutro shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
                         <h2 class="text-xl font-bold text-tealOscuro">{{ $blog->titulo }}</h2>
@@ -45,7 +45,7 @@
             </div>
 
             <!-- Botón Derecha -->
-            <button onclick="scrollRightBlog()" 
+            <button onclick="scrollRightBlog()"
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ›
             </button>
@@ -65,7 +65,7 @@
                         <label class="block mb-2">Título</label>
                         <input type="text" name="titulo" class="w-full border rounded p-2 mb-4" required>
                         <label class="block mb-2">Contenido</label>
-                         <textarea name="contenido" 
+                         <textarea name="contenido"
                                 class="w-full border rounded p-2 mb-4 resize-y" required>
                             </textarea>
                         <br><br>
@@ -93,7 +93,7 @@
                             <input type="text" name="titulo" value="{{ $blog->titulo }}"
                                 class="w-full border rounded p-2 mb-4">
                             <label class="block mb-2">Contenido</label>
-                            <textarea name="contenido" 
+                            <textarea name="contenido"
                                 class="w-full h-40 border rounded p-2 mb-4 resize-y">{{ $blog->contenido }}
                             </textarea>
                             <button type="submit"
@@ -113,10 +113,10 @@
                 </div>
             @endforeach
 
-        
 
 
-    </div>
+
+    
 
 
     <!-- JS para scroll + arrastre -->

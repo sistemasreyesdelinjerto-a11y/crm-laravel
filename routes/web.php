@@ -6,6 +6,9 @@ use App\Http\Controllers\Panel\PanelController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\UserController;
 
 Route::get('/dashboard', function () {
     return view('panel.index');
@@ -28,24 +31,35 @@ Route::get('/dr-santana', function () {
 
 // Mostrar landing pública
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
-
-//Rutas de clinicas de la landing publica
-Route::get('/santafe', [LandingController::class, 'clinicaSantafe'])->name('landing.clinicas.santafe');
-Route::get('/pedregal', [LandingController::class, 'clinicaPedregal'])->name('landing.clinicas.pedregal');
-Route::get('/queretaro', [LandingController::class, 'clinicaQueretaro'])->name('landing.clinicas.queretaro');
+//Clinicas Capilar Elite
+Route::get('/clinicas/santafe', [LandingController::class, 'clinicaSantafe'])->name('landing.santafe');
+Route::get('/clinicas/pedregal', [LandingController::class, 'clinicaPedregal'])->name('landing.pedregal');
+Route::get('/clinicas/queretaro', [LandingController::class, 'clinicaQueretaro'])->name('landing.queretaro');
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
-route::get('/landing', [PanelLandingController::class, 'index'])->name('landing.index');
+
+    Route::get('usuarios/create', [RegisteredUserController::class, 'create'])->name('usuarios.create');
+    Route::post('usuarios/store', [RegisteredUserController::class, 'store'])->name('usuarios.store');
+
+    Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.index');
+    Route::get('usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+    Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+
+    route::get('/landing', [PanelLandingController::class, 'index'])->name('landing.index');
     // Crear resultado público (opcional, si lo necesitas)
     Route::get('/landing/resultados/create', [PanelLandingController::class, 'createResultado'])->name('landing.resultado.create');
     Route::post('/landing/resultados', [PanelLandingController::class, 'storeResultado'])->name('landing.resultado.store');
+
+    //rutas de inventario
+    Route::get('inventario', [InventarioController::class, 'index'])->name('inventario.index');
+
 
     // crear encabezado
     Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');
     Route::put('landing/encabezado/{encabezado}', [PanelLandingController::class, 'updateEncabezado'])->name('landing.encabezado.update');
     // eliminar encabezado
     Route::delete('landing/encabezado/{encabezado}', [PanelLandingController::class, 'destroyEncabezado'])->name('landing.encabezado.destroy');
-Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');
+    Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');
     //Rutas de blog
     Route::post('landing/blog', [PanelLandingController::class, 'createBlog'])->name('landing.blog.store');
     Route::put('landing/blog/{blog}', [PanelLandingController::class, 'editBlog'])->name('landing.blog.update');

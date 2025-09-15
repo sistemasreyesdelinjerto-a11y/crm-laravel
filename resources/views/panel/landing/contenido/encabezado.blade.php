@@ -1,7 +1,7 @@
 <section id="encabezado" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
 <main class="flex-1 overflow-y-auto p-6 bg-gray-50" x-data="{ openCreate: false, editId: null }">
 
-    
+
     <!-- Título y botón Crear -->
     <div class="flex justify-between items-center mb-9">
         <h1 class="text-3xl font-bold text-tealOscuro">Conócenos</h1>
@@ -18,7 +18,7 @@
         <div class="relative">
 
             <!-- Botón Izquierda -->
-            <button onclick="scrollLeft()" 
+            <button onclick="scrollLeft()"
                 class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
               ‹
             </button>
@@ -29,7 +29,7 @@
                     <div class="min-w-[300px] bg-beigeNeutro shadow-lg rounded-lg p-6 flex justify-between items-center hover:shadow-xl transition-shadow">
                         <div>
                             <h2 class="text-xl font-bold text-tealOscuro">{{ $enca->titulo }}</h2>
-                            <p class="text-tealOscuro mt-2">{{ $enca->subtitulo }}</p>   
+                            <p class="text-tealOscuro mt-2">{{ $enca->subtitulo }}</p>
                         </div>
                         <div class="flex flex-col items-end space-y-2">
                             <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
@@ -49,7 +49,7 @@
             </div>
 
             <!-- Botón Derecha -->
-            <button onclick="scrollRight()" 
+            <button onclick="scrollRight()"
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                 ›
             </button>
