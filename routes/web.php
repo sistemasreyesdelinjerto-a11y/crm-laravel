@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\UserController;
 
 Route::get('/dashboard', function () {
@@ -14,7 +15,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -33,12 +35,24 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
 
-Route::get('usuarios/create', [RegisteredUserController::class, 'create'])->name('usuarios.create');
-Route::post('usuarios/store', [RegisteredUserController::class, 'store'])->name('usuarios.store');
+    Route::get('usuarios/create', [RegisteredUserController::class, 'create'])->name('usuarios.create');
+    Route::post('usuarios/store', [RegisteredUserController::class, 'store'])->name('usuarios.store');
 
-Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.index');
-Route::get('usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
-Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+    Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.index');
+    Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+    Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.update');
+    Route::get('usuarios/{user}', [UserController::class, 'show'])->name('usuarios.show');
+// Listar empleados (vista principal)
+Route::get('/empleados', [EmpleadoController::class, 'index'])->name('empleados.index');
+
+// Crear empleado
+Route::post('/empleados', [EmpleadoController::class, 'store'])->name('empleados.store');
+
+// Editar empleado (formulario modal enviado con PUT)
+Route::put('/empleados/{empleado}', [EmpleadoController::class, 'update'])->name('empleados.update');
+
+// Eliminar empleado
+Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
 
     route::get('/landing', [PanelLandingController::class, 'index'])->name('landing.index');
     // Crear resultado público (opcional, si lo necesitas)
@@ -90,7 +104,3 @@ Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usua
     Route::post('/doctor-santana/contacto', [PanelDoctorSantanaController::class, 'storeContacto'])->name('drsantana.contacto.store');
     Route::put('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'updateContacto'])->name('drsantana.contacto.update');
 });
-
-Route::get('/crear-usuario', function () {
-    return view('panel.usuarios.create');
-})->name('crear-usuario');

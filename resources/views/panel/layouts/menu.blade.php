@@ -136,9 +136,9 @@
                         class="ml-auto w-4 h-4 transition-transform"></i>
                 </button>
                 <div x-show="open" x-transition class="ml-6 mt-1 space-y-1">
-                    <a href="roles.html" class="block p-2 rounded hover:bg-[#CDAF95]">Roles</a>
                     <a href="{{ route('panel.usuarios.create') }}"  class="block p-2 rounded hover:bg-[#CDAF95]">Nuevo Usuario</a>
                     <a href="{{ route('panel.usuarios.index') }}" class="block p-2 rounded hover:bg-[#CDAF95]">Usuarios</a>
+                    <a href="{{ route('panel.empleados.index') }}" class="block p-2 rounded hover:bg-[#CDAF95]">Empleados</a>
                 </div>
             </div>
 

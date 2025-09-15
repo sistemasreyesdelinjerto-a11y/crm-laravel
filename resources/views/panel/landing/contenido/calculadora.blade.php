@@ -1,4 +1,4 @@
-<section id="calculadora" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
+<section id="calculadora" class="py-10 px-2 bg-gradient-to-r from-gray-100 via-white to-gray-100">
 
 <main class="flex-1 overflow-y-auto p-6 bg-gray-50" x-data="{ openCreate: false, editId: null }">
 
