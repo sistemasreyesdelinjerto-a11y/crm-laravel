@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Resultado;
 use App\Models\encabezado;
 use App\Models\blog;
+use App\Models\blogdr;
 use App\Models\servicios;
 
 class LandingController extends Controller
@@ -53,4 +54,16 @@ class LandingController extends Controller
     {
         return view('landing.queretaro');
     }
+
+    //Seccion de Dr. Santana de la pagina principal
+
+    public function drSantana()
+{
+    $blogdrs = blogdr::orderBy('fecha', 'desc')
+                     ->orderBy('created_at', 'desc')
+                     ->where('fecha', '<=', now())
+                     ->get(); // Obtenemos todos para el carrusel
+
+    return view('landing.dr_santana', compact('blogdrs'));
+}
 }

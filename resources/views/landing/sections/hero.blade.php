@@ -44,52 +44,6 @@
 </section>
 
 <script>
-  /*const slides = document.querySelectorAll('.bg-slide');
-  let currentSlide = 0;
-
-  const texts = [
-    { main: "Antes los reyes del injerto", sub: "Ahora Clínica Capilar Elite del Dr. Santana" },
-    { main: "Nuevo aire, nuevo nombre", sub: "Especialistas en técnicas FUE y tratamientos personalizados" },
-    { main: "Resultados naturales", sub: "Tu cabello, nuestro compromiso" }
-  ];
-  let currentText = 0;
-
-  // Cambiar imágenes
-  setInterval(() => {
-    const nextSlide = (currentSlide + 1) % slides.length;
-
-    slides[currentSlide].classList.remove('opacity-100');
-    slides[currentSlide].classList.add('opacity-0');
-
-    slides[nextSlide].classList.remove('opacity-0');
-    slides[nextSlide].classList.add('opacity-100');
-
-    currentSlide = nextSlide;
-  }, 5000);
-
-  // Cambiar textos
-  setInterval(() => {
-    const mainText = document.getElementById("mainText");
-    const subText = document.getElementById("subText");
-
-    // Desvanecer
-    mainText.classList.remove('opacity-100');
-    mainText.classList.add('opacity-0');
-    subText.classList.remove('opacity-100');
-    subText.classList.add('opacity-0');
-
-    setTimeout(() => {
-      currentText = (currentText + 1) % texts.length;
-      mainText.textContent = texts[currentText].main;
-      subText.textContent = texts[currentText].sub;
-
-      // Aparecer
-      mainText.classList.remove('opacity-0');
-      mainText.classList.add('opacity-100');
-      subText.classList.remove('opacity-0');
-      subText.classList.add('opacity-100');
-    }, 1000); // Espera un segundo antes de mostrar el siguiente
-  }, 5000); // Cambia cada 5 segundos*/
   const slides = document.querySelectorAll('.bg-slide');
   let currentSlide = 0;
 

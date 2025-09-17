@@ -4,27 +4,149 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Trayectoria;
 use App\Models\Galeria;
 use App\Models\Blog;
+use App\Models\blogdr;
 use App\Models\Contacto;
 use App\Models\Movimiento; // <-- Importa tu modelo de movimientos
 
 class DoctorSantanaController extends Controller
 {
-    // -----------------------------
-    // TRAYECTORIA
-    // -----------------------------
-    public function index()
-{
-    $trayectorias = Trayectoria::latest()->paginate(10);
+    
+    //Funcion de registro de movimientos
+    protected function registraMovimiento($tipo, $descripcion, $tabla, $registro_id = null)
+    {
+        Movimiento::create([
+            'usuario_id' => Auth::id(),
+            'tipo_movimiento' => $tipo,
+            'descripcion' => $descripcion,
+            'tabla_afectada' => $tabla,
+            'registro_id' => $registro_id,
+            'ip' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+    }
+
+    public function indexDrsantana()
+    {
+    /*$trayectorias = Trayectoria::latest()->paginate(10);
     $galerias = Galeria::latest()->paginate(12);
     $blogs = Blog::latest()->paginate(10);
-    $contactos = Contacto::latest()->paginate(10);
+    $contactos = Contacto::latest()->paginate(10);*/
 
-    return view('panel.landing.drsantana.index', compact('trayectorias', 'galerias', 'blogs', 'contactos'));
+    return view('panel.landing.drsantana.index'/*, compact('trayectorias', 'galerias', 'blogs', 'contactos')*/);
+    }
+
+                    public function storeBlogdr(Request $request)
+                {
+                    $request->validate([
+                        'titulo' => 'required|string|max:255',
+                        'contenido' => 'required|string',
+                        'fecha' => 'required|date',
+                        'imagen' => 'nullable',
+                    ]);
+
+                    $data = $request->only(['titulo', 'contenido', 'fecha']);
+
+                    // Procesar imagen si se subió
+                   if ($request->hasFile('imagen')) {
+                    $image = $request->file('imagen');
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $image->storeAs('public/blog', $imageName);
+                    $data['imagen'] = 'blog/' . $imageName;
 }
+
+                    $blogdr = blogdr::create($data);
+
+                    $this->registraMovimiento('Crear', 
+                        "Se creó blog Dr.: {$blogdr->titulo}", 
+                        'blogdrs', 
+                        $blogdr->id);
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Blog Dr. creado correctamente.',
+                        'data' => $blogdr
+                    ]);
+                }
+
+                public function updateBlogdr(Request $request, $id)
+                {
+                    
+                    $blogdr = blogdr::findOrFail($id);
+                    $data = $request->only(['titulo', 'contenido', 'fecha']);
+
+                    // Procesar imagen si se subió
+                    if ($request->hasFile('imagen')) {
+                        // Eliminar imagen anterior si existe
+                        if ($blogdr->imagen) {
+                            Storage::disk('public')->delete($blogdr->imagen);
+                        }
+                        
+                        $imagenPath = $request->file('imagen')->store('blog', 'public');
+                        $data['imagen'] = $imagenPath;
+                    }
+
+                    $blogdr->update($data);
+
+                    $this->registraMovimiento('Actualizar', 
+                        "Se actualizó blog Dr.: {$blogdr->titulo}", 
+                        'blogdrs', 
+                        $blogdr->id);
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Blog Dr. actualizado correctamente.',
+                        'data' => $blogdr
+                    ]);
+                }
+            // Función para eliminar
+            public function destroyBlogdr($id)
+            {
+                $blogdr = blogdr::findOrFail($id);
+                
+                // Eliminar imagen si existe
+                if ($blogdr->imagen) {
+                    Storage::disk('public')->delete('images/blog/' . $blogdr->imagen);
+                }
+                
+                $titulo = $blogdr->titulo;
+                $blogdr->delete();
+
+                $this->registraMovimiento('Eliminar', 
+                    "Se eliminó blog Dr.: {$titulo}", 
+                    'blogdrs', 
+                    $id);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Blog Dr. eliminado correctamente.'
+                ]);
+            }
+
+            // Función para obtener todos los blogs
+            // Función para obtener todos los blogs
+        public function getBlogsdr()
+        {
+            try {
+                $blogs = blogdr::orderBy('fecha', 'desc')->get();
+                
+                return response()->json([
+                    'success' => true,
+                    'data' => $blogs,
+                    'count' => $blogs->count()
+                ]);
+                
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al cargar artículos: ' . $e->getMessage()
+                ], 500);
+            }
+        }
 
     public function indexTrayectoria()
     {
@@ -157,6 +279,11 @@ class DoctorSantanaController extends Controller
 
         return back()->with('success', 'Blog creado correctamente.');
     }
+
+
+    public function editarblog()
+    {
+            }
 
     public function updateBlog(Request $request, Blog $blog)
     {

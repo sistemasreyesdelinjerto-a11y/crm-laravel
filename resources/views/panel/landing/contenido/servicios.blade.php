@@ -111,7 +111,7 @@
                             <input type="text" name="detalle" value="{{ $serv->detalle }}"
                                 class="w-full border rounded p-2 mb-4">
                             <label class="block mb-2">Contenido</label>
-                            <textarea name="descriipcion"
+                            <textarea name="descripcion"
                                 class="w-full h-40 border rounded p-2 mb-4 resize-y">{{ $serv->descripcion }}
                             </textarea>
                             <label class="block mt-2">Imagen</label>

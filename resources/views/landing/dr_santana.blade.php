@@ -33,12 +33,16 @@
             <div class="max-w-4xl mx-auto text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Trayectoria del Dr. Santana</h2>
                 <p class="text-verdeOscuro/80 mb-6">
-                    Más de 15 años de experiencia en injerto capilar, reconocido internacionalmente por sus técnicas avanzadas FUE.
+                    Más de 8 años de experiencia en injerto capilar, reconocido internacionalmente por sus técnicas avanzadas de injerto.
+                    <br>
+                    El Dr. Alejandro Santana es el director médico de la clínica capilar elite, clínica de trasplante capilar en México. 
+                    <br>
+                    Nació en Guadalajara y se graduó en la Facultad de Medicina de la Universidad de Guadalajara.
                 </p>
                 <ul class="text-left text-verdeOscuro/90 list-disc list-inside space-y-2">
                     <li>Certificaciones nacionales e internacionales en injerto capilar.</li>
                     <li>Participación en congresos y conferencias médicas.</li>
-                    <li>Más de 5000 pacientes satisfechos.</li>
+                    <li>+1500 pacientes satisfechos.</li>
                     <li>Investigaciones y publicaciones sobre trasplante capilar.</li>
                 </ul>
             </div>
@@ -55,51 +59,268 @@
                 </div>
             </div>
         </section>
-        <!-- Blog del Dr. Santana - Tarjetas horizontales alternadas -->
+
+        
+        
+           <!-- Blog del Dr. Santana - Carrusel -->
 <section id="blog" class="py-16 px-6 bg-gray-50">
-    <div class="max-w-6xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Blog del Dr. Santana</h2>
-        <p class="text-verdeOscuro/80 mb-12">Últimos artículos y consejos sobre salud capilar y tratamientos innovadores.</p>
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Blog del Dr. Santana</h2>
+            <p class="text-verdeOscuro/80">Últimos artículos y consejos sobre salud capilar y tratamientos innovadores.</p>
+        </div>
 
-        @php
-            $blogPosts = [
-                [
-                    'titulo' => '5 consejos para un cabello saludable',
-                    'descripcion' => 'Descubre las mejores prácticas para mantener tu cabello fuerte y con volumen.',
-                    'imagen' => 'https://source.unsplash.com/600x400/?hair,care',
-                    'url' => '#'
-                ],
-                [
-                    'titulo' => 'Técnica FUE: todo lo que necesitas saber',
-                    'descripcion' => 'Aprende en detalle cómo funciona la técnica FUE y sus beneficios.',
-                    'imagen' => 'https://source.unsplash.com/600x400/?clinic,hair',
-                    'url' => '#'
-                ],
-                [
-                    'titulo' => 'Mitos y realidades sobre el injerto capilar',
-                    'descripcion' => 'Despeja dudas frecuentes sobre los procedimientos capilares.',
-                    'imagen' => 'https://source.unsplash.com/600x400/?hair,transplant',
-                    'url' => '#'
-                ],
-            ];
-        @endphp
+        @if($blogdrs->count() > 0)
+            <!-- Contenedor del carrusel -->
+            <div class="relative">
+                <!-- Botones de navegación -->
+                @if($blogdrs->count() > 3)
+                    <button id="prevBlog" class="absolute text-white left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 bg-[#1c6c73] rounded-full p-3 shadow-md hover:bg-[#4298a7] transition">
+                        &larr;
+                    </button>
+                    <button id="nextBlog" class="absolute text-white right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-[#1c6c73] rounded-full p-3 shadow-md hover:bg-[#4298a7] transition">
+                        &rarr;
+                    </button>
+                @endif
 
-        @foreach($blogPosts as $index => $post)
-            <div class="flex flex-col md:flex-row items-center mb-12 gap-6 {{ $index % 2 !== 0 ? 'md:flex-row-reverse' : '' }}">
-                <div class="md:w-1/2 flex-shrink-0">
-                    <img src="{{ $post['imagen'] }}" alt="{{ $post['titulo'] }}" class="w-full h-64 object-cover rounded-2xl shadow-lg">
+                <!-- Carrusel -->
+                <div class="overflow-hidden">
+                    <div id="blogCarousel" class="flex transition-transform duration-300 ease-in-out gap-6">
+                        @foreach($blogdrs as $post)
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+                                <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow h-full">
+                                    <!-- Imagen -->
+                                    @if($post->imagen)
+                                        <img src="{{ asset('storage/images/blog/' . $post->imagen) }}" 
+                                             alt="{{ $post->titulo }}" 
+                                             class="w-full h-48 object-cover">
+                                    @else
+                                        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                            <span class="text-4xl">📝</span>
+                                        </div>
+                                    @endif
+                                    
+                                    <!-- Contenido -->
+                                    <div class="p-6">
+                                        <h3 class="text-xl font-bold text-verdeOscuro mb-3">{{ $post->titulo }}</h3>
+                                        
+                                        <p class="text-sm text-verdeOscuro/60 mb-3">
+                                            📅 {{ $post->fecha }}
+                                        </p>
+                                        
+                                        <p class="text-verdeOscuro/80 mb-4 line-clamp-3">
+                                            {{ Str::limit(strip_tags($post->contenido), 100) }}
+                                        </p>
+                                        
+                                        <button onclick="openModal('blog-modal-{{ $post->id }}')"
+                                                class="text-beigeCalido font-semibold hover:text-verdeOscuro transition inline-flex items-center">
+                                            Leer más &rarr;
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="md:w-1/2 text-left">
-                    <h3 class="text-2xl font-bold text-verdeOscuro mb-4">{{ $post['titulo'] }}</h3>
-                    <p class="text-verdeOscuro/80 mb-4">{{ $post['descripcion'] }}</p>
-                    <a href="{{ $post['url'] }}" class="text-beigeCalido font-semibold hover:text-verdeOscuro transition">
-                        Leer más &rarr;
-                    </a>
-                </div>
+
+                <!-- Indicadores de paginación -->
+                @if($blogdrs->count() > 3)
+                    <div class="flex justify-center mt-6 space-x-2" id="blogIndicators">
+                        @for($i = 0; $i < ceil($blogdrs->count() / 3); $i++)
+                            <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-verdeOscuro transition indicator" 
+                                    data-index="{{ $i }}"></button>
+                        @endfor
+                    </div>
+                @endif
             </div>
-        @endforeach
+        @else
+            <!-- Mensaje si no hay artículos -->
+            <div class="text-center py-12">
+                <div class="text-6xl mb-4">📝</div>
+                <h3 class="text-xl font-semibold text-verdeOscuro mb-2">Próximamente</h3>
+                <p class="text-verdeOscuro/60">Estamos preparando contenido especial para ti.</p>
+            </div>
+        @endif
     </div>
 </section>
+
+<!-- Modales para cada artículo (se mantienen igual) -->
+@foreach($blogdrs as $post)
+<div id="blog-modal-{{ $post->id }}" class="modal fixed inset-0 z-50 items-center justify-center hidden">
+    <div class="modal-overlay absolute inset-0 bg-black opacity-50" onclick="closeModal('blog-modal-{{ $post->id }}')"></div>
+    
+    <div class="modal-container bg-white w-full max-w-4xl rounded-2xl shadow-lg z-50 overflow-hidden mx-4 max-h-[90vh] overflow-y-auto relative">
+        <div class="flex justify-between items-center px-6 py-4 border-b bg-verdeOscuro">
+            <h3 class="text-lg font-semibold text-white">{{ $post->titulo }}</h3>
+            <button onclick="closeModal('blog-modal-{{ $post->id }}')" class="text-white hover:text-gray-300 text-xl">✕</button>
+        </div>
+        
+        <div class="p-6">
+            @if($post->imagen)
+                <img src="{{ asset('storage/images/blog/' . $post->imagen) }}" 
+                     alt="{{ $post->titulo }}" 
+                     class="w-full h-64 object-cover rounded-lg mb-6">
+            @endif
+            
+            <div class="prose max-w-none">
+                <p class="text-sm text-gray-600 mb-4">
+                    📅 Publicado el: {{ $post->fecha }}
+                </p>
+                
+                <div class="text-gray-700 leading-relaxed whitespace-pre-line">
+                    {{ $post->contenido }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-end px-6 py-4 border-t bg-gray-50">
+            <button onclick="closeModal('blog-modal-{{ $post->id }}')" 
+                    class="bg-verdeOscuro text-white px-5 py-2 rounded-lg hover:bg-verdeOscuro/90">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+@endforeach
+
+<!-- JavaScript para el carrusel -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.getElementById('blogCarousel');
+    const prevBtn = document.getElementById('prevBlog');
+    const nextBtn = document.getElementById('nextBlog');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    if (!carousel) return;
+    
+    let currentIndex = 0;
+    const itemsCount = {{ $blogdrs->count() }};
+    const visibleItems = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+    const totalSlides = Math.ceil(itemsCount / visibleItems);
+    
+    // Función para actualizar el carrusel
+    function updateCarousel() {
+        const itemWidth = carousel.children[0].offsetWidth + 24; // width + gap
+        const translateX = -currentIndex * itemWidth * visibleItems;
+        carousel.style.transform = `translateX(${translateX}px)`;
+        
+        // Actualizar indicadores
+        indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+                indicator.classList.add('bg-verdeOscuro');
+                indicator.classList.remove('bg-gray-300');
+            } else {
+                indicator.classList.remove('bg-verdeOscuro');
+                indicator.classList.add('bg-gray-300');
+            }
+        });
+    }
+    
+    // Event listeners para botones de navegación
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        });
+    }
+    
+    // Event listeners para indicadores
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+        });
+    });
+    
+    // Responsive: recalcular en resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const newVisibleItems = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+            if (visibleItems !== newVisibleItems) {
+                visibleItems = newVisibleItems;
+                currentIndex = 0;
+                updateCarousel();
+            }
+        }, 250);
+    });
+    
+    // Inicializar
+    updateCarousel();
+});
+
+// Funciones para modales (se mantienen igual)
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// Cerrar modal con ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            if (!modal.classList.contains('hidden')) {
+                closeModal(modal.id);
+            }
+        });
+    }
+});
+
+// Cerrar modal al hacer clic fuera
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal-overlay')) {
+        closeModal(e.target.closest('.modal').id);
+    }
+});
+</script>
+
+<style>
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.whitespace-pre-line {
+    white-space: pre-line;
+}
+
+.modal {
+    display: none;
+}
+
+.modal:not(.hidden) {
+    display: flex;
+}
+
+/* Smooth transitions */
+#blogCarousel {
+    transition: transform 0.3s ease-in-out;
+}
+</style>
+        </section>
+
 
 
         <!-- Sección: Contacto -->
