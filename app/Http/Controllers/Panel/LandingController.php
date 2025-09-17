@@ -393,5 +393,4 @@ class LandingController extends Controller
 
         return redirect()->route('panel.landing.index')->with('success', 'Servicio eliminado correctamente');
     }
-
 }

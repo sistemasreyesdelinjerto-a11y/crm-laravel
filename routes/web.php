@@ -7,7 +7,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
 use App\Http\Controllers\Auth\RegisteredUserController;
+<<<<<<< HEAD
 use App\Http\Controllers\EmpleadoController;
+=======
+use App\Http\Controllers\InventarioController;
+>>>>>>> 39ec60e074dce45f0a57a95aab5d968b0caf663d
 use App\Http\Controllers\UserController;
 
 Route::get('/dashboard', function () {
@@ -32,6 +36,10 @@ Route::get('/dr-santana', function () {
 
 // Mostrar landing pública
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+//Clinicas Capilar Elite
+Route::get('/clinicas/santafe', [LandingController::class, 'clinicaSantafe'])->name('landing.santafe');
+Route::get('/clinicas/pedregal', [LandingController::class, 'clinicaPedregal'])->name('landing.pedregal');
+Route::get('/clinicas/queretaro', [LandingController::class, 'clinicaQueretaro'])->name('landing.queretaro');
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
 
@@ -39,6 +47,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::post('usuarios/store', [RegisteredUserController::class, 'store'])->name('usuarios.store');
 
     Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.index');
+<<<<<<< HEAD
     Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
     Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.update');
     Route::get('usuarios/{user}', [UserController::class, 'show'])->name('usuarios.show');
@@ -53,11 +62,19 @@ Route::put('/empleados/{empleado}', [EmpleadoController::class, 'update'])->name
 
 // Eliminar empleado
 Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
+=======
+    Route::get('usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+    Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+>>>>>>> 39ec60e074dce45f0a57a95aab5d968b0caf663d
 
     route::get('/landing', [PanelLandingController::class, 'index'])->name('landing.index');
     // Crear resultado público (opcional, si lo necesitas)
     Route::get('/landing/resultados/create', [PanelLandingController::class, 'createResultado'])->name('landing.resultado.create');
     Route::post('/landing/resultados', [PanelLandingController::class, 'storeResultado'])->name('landing.resultado.store');
+
+    //rutas de inventario
+    Route::get('inventario', [InventarioController::class, 'index'])->name('inventario.index');
+
 
     // crear encabezado
     Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');

@@ -20,7 +20,7 @@
             <!-- Botón Izquierda -->
             <button onclick="scrollLeft()"
                 class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
-                ‹-
+              ‹
             </button>
 
             <!-- Scroll horizontal -->
@@ -51,7 +51,7 @@
             <!-- Botón Derecha -->
             <button onclick="scrollRight()"
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
-                ->
+                ›
             </button>
         </div>
         @endif
@@ -126,11 +126,11 @@
     const container = document.getElementById('scrollContainer');
 
     function scrollLeft() {
-        container.scrollBy({ left: -300, behavior: 'smooth' });
+        container.scrollBy({ left: -350, behavior: 'smooth' });
     }
 
     function scrollRight() {
-        container.scrollBy({ left: 300, behavior: 'smooth' });
+        container.scrollBy({ left: 350, behavior: 'smooth' });
     }
 </script>
 </main>
