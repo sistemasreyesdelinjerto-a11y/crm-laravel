@@ -7,8 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
 use App\Http\Controllers\Auth\RegisteredUserController;
-<<<<<<< HEAD
-use App\Http\Controllers\EmpleadoController;
+ñuse App\Http\Controllers\EmpleadoController;
 =======
 use App\Http\Controllers\InventarioController;
 >>>>>>> 39ec60e074dce45f0a57a95aab5d968b0caf663d
