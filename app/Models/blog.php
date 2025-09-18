@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class blog extends Model
+class Blog extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'titulo',
-        'contenido',
+        'descripcion',
+        'imagen', // URL o ruta local
     ];
-
-
 }
