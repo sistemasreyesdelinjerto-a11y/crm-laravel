@@ -7,10 +7,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
 use App\Http\Controllers\Auth\RegisteredUserController;
-ñuse App\Http\Controllers\EmpleadoController;
-=======
+use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\InventarioController;
->>>>>>> 39ec60e074dce45f0a57a95aab5d968b0caf663d
+
 use App\Http\Controllers\UserController;
 
 Route::get('/dashboard', function () {
@@ -46,7 +45,6 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::post('usuarios/store', [RegisteredUserController::class, 'store'])->name('usuarios.store');
 
     Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.index');
-<<<<<<< HEAD
     Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
     Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.update');
     Route::get('usuarios/{user}', [UserController::class, 'show'])->name('usuarios.show');
@@ -61,10 +59,8 @@ Route::put('/empleados/{empleado}', [EmpleadoController::class, 'update'])->name
 
 // Eliminar empleado
 Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
-=======
     Route::get('usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
     Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
->>>>>>> 39ec60e074dce45f0a57a95aab5d968b0caf663d
 
     route::get('/landing', [PanelLandingController::class, 'index'])->name('landing.index');
     // Crear resultado público (opcional, si lo necesitas)
@@ -89,7 +85,7 @@ Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->
 
     //Rutas de servicios
     Route::post('landing/servicios', [PanelLandingController::class, 'createServicios'])->name('landing.servicios.store');
-    Route::put('landing/servicios/{servicios}', [PanelLandingController::class, 'editServicios'])->name('landing.servicios.update');
+    Route::put('landing/servicios/{servicios}', [PanelLandingController::class, 'editServicios'])->name(name: 'landing.servicios.update');
     //eliminar servicios
     Route::delete('landing/servicios/{servicios}', [PanelLandingController::class, 'destroyServicios'])->name('landing.servicios.destroy');
 
@@ -102,7 +98,7 @@ Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->
     Route::post('landing/quienes_somos', [panelLandingController::class, 'storeQuienesSomos'])->name('landing.quienes_somos.store');
     Route::put('landing/quienes_somos/{quienes_somos}', [LandingController::class, 'updateQuienesSomos'])->name('landing.quienes_somos.update');
 
-    Route::get('/doctor-santana', [PanelDoctorSantanaController::class, 'index'])->name('panel.drsantana.index');
+    Route::get('/doctor-santana', [PanelDoctorSantanaController::class, 'index'])->name('drsantana.index');
 
     // Trayectoria
     Route::post('/doctor-santana/trayectoria', [PanelDoctorSantanaController::class, 'storeTrayectoria'])->name('drsantana.trayectoria.store');
@@ -115,8 +111,9 @@ Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->
     // Blog
     Route::post('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'storeBlog'])->name('drsantana.blog.store');
     Route::put('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'updateBlog'])->name('drsantana.blog.update');
-
+    Route::post('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlog'])->name('drsantana.blog.destroy');
     // Contacto
     Route::post('/doctor-santana/contacto', [PanelDoctorSantanaController::class, 'storeContacto'])->name('drsantana.contacto.store');
     Route::put('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'updateContacto'])->name('drsantana.contacto.update');
+    Route::delete('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'destroyContacto'])->name('drsantana.contacto.destroy');
 });

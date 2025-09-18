@@ -28,7 +28,6 @@
             </main>
 
             {{-- Footer --}}
-            @include('panel.layouts.footer')
 
         </div>
     </div>

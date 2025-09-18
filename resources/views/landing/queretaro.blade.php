@@ -4,11 +4,13 @@
     @section('content')
         @include('landing.menu.header')
         <!-- Tailwind ya lo tendrás -->
-        <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
-        <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.js"></script>
 
 
-        <div class="pt-28"> <!-- Empuja todo para que no lo tape el header -->
+        <div class="pt-28">
+             <div class="max-w-6xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Sucursal Queretaro</h2>
+             </div>
+                 <!-- Empuja todo para que no lo tape el header -->
             <!-- Sección: Ubicación -->
             <section class="py-16 px-6 bg-white">
                 <div class="max-w-6xl mx-auto text-center">
@@ -136,6 +138,7 @@
                 </div>
             </section>
         </div>
+    @include('landing.forms.contacto')
 
         @include('landing.sections.footer')
 

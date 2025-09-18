@@ -1,14 +1,11 @@
-<<<<<<< HEAD
 <section id="servicios" class="py-20 px-6 bg-white">
   <div class="max-w-7xl mx-auto">
     <h2 class="text-4xl md:text-5xl font-extrabold text-verdeOscuro text-center mb-14">
       Servicios
     </h2>
-=======
 <section id="servicios" class="py-16 px-6 bg-white">
     <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro text-center mb-10">Servicios</h2>
->>>>>>> 39ec60e074dce45f0a57a95aab5d968b0caf663d
 
     @if ($servicios->isEmpty())
       <p class="text-center text-gray-600 w-full">No hay servicios disponibles.</p>

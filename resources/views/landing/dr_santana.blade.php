@@ -120,6 +120,7 @@
         </section>
 
     </div>
+    @include('landing.forms.contacto')
 
     @include('landing.sections.footer')
 @endsection

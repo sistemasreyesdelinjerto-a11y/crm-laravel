@@ -100,7 +100,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar servicio</h2>
-                        <form action="{{ route('panel.landing.servicios.update', $serv->id) }}" method="POST"
+<form action="{{ route('panel.landing.servicios.update', $serv->id) }}" method="POST" enctype="multipart/form-data">
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -111,7 +111,7 @@
                             <input type="text" name="detalle" value="{{ $serv->detalle }}"
                                 class="w-full border rounded p-2 mb-4">
                             <label class="block mb-2">Contenido</label>
-                            <textarea name="descriipcion"
+                            <textarea name="descripcion"
                                 class="w-full h-40 border rounded p-2 mb-4 resize-y">{{ $serv->descripcion }}
                             </textarea>
                             <label class="block mt-2">Imagen</label>
