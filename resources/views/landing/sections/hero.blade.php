@@ -2,7 +2,7 @@
 
   <!-- Contenedor de imágenes -->
 <div class="absolute w-full h-full overflow-hidden">
-  @foreach($encabezados as $index => $encabezado)
+  @foreach($encabezados as $index => $encabezado) 
     <img src="{{ asset($encabezado->imagen) }}"
          alt="Imagen {{ $index+1 }}"
          class="absolute w-full h-full object-cover transition-opacity duration-[3000ms] ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">

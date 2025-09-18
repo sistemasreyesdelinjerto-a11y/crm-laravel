@@ -1,5 +1,5 @@
-<section id="encabezado" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
-    
+<section id="encabezado" class="py-0 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
+
 <main class="flex-1 overflow-y-auto p-6 bg-gray-50" x-data="{ openCreate: false, editId: null }">
 
     <div class="max-w-6xl mx-auto px-6">
@@ -100,7 +100,7 @@
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar servicio</h2>
-                        <form action="{{ route('panel.landing.servicios.update', $serv->id) }}" method="POST"
+<form action="{{ route('panel.landing.servicios.update', $serv->id) }}" method="POST" enctype="multipart/form-data">
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

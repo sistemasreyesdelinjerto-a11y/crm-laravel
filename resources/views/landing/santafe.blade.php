@@ -3,10 +3,12 @@
 
 @section('content')
     @include('landing.menu.header')
-    <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.js"></script>
 
     <div class="pt-28"> <!-- Empuja todo para que no lo tape el header -->
+
+           <div class="max-w-6xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Sucursal Santa Fe</h2>
+             </div>
         <!-- Sección: Ubicación -->
         <section class="py-16 px-6 bg-white">
             <div class="max-w-6xl mx-auto text-center">
@@ -128,6 +130,7 @@
             </div>
         </section>
     </div>
+    @include('landing.forms.contacto')
 
     @include('landing.sections.footer')
 @endsection

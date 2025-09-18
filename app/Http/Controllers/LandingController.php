@@ -8,6 +8,7 @@ use App\Models\encabezado;
 use App\Models\blog;
 use App\Models\blogdr;
 use App\Models\servicios;
+use App\Models\galeria;
 
 class LandingController extends Controller
 {
@@ -64,6 +65,8 @@ class LandingController extends Controller
                      ->where('fecha', '<=', now())
                      ->get(); // Obtenemos todos para el carrusel
 
-    return view('landing.dr_santana', compact('blogdrs'));
+    $galerias = galeria::all();
+
+    return view('landing.dr_santana', compact('blogdrs', 'galerias'));
 }
 }

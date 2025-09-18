@@ -1,4 +1,4 @@
-<section id="encabezado" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
+<section id="encabezado" class="py-10 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
 <main class="flex-1 overflow-y-auto p-6 bg-gray-50" x-data="{ openCreate: false, editId: null }">
 
     <div class="max-w-6xl mx-auto px-6">
@@ -159,7 +159,7 @@
     });
 
     // Soporte para pantallas táctiles
-    let startTouchXBlog = 0;
+    let startTouchXBlog = 0; 
     blogContainer.addEventListener('touchstart', (e) => {
         startTouchXBlog = e.touches[0].pageX;
         scrollLeftStartBlog = blogContainer.scrollLeft;

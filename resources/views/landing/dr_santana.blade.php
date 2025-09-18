@@ -4,22 +4,45 @@
 @section('content')
     @include('landing.menu.header')
 
-    <div class="pt-28"> <!-- Empuja todo para que no lo tape el header -->
+    <div class="pt-20"> <!-- Empuja todo para que no lo tape el header -->
 
-        <!-- Sección: Portada -->
-        <section class="relative h-[92vh] flex items-center justify-center text-beigeClaro overflow-hidden">
-            <img src="{{ asset('images/dr_santana.jpg') }}" class="absolute w-full h-full object-cover opacity-100">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/70"></div>
-            <div class="relative z-10 text-center px-6">
-                <h1 class="text-5xl md:text-6xl font-extrabold drop-shadow-xl mb-4">
-                    Dr. Santana
+        <!-- Contenedor de imágenes -->
+        <section class="relative h-[80vh] md:h-[90vh] flex items-center justify-center text-center overflow-hidden">
+            <div class="absolute w-full h-full overflow-hidden">
+                @foreach($galerias as $index => $galeria)
+                    @if($galeria->tipo == 'video')
+                        <video class="absolute w-full h-full object-cover transition-opacity duration-1000 ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" 
+                            muted preload="auto" loop playsinline>
+                            <source src="{{ asset($galeria->imagen) }}" type="video/mp4">
+                            Tu navegador no soporta videos.
+                        </video>
+                    @else
+                        <img src="{{ asset($galeria->imagen) }}"
+                            alt="Imagen {{ $index+1 }}"
+                            class="absolute w-full h-full object-cover transition-opacity duration-1000 ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+                    @endif
+                @endforeach   
+                
+                <!-- Degradado oscuro sobre la imagen -->
+                <div class="absolute w-full h-full bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
+            </div>
+
+            <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/40"></div>
+
+            <div class="relative z-10 max-w-3xl mx-auto px-6 text-center">
+                <!-- Texto principal -->
+                <h1 id="mainText" 
+                    class="text-5xl md:text-6xl font-extrabold drop-shadow-xl transition-opacity duration-1000 ease-in-out opacity-100">
+                    {{ $galerias->first()->titulo ?? '' }}
                 </h1>
-                <p class="text-lg md:text-xl text-beigeClaro/90">
-                    Líder en injerto capilar y tratamientos FUE personalizados.
-                </p>
-                <div class="mt-8 flex gap-4 justify-center">
+                <p id="subText"
+                    class="mt-4 text-lg md:text-xl text-beigeClaro/90 transition-opacity duration-1000 ease-in-out opacity-100">
+                    {{ $galerias->first()->descripcion ?? '' }}
+                </p> 
+
+                <div class="mt-8 flex gap-4 justify-center animate-glow">
                     <a href="#experiencia" class="bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-xl font-semibold hover:bg-verdeClaro hover:text-beigeClaro transition">
-                        Conoce su trayectoria
+                        Conoce su Trayectoria
                     </a>
                     <a href="#contacto" class="bg-transparent border border-beigeCalido/80 text-beigeClaro px-6 py-3 rounded-xl hover:bg-beigeCalido/20 transition">
                         Agenda una cita
@@ -27,6 +50,121 @@
                 </div>
             </div>
         </section>
+
+        <script>
+        const slides = document.querySelectorAll('.bg-slide');
+        const texts = @json($galerias->map(function($e){
+            return [
+                'main' => $e->titulo,
+                'sub'  => $e->descripcion,
+                'type' => $e->tipo
+            ];
+        }));
+
+        let currentSlide = 0;
+        let currentText = 0;
+        let slideInterval;
+
+        function startSlideShow() {
+            clearInterval(slideInterval);
+            
+            const currentMedia = slides[currentSlide];
+            const isVideo = texts[currentText]?.type === 'video';
+            const displayTime = isVideo ? 10000 : 3000; // 10s para video, 3s para imagen
+
+            // Configurar el próximo slide
+            const nextSlide = (currentSlide + 1) % slides.length;
+            const nextMedia = slides[nextSlide];
+
+            // Preload next media
+            if (nextMedia.tagName === 'VIDEO') {
+                nextMedia.currentTime = 0;
+                nextMedia.load();
+            }
+
+            // Cambiar slide después del tiempo correspondiente
+            slideInterval = setTimeout(() => {
+                // Ocultar slide actual
+                currentMedia.classList.remove('opacity-100');
+                currentMedia.classList.add('opacity-0');
+                
+                if (currentMedia.tagName === 'VIDEO') {
+                    currentMedia.pause();
+                    currentMedia.currentTime = 0;
+                }
+
+                // Mostrar próximo slide
+                nextMedia.classList.remove('opacity-0');
+                nextMedia.classList.add('opacity-100');
+                
+                if (nextMedia.tagName === 'VIDEO') {
+                    nextMedia.play().catch(e => console.log('Auto-play prevented:', e));
+                }
+
+                currentSlide = nextSlide;
+                currentText = nextSlide;
+
+                // Actualizar textos
+                updateTexts();
+
+                // Iniciar próximo ciclo
+                startSlideShow();
+            }, displayTime);
+        }
+
+        function updateTexts() {
+            const mainText = document.getElementById("mainText");
+            const subText = document.getElementById("subText");
+
+            // Desvanecer
+            mainText.classList.remove('opacity-100');
+            mainText.classList.add('opacity-0');
+            subText.classList.remove('opacity-100');
+            subText.classList.add('opacity-0');
+
+            setTimeout(() => {
+                mainText.textContent = texts[currentText].main;
+                subText.textContent = texts[currentText].sub;
+
+                // Aparecer
+                mainText.classList.remove('opacity-0');
+                mainText.classList.add('opacity-100');
+                subText.classList.remove('opacity-0');
+                subText.classList.add('opacity-100');
+            }, 500);
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Iniciar el primer video si es video
+            const firstMedia = slides[0];
+            if (firstMedia.tagName === 'VIDEO') {
+                firstMedia.play().catch(e => console.log('Auto-play prevented:', e));
+            }
+            
+            startSlideShow();
+        });
+
+        // Pausar videos cuando no están visibles
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.target.tagName === 'VIDEO') {
+                    if (entry.isIntersecting) {
+                        entry.target.play().catch(e => console.log('Play prevented:', e));
+                    } else {
+                        entry.target.pause();
+                        entry.target.currentTime = 0;
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observar todos los videos
+        document.querySelectorAll('video').forEach(video => {
+            observer.observe(video);
+        });
+        </script>
+
 
         <!-- Sección: Trayectoria y logros -->
         <section id="experiencia" class="py-16 px-6 bg-gray-50">
@@ -53,9 +191,9 @@
             <div class="max-w-6xl mx-auto text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Certificaciones del Dr. Santana</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <img src="{{ asset('images/dr_santana_1.jpg') }}" class="w-full h-64 object-cover rounded-xl shadow-lg">
-                    <img src="{{ asset('images/dr_santana_2.jpg') }}" class="w-full h-64 object-cover rounded-xl shadow-lg">
-                    <img src="{{ asset('images/dr_santana_3.jpg') }}" class="w-full h-64 object-cover rounded-xl shadow-lg">
+                    <img src="{{ asset('images/certificados/cer1.jpg') }}" class="w-full h-64 object-cover rounded-xl shadow-lg">
+                    <img src="{{ asset('images/certificados/cer2.jpg') }}" class="w-full h-64 object-cover rounded-xl shadow-lg">
+                    <img src="{{ asset('images/certificados/cer3.jpg') }}" class="w-full h-64 object-cover rounded-xl shadow-lg">
                 </div>
             </div>
         </section>
@@ -341,6 +479,7 @@ document.addEventListener('click', function(e) {
         </section>
 
     </div>
+    @include('landing.forms.contacto')
 
     @include('landing.sections.footer')
 @endsection

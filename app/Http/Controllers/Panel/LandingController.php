@@ -36,8 +36,8 @@ class LandingController extends Controller
         ]);
 
         $data = $request->only(['titulo', 'numero', 'color']);
-        $data['created_by'] = Auth::id();
-        $data['updated_by'] = Auth::id();
+        //$data['created_by'] = Auth::id();
+        //$data['updated_by'] = Auth::id();
         // Guardar imagen si se sube
         if ($request->hasFile('icono_svg')) {
             $file = $request->file('icono_svg');
@@ -70,7 +70,7 @@ class LandingController extends Controller
     $resultado->titulo = $request->titulo;
     $resultado->numero = $request->numero;
     $resultado->color = $request->color;
-    $resultado->updated_by = auth()->id();
+    //$resultado->updated_by = auth()->id();
 
     if ($request->hasFile('icono_svg')) {
         $file = $request->file('icono_svg');
@@ -82,7 +82,7 @@ class LandingController extends Controller
     $resultado->save();
 
     Movimiento::create([
-        'usuario_id' => auth()->id(),
+        //'usuario_id' => auth()->id(),
         'tipo_movimiento' => 'Actualizar',
         'descripcion' => 'Se actualizó el resultado: '.$resultado->titulo,
         'tabla_afectada' => 'resultados',
@@ -174,9 +174,9 @@ class LandingController extends Controller
             'titulo' => 'required|string|max:255',
             'subtitulo' => 'required|string|max:255',
             'imagen' => 'required',
-        ]);        
-        
-        
+        ]);
+
+
         $encabezado = $request->only(['titulo', 'subtitulo']);
         $encabezado['created_by'] = Auth::id();
         $encabezado['updated_by'] = Auth::id();
@@ -205,12 +205,7 @@ class LandingController extends Controller
 
     public function updateEncabezado(Request $request,encabezado $encabezado)
     {
-        /*$request->validate([
-            'titulo' => 'required|string|max:255',
-            'subtitulo' => 'required|string|max:255',
-            'imagen' => 'required',
-        ]);*/
-
+        
         $encabezado->titulo = $request->titulo;
         $encabezado->subtitulo = $request->subtitulo;
 
@@ -236,7 +231,7 @@ class LandingController extends Controller
     public function destroyEncabezado(encabezado $encabezado)
     {
         $encabezado->delete();
-    
+
         $this->registrarMovimiento(
             'Eliminar',
             'Se eliminó un encabezado: ' . $encabezado->titulo,
@@ -281,10 +276,10 @@ class LandingController extends Controller
 
         $blog->titulo = $request->titulo;
         $blog->contenido = $request->contenido;
-        //$blog->updated_by = Auth::id();
+         //   $blog->updated_by = Auth::id();
         $blog->save();
-        
-        
+
+
         $this->registrarMovimiento(
             'Actualizar',
             'Se actualizó una entrada de blog: ' . $blog->titulo,
@@ -341,7 +336,7 @@ class LandingController extends Controller
               'servicios',
               $servicios->id,
          );
-    
+
             return redirect()->route('panel.landing.index')->with('success', 'Servicio creado correctamente');
 
 }
@@ -368,8 +363,8 @@ class LandingController extends Controller
         }
 
         $servicios->save();
-        
-        
+
+
         $this->registrarMovimiento(
             'Actualizar',
             'Se actualizó un servicio: ' . $servicios->titulo,
@@ -379,6 +374,37 @@ class LandingController extends Controller
 
         return redirect()->route('panel.landing.index')->with('success', 'Servicio actualizado correctamente');
     }
+public function updateServicios(Request $request, servicios $servicios)
+{
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'detalle' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $servicios->titulo = $request->titulo;
+    $servicios->detalle = $request->detalle;
+    $servicios->descripcion = $request->descripcion;
+
+    if ($request->hasFile('imagen')) {
+        $file = $request->file('imagen');
+        $nombreArchivo = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('images/servicios'), $nombreArchivo);
+        $servicios->imagen = 'images/servicios/'.$nombreArchivo;
+    }
+
+    $servicios->save();
+
+    $this->registrarMovimiento(
+        'Actualizar',
+        'Se actualizó un servicio: ' . $servicios->titulo,
+        'servicios',
+        $servicios->id,
+    );
+
+    return redirect()->route('panel.landing.index')->with('success', 'Servicio actualizado correctamente');
+}
 
     public function destroyServicios(servicios $servicios)
     {
