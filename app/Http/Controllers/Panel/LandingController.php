@@ -208,6 +208,7 @@ class LandingController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'subtitulo' => 'required|string|max:255',
+
         'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // <-- ahora opcional
         ]);
 
@@ -274,10 +275,10 @@ class LandingController extends Controller
 
     public function editBlog(Request $request, blog $blog)
     {
-        $request->validate([
+        /*$request->validate([
             'titulo' => 'required|string|max:255',
             'contenido' => 'required|string',
-        ]);
+        ]);*/
 
         $blog->titulo = $request->titulo;
         $blog->contenido = $request->contenido;
@@ -348,12 +349,12 @@ class LandingController extends Controller
 
     public function editServicios(Request $request, servicios $servicios)
     {
-        $request->validate([
+        /*$request->validate([
             'titulo' => 'required|string|max:255',
             'detalle' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        ]);*/
 
         $servicios->titulo = $request->titulo;
         $servicios->detalle = $request->detalle;

@@ -13,5 +13,6 @@ class Galeria extends Model
         'imagen', // ruta en storage/public
         'titulo',
         'descripcion',
+        'tipo'
     ];
 }

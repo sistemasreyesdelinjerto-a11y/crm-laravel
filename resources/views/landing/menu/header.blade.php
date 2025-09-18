@@ -3,14 +3,21 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
             <!-- Logo -->
-            <a href="/"
-                class="flex items-center gap-3 font-extrabold text-2xl text-beigeClaro hover:scale-105 transform transition-all duration-300">
-                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                        d="M12 2c.7 3.4-1.2 5.8-2.7 7.8-1.7 2.3-2.3 3.8-1.3 5.6 1.3 2.5 5.5 2.6 7.5 0 1.5-1.9.5-4.4-1-6.2C13.2 7.8 11.9 6.2 12 4c.1-.8.4-1.4.8-2z" />
-                </svg>
-                Clínica Capilar Elite
-            </a>
+<a href="/"
+   class="flex items-center gap-4 hover:scale-105 transform transition-all duration-300 relative">
+
+   
+   <!-- Logo tipográfico -->
+   <div class="flex flex-col leading-tight pl-6">
+     <h1 class="text-2xl font-serif font-extrabold text-[#003c3c] drop-shadow-md">
+       CL<span class="text-[#00a8a8] font-bold">Í</span>NICA CAPILAR ÉLITE
+     </h1>
+     <span class="text-sm text-gray-300 font-medium tracking-wide">
+       by Dr. Santana
+     </span>
+   </div>
+
+</a>
 
             <!-- Menú Desktop -->
             <ul class="hidden md:flex items-center gap-8 text-lg font-semibold text-beigeClaro">
@@ -60,31 +67,45 @@
         </div>
 
         <!-- Menú móvil Overlay -->
-       <div id="mobileMenu" class="fixed inset-0 bg-verdeOscuro/95 backdrop-blur-xl transition-transform transition-opacity duration-300 z-60 scale-0 opacity-0 overflow-auto">
-  <div class="max-w-7xl mx-auto px-6 pt-32 flex flex-col items-center space-y-6 text-2xl text-beigeClaro">
-    <a href="/" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Inicio</a>
-    <a href="#conocenos" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Conócenos</a>
-    <a href="#servicios" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Servicios</a>
-    <a href="/dr-santana" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Dr. Santana</a>
+        <div id="mobileMenu"
+            class="fixed inset-0 bg-verdeOscuro/95 backdrop-blur-xl transition-transform transition-opacity duration-300 z-60 scale-0 opacity-0 overflow-auto">
+            <div class="max-w-7xl mx-auto px-6 pt-32 flex flex-col items-center space-y-6 text-2xl text-beigeClaro">
+                <a href="/" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Inicio</a>
+                <a href="#conocenos"
+                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Conócenos</a>
+                <a href="#servicios"
+                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Servicios</a>
+                <a href="/dr-santana" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Dr.
+                    Santana</a>
 
-    <!-- Dropdown Clínicas Móvil -->
-    <div class="relative w-full max-w-xs">
-      <button id="clinicasBtn" class="w-full py-3 bg-beigeCalido text-verdeOscuro rounded-3xl font-bold shadow-lg hover:scale-105 transition-transform">
-        Clínicas ▼
-      </button>
-      <ul id="clinicasList" class="mt-2 w-full bg-beigeCalido text-verdeOscuro rounded-3xl shadow-lg transition-all duration-300 hidden">
-        <li><a href="/santafe" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Santa Fe</a></li>
-        <li><a href="/pedregal" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Pedregal</a></li>
-        <li><a href="/queretaro" class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Querétaro</a></li>
-      </ul>
-    </div>
+                <!-- Dropdown Clínicas Móvil -->
+                <div class="relative w-full max-w-xs">
+                    <button id="clinicasBtn"
+                        class="w-full py-3 bg-beigeCalido text-verdeOscuro rounded-3xl font-bold shadow-lg hover:scale-105 transition-transform">
+                        Clínicas ▼
+                    </button>
+                    <ul id="clinicasList"
+                        class="mt-2 w-full bg-beigeCalido text-verdeOscuro rounded-3xl shadow-lg transition-all duration-300 hidden">
+                        <li><a href="/santafe"
+                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Santa
+                                Fe</a></li>
+                        <li><a href="/pedregal"
+                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Pedregal</a>
+                        </li>
+                        <li><a href="/queretaro"
+                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Querétaro</a>
+                        </li>
+                    </ul>
+                </div>
 
-    <a href="#contacto" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Contacto</a>
-  </div>
+                <a href="#contacto"
+                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Contacto</a>
+            </div>
 
-  <!-- Botón cerrar -->
-  <button id="closeMobileMenu" class="absolute top-6 right-6 text-5xl text-beigeClaro hover:scale-110 transition-transform">×</button>
-</div>
+            <!-- Botón cerrar -->
+            <button id="closeMobileMenu"
+                class="absolute top-6 right-6 text-5xl text-beigeClaro hover:scale-110 transition-transform">×</button>
+        </div>
     </nav>
 </header>
 

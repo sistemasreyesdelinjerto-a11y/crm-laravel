@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Resultado;
 use App\Models\encabezado;
 use App\Models\blog;
+use App\Models\blogdr;
+use App\Models\Galeria;
 use App\Models\servicios;
 
 class LandingController extends Controller
@@ -39,7 +41,7 @@ class LandingController extends Controller
 
     // Mandar las vistas de las clinicas de la pagina principal
 
-    public function clinicaSantafe() 
+    public function clinicaSantafe()
     {
         return view('landing.santafe');
     }
@@ -53,4 +55,18 @@ class LandingController extends Controller
     {
         return view('landing.queretaro');
     }
+
+    //Seccion de Dr. Santana de la pagina principal
+
+public function drSantana()
+{
+    // Obtenemos todos los posts hasta la fecha actual, ordenados por fecha y creación
+    $blogdrs = blogdr::orderBy('fecha', 'desc')
+                     ->orderBy('created_at', 'desc')
+                     ->where('fecha', '<=', now())
+                     ->get();
+$galerias = Galeria::all();
+    return view('landing.dr_santana', compact('blogdrs','galerias'));
+}
+
 }
