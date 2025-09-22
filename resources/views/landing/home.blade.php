@@ -17,6 +17,9 @@
 
     @include('landing.sections.servicios')
 
+    <!-- Casos de éxito -->
+    @include('landing.sections.casosExito')
+
     <!-- Blog -->
     @include('landing.blog.listado')
 

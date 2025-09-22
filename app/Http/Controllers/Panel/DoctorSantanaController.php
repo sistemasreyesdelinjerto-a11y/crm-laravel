@@ -172,7 +172,7 @@ class DoctorSantanaController extends Controller
     public function storeGaleria(Request $request)
     {
         $request->validate([
-            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:1000000',
+            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:10048',
             'titulo' => 'nullable|string|max:255',
             'descripcion' => 'nullable|string',
             'tipo' => 'nullable|in:imagen,video'
@@ -193,12 +193,8 @@ class DoctorSantanaController extends Controller
 
         $galeria = Galeria::create($galeriaData);
 
-        $this->registrarMovimiento('CREAR',
-         "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 
-         'galerias', $galeria->id);
+        $this->registrarMovimiento('CREAR', "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 'galerias', $galeria->id);
 
-
-        //dd($galeria);
         return redirect()->back()->with('success', 'Imagen o video agregado a la galería correctamente.');
     }
 
@@ -224,12 +220,9 @@ class DoctorSantanaController extends Controller
 
         $galeria->titulo = $request->titulo ?? $galeria->titulo;
         $galeria->descripcion = $request->descripcion ?? $galeria->descripcion;
-        $galeria->tipo = $request->tipo ?? $galeria->tipo;
         $galeria->save();
 
-        $this->registrarMovimiento('ACTUALIZAR', 
-        "Se actualizó elemento de la galería: {$galeria->titulo}", 
-        'galerias', $galeria->id);
+        $this->registrarMovimiento('ACTUALIZAR', "Se actualizó elemento de la galería: {$galeria->titulo}", 'galerias', $galeria->id);
 
         return redirect()->back()->with('success', 'Galería actualizada correctamente.');
     }
@@ -280,13 +273,6 @@ class DoctorSantanaController extends Controller
 
         $certificacion->save();
 
-        $this->registraMovimiento(
-            'Crear',
-            "Se agregó la certificación: {$certificacion->titulo}",
-            'blogdrs',
-            $certificacion->id
-        );
-
         return redirect()->back()->with('success', 'Certificación creada con éxito');
     }
 
@@ -300,7 +286,7 @@ class DoctorSantanaController extends Controller
         $certificacion->titulo = $request->titulo;
         $certificacion->descripcion = $request->descripcion;
 
-        if ($request->hasFile('imagen')) {
+        if ($request->hasFile('imagenc')) {
             // Borrar la imagen anterior si existe
             if ($certificacion->imagen && file_exists(public_path($certificacion->imagen))) {
                 unlink(public_path($certificacion->imagen));
@@ -313,13 +299,6 @@ class DoctorSantanaController extends Controller
         }
 
         $certificacion->save();
-        
-        $this->registraMovimiento(
-            'Actualizar',
-            "Se actualizó la certificación: {$certificacion->titulo}",
-            'blogdrs',
-            $certificacion->id
-        );
 
         return redirect()->back()->with('success', 'Certificación actualizada con éxito');
     }

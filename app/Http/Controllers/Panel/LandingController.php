@@ -11,6 +11,7 @@ use App\Models\QuienesSomos;
 use App\Models\encabezado;
 use App\Models\blog;
 use App\Models\servicios;
+use App\Models\CasoExito;
 use Illuminate\Support\Facades\Storage;
 
 class LandingController extends Controller
@@ -22,8 +23,14 @@ class LandingController extends Controller
         $encabezados = encabezado::all(); // Traemos info de 'Encabezado'
         $blogs = blog::all(); // Traemos info de 'Blog'
         $servicios = servicios::all(); // Traemos info de 'Servicios'
+        $casos = CasoExito::all(); // Traemos info de 'Casos de Éxito'
 
-        return view('panel.landing.index',compact('resultados', 'encabezados', 'blogs', 'servicios'));
+        return view('panel.landing.index',
+        compact('resultados', 
+        'encabezados', 
+        'blogs', 
+        'servicios',
+    'casos'));
     }
 
     public function store(Request $request)
@@ -240,6 +247,68 @@ class LandingController extends Controller
         );
 
         return redirect()->route('panel.landing.index')->with('success', 'Encabezado eliminado correctamente');
+    }
+
+     public function indexCasosexito()
+    {
+        $casos = CasoExito::all();
+        return view('panel.landing.contenido.casosExito', compact('casos'));
+    }
+
+    public function storeExito(Request $request)
+    {
+        $request->validate([
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $casos = $request->only(['titulo', 'descripcion']);
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/casos_exito'), $nombreArchivo);
+            $casos['imagen'] = 'images/casos_exito/' . $nombreArchivo;
+        }
+        //dd($data);
+        $casos = CasoExito::create($casos);
+
+        return redirect()->back()->with('success', 'Caso de éxito agregado correctamente.');
+    }
+
+    public function updateExito(Request $request, CasoExito $caso)
+    {
+
+        $caso->titulo = $request->titulo;
+        $caso->descripcion = $request->descripcion;
+
+        if ($request->hasFile('imagen')) {
+            // eliminar imagen anterior
+            if ($caso->imagen && file_exists(public_path($caso->imagen))) {
+                unlink(public_path($caso->imagen));
+            }
+
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/casos_exito'), $nombreArchivo);
+            $caso->imagen = 'images/casos_exito/' . $nombreArchivo;
+        }
+
+        $caso->save();
+
+        return redirect()->back()->with('success', 'Caso de éxito actualizado correctamente.');
+    }
+
+    public function destroyExito(CasoExito $caso)
+    {
+        if ($caso->imagen && file_exists(public_path($caso->imagen))) {
+            unlink(public_path($caso->imagen));
+        }
+
+        $caso->delete();
+
+        return redirect()->back()->with('success', 'Caso de éxito eliminado correctamente.');
     }
 
     // Metodos para el blog

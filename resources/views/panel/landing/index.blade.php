@@ -9,5 +9,6 @@
     @include('panel.landing.contenido.encabezado')
     @include('panel.landing.contenido.blog')
     @include('panel.landing.contenido.servicios')
+    @include('panel.landing.contenido.casosExito')
 @endsection
  
