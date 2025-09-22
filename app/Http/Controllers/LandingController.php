@@ -9,6 +9,7 @@ use App\Models\blog;
 use App\Models\blogdr;
 use App\Models\servicios;
 use App\Models\galeria;
+use App\Models\certificaciones;
 
 class LandingController extends Controller
 {
@@ -41,7 +42,7 @@ class LandingController extends Controller
 
     // Mandar las vistas de las clinicas de la pagina principal
 
-    public function clinicaSantafe() 
+    public function clinicaSantafe()
     {
         return view('landing.santafe');
     }
@@ -59,14 +60,15 @@ class LandingController extends Controller
     //Seccion de Dr. Santana de la pagina principal
 
     public function drSantana()
-{
-    $blogdrs = blogdr::orderBy('fecha', 'desc')
-                     ->orderBy('created_at', 'desc')
-                     ->where('fecha', '<=', now())
-                     ->get(); // Obtenemos todos para el carrusel
+    {
+        $blogdrs = blogdr::orderBy('fecha', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->where('fecha', '<=', now())
+            ->get(); // Obtenemos todos para el carrusel
 
-    $galerias = galeria::all();
+        $galerias = galeria::all();
+        $certificaciones = certificaciones::all();
 
-    return view('landing.dr_santana', compact('blogdrs', 'galerias'));
-}
+        return view('landing.dr_santana', compact('blogdrs', 'galerias', 'certificaciones'));
+    }
 }

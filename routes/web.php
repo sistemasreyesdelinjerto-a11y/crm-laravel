@@ -53,17 +53,17 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
     Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.update');
     Route::get('usuarios/{user}', [UserController::class, 'show'])->name('usuarios.show');
-// Listar empleados (vista principal)
-Route::get('/empleados', [EmpleadoController::class, 'index'])->name('empleados.index');
+    // Listar empleados (vista principal)
+    Route::get('/empleados', [EmpleadoController::class, 'index'])->name('empleados.index');
 
-// Crear empleado
-Route::post('/empleados', [EmpleadoController::class, 'store'])->name('empleados.store');
+    // Crear empleado
+    Route::post('/empleados', [EmpleadoController::class, 'store'])->name('empleados.store');
 
-// Editar empleado (formulario modal enviado con PUT)
-Route::put('/empleados/{empleado}', [EmpleadoController::class, 'update'])->name('empleados.update');
+    // Editar empleado (formulario modal enviado con PUT)
+    Route::put('/empleados/{empleado}', [EmpleadoController::class, 'update'])->name('empleados.update');
 
-// Eliminar empleado
-Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
+    // Eliminar empleado
+    Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->name('empleados.destroy');
     Route::get('usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
     Route::delete('usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 
@@ -112,7 +112,7 @@ Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->
     Route::post('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'storeBlogdr'])->name('drsantana.blog.store');
     Route::put('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
     Route::delete('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
-    Route::get('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'getBlogsdr'])->name('drsantana.blog.list');
+    //Route::get('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'getBlogsdr'])->name('drsantana.blog.list');
 
     // Trayectoria
     Route::post('/doctor-santana/trayectoria', [PanelDoctorSantanaController::class, 'storeTrayectoria'])->name('drsantana.trayectoria.store');
@@ -124,9 +124,10 @@ Route::delete('/empleados/{empleado}', [EmpleadoController::class, 'destroy'])->
     Route::delete('/doctor-santana/galeria/{galeria}', [PanelDoctorSantanaController::class, 'destroyGaleria'])->name('drsantana.galeria.destroy');
 
     // Certificaciones
+    //Route::get('/doctor-santana/certificaciones', [PanelDoctorSantanaController::class, 'indexCertificaciones'])->name('certificaciones.index');
     Route::post('/certificaciones', [PanelDoctorSantanaController::class, 'CerStore'])->name('certificaciones.store');
-Route::put('/certificaciones/{id}', [PanelDoctorSantanaController::class, 'CerUpdate'])->name('certificaciones.update');
-Route::delete('/certificaciones/{id}', [PanelDoctorSantanaController::class, 'CerDestroy'])->name('certificaciones.destroy');
+    Route::put('/certificaciones/{id}', [PanelDoctorSantanaController::class, 'CerUpdate'])->name('certificaciones.update');
+    Route::delete('/certificaciones/{id}', [PanelDoctorSantanaController::class, 'CerDestroy'])->name('certificaciones.destroy');
 
     Route::post('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlog'])->name('drsantana.blog.destroy');
     // Contacto

@@ -1,4 +1,4 @@
-<!-- Sección de Galería con Carrusel Simplificado -->
+<!-- Sección de Galería con Carrusel -->
 <section id="galeria" class="py-10 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100 mt-8">
     <div class="max-w-7xl mx-auto px-6">
         <!-- Título y botón Crear -->
@@ -10,7 +10,7 @@
             </button>
         </div>
 
-        @if($galerias->isEmpty())
+        @if ($galerias->isEmpty())
             <div class="text-center py-12 bg-white rounded-lg shadow">
                 <div class="text-6xl mb-4">🖼️</div>
                 <p class="text-gray-600 text-lg">No hay imágenes en la galería.</p>
@@ -19,7 +19,7 @@
         @else
             <!-- Contenedor del carrusel -->
             <div class="relative">
-                <!-- Botón Izquierda - Siempre visible -->
+                <!-- Botón Izquierda -->
                 <button onclick="scrollLeftGaleria()"
                     class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-[#1C6C73] text-white p-3 rounded-full shadow hover:bg-[#14565c] z-10">
                     ‹
@@ -30,36 +30,39 @@
                     class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth py-4 select-none cursor-grab active:cursor-grabbing">
                     @foreach ($galerias as $galeria)
                         <div class="flex-shrink-0 w-72">
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow h-full">
+                            <div
+                                class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow h-full">
                                 <div class="relative group">
-                                 @if($galeria->tipo == 'video')
-                                    <video class="w-full h-48 object-cover" controls>
-                                        <source src="{{ asset($galeria->imagen) }}" type="video/mp4">
-                                        Tu navegador no soporta videos.
-                                    </video>
-                                @else
-                                    <img src="{{ asset($galeria->imagen) }}" 
-                                        alt="Imagen de galería"
-                                        class="w-full h-48 object-cover">
-                                @endif
-                                    
+                                    @if ($galeria->tipo == 'video')
+                                        <video class="w-full h-48 object-cover" controls>
+                                            <source src="{{ asset($galeria->imagen) }}" type="video/mp4">
+                                            Tu navegador no soporta videos.
+                                        </video>
+                                    @else
+                                        <img src="{{ asset($galeria->imagen) }}" alt="Imagen de galería"
+                                            class="w-full h-48 object-cover">
+                                    @endif
+
                                     <!-- Overlay con botones -->
-                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                        <button onclick="openEditGaleriaModal({{ $galeria->id }}, '{{ $galeria->titulo }}', '{{ $galeria->descripcion }}', '{{ $galeria->imagen }}')"
-                                                class="bg-blue-500 text-white p-2 rounded-full mx-1 hover:bg-blue-600">
+                                    <div
+                                        class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                        <button
+                                            onclick="openEditGaleriaModal({{ $galeria->id }}, '{{ $galeria->titulo }}', '{{ $galeria->descripcion }}')"
+                                            class="bg-blue-500 text-white p-2 rounded-full mx-1 hover:bg-blue-600">
                                             ✏️
                                         </button>
                                         <button onclick="deleteGaleria({{ $galeria->id }})"
-                                                class="bg-red-500 text-white p-2 rounded-full mx-1 hover:bg-red-600">
+                                            class="bg-red-500 text-white p-2 rounded-full mx-1 hover:bg-red-600">
                                             🗑️
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 <div class="p-4">
                                     <h3 class="font-semibold text-[#1C6C73]">{{ $galeria->titulo }}</h3>
-                                    @if($galeria->descripcion)
-                                        <p class="text-gray-600 text-sm mt-1 line-clamp-2">{{ $galeria->descripcion }}</p>
+                                    @if ($galeria->descripcion)
+                                        <p class="text-gray-600 text-sm mt-1 line-clamp-2">{{ $galeria->descripcion }}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -67,7 +70,7 @@
                     @endforeach
                 </div>
 
-                <!-- Botón Derecha - Siempre visible -->
+                <!-- Botón Derecha -->
                 <button onclick="scrollRightGaleria()"
                     class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-[#1C6C73] text-white p-3 rounded-full shadow hover:bg-[#14565c] z-10">
                     ›
@@ -77,142 +80,147 @@
     </div>
 </section>
 
-<!-- Incluir modales de galería -->
-@include('panel.landing.drsantana.modales.galeria-create')
-@include('panel.landing.drsantana.modales.galeria-edit')
+<!-- Modal Crear -->
+<div id="createGaleriaModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-white rounded-lg w-96 p-6 relative">
+        <button onclick="closeModal('createGaleriaModal')"
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+        <h2 class="text-xl font-bold mb-4">Agregar Imagen a la Galería</h2>
+        <form action="{{ route('panel.drsantana.galeria.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <label class="block mb-2">Título</label>
+            <input type="text" name="titulo" class="w-full border rounded p-2 mb-4" required>
+
+            <label class="block mb-2">Descripción</label>
+            <textarea name="descripcion" class="w-full border rounded p-2 mb-4"></textarea>
+
+            <label class="block mb-2">Archivo</label>
+            <input type="file" name="imagen" accept="image/*,video/*" required class="mb-4">
+
+            <button type="submit"
+                class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro">Agregar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Editar -->
+<div id="editGaleriaModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-white rounded-lg w-96 p-6 relative">
+        <button onclick="closeModal('editGaleriaModal')"
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+        <h2 class="text-xl font-bold mb-4">Editar Imagen</h2>
+        <form id="editGaleriaForm" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <input type="hidden" id="editGaleriaId" name="id">
+
+            <label class="block mb-2">Título</label>
+            <input type="text" id="editGaleriaTitulo" name="titulo" class="w-full border rounded p-2 mb-4" required>
+
+            <label class="block mb-2">Descripción</label>
+            <textarea id="editGaleriaDescripcion" name="descripcion" class="w-full border rounded p-2 mb-4"></textarea>
+
+            <label class="block mb-2">Archivo</label>
+            <input type="file" name="imagen" accept="image/*,video/*">
+
+            <button type="submit" class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro mt-4">Guardar
+                cambios</button>
+        </form>
+    </div>
+</div>
+
 <script>
-// Funciones básicas de desplazamiento del carrusel
-// Funciones básicas de desplazamiento
-function scrollLeftGaleria() {
-    const container = document.getElementById('galeriaScrollContainer');
-    if (container) {
-        container.scrollBy({ left: -300, behavior: 'smooth' });
+    /* -------- Scroll -------- */
+    function scrollLeftGaleria() {
+        document.getElementById('galeriaScrollContainer')?.scrollBy({
+            left: -300,
+            behavior: 'smooth'
+        });
     }
-}
 
-function scrollRightGaleria() {
-    const container = document.getElementById('galeriaScrollContainer');
-    if (container) {
-        container.scrollBy({ left: 300, behavior: 'smooth' });
+    function scrollRightGaleria() {
+        document.getElementById('galeriaScrollContainer')?.scrollBy({
+            left: 300,
+            behavior: 'smooth'
+        });
     }
-}
 
-// Desplazamiento con mouse
-let isDragging = false;
-let startX;
-let scrollLeft;
+    /* -------- Drag Scroll -------- */
+    const galeriaContainer = document.getElementById('galeriaScrollContainer');
+    let isDragging = false,
+        startX, scrollLeft;
 
-const galeriaContainer = document.getElementById('galeriaScrollContainer');
-
-if (galeriaContainer) {
-    // Mouse events
-    galeriaContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.pageX - galeriaContainer.offsetLeft;
-        scrollLeft = galeriaContainer.scrollLeft;
-        galeriaContainer.style.cursor = 'grabbing';
-    });
-
-    galeriaContainer.addEventListener('mouseleave', () => {
-        isDragging = false;
-        galeriaContainer.style.cursor = 'grab';
-    });
-
-    galeriaContainer.addEventListener('mouseup', () => {
-        isDragging = false;
-        galeriaContainer.style.cursor = 'grab';
-    });
-
-    galeriaContainer.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - galeriaContainer.offsetLeft;
-        const walk = (x - startX) * 2;
-        galeriaContainer.scrollLeft = scrollLeft - walk;
-    });
-
-    // Touch events
-    galeriaContainer.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].pageX - galeriaContainer.offsetLeft;
-        scrollLeft = galeriaContainer.scrollLeft;
-    });
-
-    galeriaContainer.addEventListener('touchmove', (e) => {
-        if (e.touches.length !== 1) return; // Solo un dedo
-        const x = e.touches[0].pageX - galeriaContainer.offsetLeft;
-        const walk = (x - startX) * 1.5; // Sensibilidad touch
-        galeriaContainer.scrollLeft = scrollLeft - walk;
-    });
-}
-
-// Variable global para la galería
-let currentGaleriaId = null;
-
-// En el evento submit del formulario
-const formData = new FormData(this);
-formData.append('tipo', document.querySelector('select[name="tipo"]').value);
-formData.append('archivo', document.querySelector('input[name="archivo"]').files[0]);
-// ... resto igual
-
-// Función para abrir el modal de edición de galería
-function openEditGaleriaModal(id, titulo, descripcion, imagen) {
-    currentGaleriaId = id;
-    
-    // Llenar el formulario con los datos
-    document.getElementById('editGaleriaId').value = id;
-    document.getElementById('editGaleriaTitulo').value = titulo || '';
-    document.getElementById('editGaleriaDescripcion').value = descripcion || '';
-    
-    // Abrir el modal
-    openModal('editGaleriaModal');
-}
-
-// Función para eliminar galería directamente
-function deleteGaleria(id) {
-    if (!confirm('¿Estás seguro de que deseas eliminar esta imagen?')) {
-        return false;
+    if (galeriaContainer) {
+        galeriaContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - galeriaContainer.offsetLeft;
+            scrollLeft = galeriaContainer.scrollLeft;
+            galeriaContainer.style.cursor = 'grabbing';
+        });
+        galeriaContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+            galeriaContainer.style.cursor = 'grab';
+        });
+        galeriaContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+            galeriaContainer.style.cursor = 'grab';
+        });
+        galeriaContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - galeriaContainer.offsetLeft;
+            galeriaContainer.scrollLeft = scrollLeft - (x - startX) * 2;
+        });
     }
-    
-    const formData = new FormData();
-    formData.append('_token', '{{ csrf_token() }}');
-    formData.append('_method', 'DELETE');
-    
-    fetch(`/panel/doctor-santana/galeria/${id}`, {
-        method: 'POST',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json'
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            showNotification('Imagen eliminada correctamente', 'success');
-            setTimeout(() => window.location.reload(), 1000);
-        } else {
-            throw new Error(result.message || 'Error al eliminar');
-        }
-    })
-    .catch(error => {
-        showNotification('Error: ' + error.message, 'error');
-    });
-}
+
+    /* -------- Modales -------- */
+    function openModal(id) {
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+    }
+
+    /* -------- Edit Modal -------- */
+    function openEditGaleriaModal(id, titulo, descripcion) {
+        document.getElementById('editGaleriaId').value = id;
+        document.getElementById('editGaleriaTitulo').value = titulo || '';
+        document.getElementById('editGaleriaDescripcion').value = descripcion || '';
+        document.getElementById('editGaleriaForm').action = `/panel/doctor-santana/galeria/${id}`;
+        openModal('editGaleriaModal');
+    }
+
+    /* -------- Delete -------- */
+    function deleteGaleria(id) {
+        if (!confirm('¿Seguro que deseas eliminar esta imagen?')) return;
+
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/panel/doctor-santana/galeria/${id}`;
+        form.innerHTML = `
+        @csrf
+        @method('DELETE')
+    `;
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
 
 <style>
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
 
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 </style>
