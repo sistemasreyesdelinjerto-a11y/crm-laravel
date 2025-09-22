@@ -6,7 +6,10 @@
         </h2>
 
         <!-- Carrusel -->
-        <div class="swiper mySwiper">
+        @if ($casos->isEmpty())
+            <p>No hay casos de éxito disponibles.</p> 
+        @else
+            <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 @foreach ($casos as $cas)
                     <div class="swiper-slide bg-white rounded-xl shadow-lg p-6">
@@ -34,6 +37,8 @@
             <!-- Paginación -->
             <div class="swiper-pagination"></div>
         </div>
+        @endif
+        
     </div>
 </section>
 

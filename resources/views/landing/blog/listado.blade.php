@@ -83,7 +83,12 @@
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
+          },  
+      autoplay: {
+        delay: 3000, // 5 segundos entre cada slide
+        disableOnInteraction: false, // sigue avanzando aunque el usuario interactúe
       },
+
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",

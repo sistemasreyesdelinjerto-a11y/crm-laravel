@@ -274,6 +274,13 @@ class LandingController extends Controller
         //dd($data);
         $casos = CasoExito::create($casos);
 
+        $this->registrarMovimiento(
+            'Crear',
+            'Se creó un caso de éxito: ' . $casos['titulo'],
+            'casos_exito',
+            $casos->id,
+        );
+
         return redirect()->back()->with('success', 'Caso de éxito agregado correctamente.');
     }
 
@@ -297,6 +304,13 @@ class LandingController extends Controller
 
         $caso->save();
 
+        $this->registrarMovimiento(
+            'Actualizar',
+            'Se actualizó un caso de éxito: ' . $caso->titulo,
+            'casos_exito',
+            $caso->id,
+        );
+
         return redirect()->back()->with('success', 'Caso de éxito actualizado correctamente.');
     }
 
@@ -307,6 +321,13 @@ class LandingController extends Controller
         }
 
         $caso->delete();
+
+        $this->registrarMovimiento(
+            'Eliminar',
+            'Se eliminó un caso de éxito: ' . $caso->titulo,
+            'casos_exito',
+            $caso->id,
+        );
 
         return redirect()->back()->with('success', 'Caso de éxito eliminado correctamente.');
     }
