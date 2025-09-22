@@ -193,7 +193,9 @@ class DoctorSantanaController extends Controller
 
         $galeria = Galeria::create($galeriaData);
 
-        $this->registrarMovimiento('CREAR', "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 'galerias', $galeria->id);
+        $this->registrarMovimiento('CREAR',
+         "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 
+         'galerias', $galeria->id);
 
 
         //dd($galeria);
@@ -225,7 +227,9 @@ class DoctorSantanaController extends Controller
         $galeria->tipo = $request->tipo ?? $galeria->tipo;
         $galeria->save();
 
-        $this->registrarMovimiento('ACTUALIZAR', "Se actualizó elemento de la galería: {$galeria->titulo}", 'galerias', $galeria->id);
+        $this->registrarMovimiento('ACTUALIZAR', 
+        "Se actualizó elemento de la galería: {$galeria->titulo}", 
+        'galerias', $galeria->id);
 
         return redirect()->back()->with('success', 'Galería actualizada correctamente.');
     }
@@ -276,6 +280,13 @@ class DoctorSantanaController extends Controller
 
         $certificacion->save();
 
+        $this->registraMovimiento(
+            'Crear',
+            "Se agregó la certificación: {$certificacion->titulo}",
+            'blogdrs',
+            $certificacion->id
+        );
+
         return redirect()->back()->with('success', 'Certificación creada con éxito');
     }
 
@@ -302,6 +313,13 @@ class DoctorSantanaController extends Controller
         }
 
         $certificacion->save();
+        
+        $this->registraMovimiento(
+            'Actualizar',
+            "Se actualizó la certificación: {$certificacion->titulo}",
+            'blogdrs',
+            $certificacion->id
+        );
 
         return redirect()->back()->with('success', 'Certificación actualizada con éxito');
     }
