@@ -12,13 +12,12 @@
         
       @include('landing.sections.calculadora') <!-- Nueva sección -->
 
+      <!-- Casos de éxito -->
+    @include('landing.sections.casosExito')
 
     <!-- Servicios -->
 
     @include('landing.sections.servicios')
-
-    <!-- Casos de éxito -->
-    @include('landing.sections.casosExito')
 
     <!-- Blog -->
     @include('landing.blog.listado')
