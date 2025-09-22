@@ -3,7 +3,7 @@
 
     <!-- Información de la clínica -->
     <div>
-      <h3 class="font-bold text-xl mb-4">Clínica Capilar</h3>
+      <h3 class="font-bold text-xl mb-4">Clínica Capilar Elite</h3>
       <p class="text-sm mb-2">Especialistas en injerto capilar y tratamientos complementarios. Resultados naturales y personalizados.</p>
       <p class="text-sm">Email: info@clinicacapilar.com</p>
       <p class="text-sm">Tel: +52 55 1234 5678</p>
@@ -13,13 +13,15 @@
     <div>
       <h3 class="font-bold text-xl mb-4">Nuestras Clínicas</h3>
       <ul class="space-y-2 text-sm">
-        <li><strong>Santa Fe:</strong> Av. Reforma 123, Col. Juárez</li>
-        <li><strong>Pedregal:</strong> Av. Vallarta 456, Col. Americana</li>
-        <li><strong>Queretaro:</strong> Av. Constitución 789, Col. Centro</li>
+        <li><strong>Santa Fe:</strong> Santa Fe - Juan Salvador Agraz 97 piso 1, Contadero, Cuajimalpa de Morelos 05348, CDMX.
+
+</li>
+        <li><strong>Pedregal:</strong> Anillo Perif. 3332-Piso 9, Oficina 910, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CD</li>
+        <li><strong>Queretaro:</strong> Corporativo AQUA Querétaro, Anillo Vial Fray Junípero Serra 3034 Piso 9 Consultorio 905, 76100 Juriquilla, 76100 Santiago de Querétaro, Qro.</li>
       </ul>
     </div>
 
-  
+
 
   </div>
 

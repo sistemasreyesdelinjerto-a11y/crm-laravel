@@ -2,8 +2,7 @@
 <section id="blog" class="py-20 bg-gradient-to-b from-gray-100 via-white to-gray-100">
   <div class="container mx-auto px-4 text-justify">
     <h2 class="text-4xl font-extrabold mb-14 text-center text-[#1C6C73]">
-      Nuestro Blog
-    </h2>
+Preguntas Frecuentes    </h2>
 
     <!-- Carrusel -->
     <div class="swiper mySwiper">
@@ -13,7 +12,7 @@
             <div class="bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-500 hover:scale-105 card">
 
               <!-- Imagen -->
-              
+
 
               <div class="p-6 flex flex-col h-full">
                 <!-- Título -->
@@ -22,9 +21,7 @@
                 </h3>
 
                 <!-- Resumen -->
-                <p class="text-gray-600 mb-4 summary">
-                  {{ Str::limit($blog->contenido, 120) }}
-                </p>
+                
 
                 <!-- Contenido completo -->
                 <div class="extra-content max-h-0 text-gray-700 overflow-hidden transition-[max-height] duration-700 ease-in-out">

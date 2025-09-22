@@ -36,8 +36,8 @@ class LandingController extends Controller
         ]);
 
         $data = $request->only(['titulo', 'numero', 'color']);
-        $data['created_by'] = Auth::id();
-        $data['updated_by'] = Auth::id();
+        //$data['created_by'] = Auth::id();
+        //$data['updated_by'] = Auth::id();
         // Guardar imagen si se sube
         if ($request->hasFile('icono_svg')) {
             $file = $request->file('icono_svg');
@@ -70,7 +70,7 @@ class LandingController extends Controller
     $resultado->titulo = $request->titulo;
     $resultado->numero = $request->numero;
     $resultado->color = $request->color;
-    $resultado->updated_by = auth()->id();
+    //$resultado->updated_by = auth()->id();
 
     if ($request->hasFile('icono_svg')) {
         $file = $request->file('icono_svg');
@@ -82,7 +82,7 @@ class LandingController extends Controller
     $resultado->save();
 
     Movimiento::create([
-        'usuario_id' => auth()->id(),
+        //'usuario_id' => auth()->id(),
         'tipo_movimiento' => 'Actualizar',
         'descripcion' => 'Se actualizó el resultado: '.$resultado->titulo,
         'tabla_afectada' => 'resultados',
@@ -211,6 +211,7 @@ class LandingController extends Controller
 
         'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // <-- ahora opcional
         ]);
+
 
         $encabezado->titulo = $request->titulo;
         $encabezado->subtitulo = $request->subtitulo;

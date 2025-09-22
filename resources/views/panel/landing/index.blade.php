@@ -10,3 +10,4 @@
     @include('panel.landing.contenido.blog')
     @include('panel.landing.contenido.servicios')
 @endsection
+ 

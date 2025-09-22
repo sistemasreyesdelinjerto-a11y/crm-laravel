@@ -6,11 +6,11 @@
 <a href="/"
    class="flex items-center gap-4 hover:scale-105 transform transition-all duration-300 relative">
 
-   
+
    <!-- Logo tipográfico -->
    <div class="flex flex-col leading-tight pl-6">
      <h1 class="text-2xl font-serif font-extrabold text-[#003c3c] drop-shadow-md">
-       CL<span class="text-[#00a8a8] font-bold">Í</span>NICA CAPILAR ÉLITE
+       CLÍNICA CAPILAR ÉLITE
      </h1>
      <span class="text-sm text-gray-300 font-medium tracking-wide">
        by Dr. Santana
@@ -58,7 +58,7 @@
             <!-- Botón destacado -->
             <a href="#contacto"
                 class="hidden md:inline-block bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-3xl font-bold shadow-xl hover:bg-verdeClaro hover:text-beigeClaro transition-transform transform hover:-translate-y-1 hover:scale-105">
-                Agenda tu evaluación
+                Agenda tu Valoración 
             </a>
 
             <!-- Botón menú móvil -->

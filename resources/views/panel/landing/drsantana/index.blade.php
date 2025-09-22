@@ -1,15 +1,10 @@
 @extends('panel.layouts.panel')
 
-@section('title', 'Panel Dr. Santana')
-
+@section('title', 'Panel - Blog Dr. Santana')
 
 @section('content')
-
-
-        <!-- Incluir los modales -->
-        @include('panel.landing.drsantana.blog')
-        @include('panel.landing.drsantana.trayectoria')
-        @include('panel.landing.drsantana.galeriaIndex')
-    </section>
+    @include('panel.landing.drsantana.certificacionesIndex')
+    @include('panel.landing.drsantana.blogIndex')
+    @include('panel.landing.drsantana.galeriaIndex')
 
 @endsection

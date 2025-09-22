@@ -8,7 +8,7 @@
 
         <h2 class="text-2xl font-bold text-[#1C6C73] mb-6">Agregar elemento a Galería</h2>
 
-        <form action="{{ route('panel.drsantana.galeria.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="createGaleriaForm" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-4">
@@ -25,20 +25,20 @@
                           placeholder="Descripción opcional"></textarea>
             </div>
 
-            <div class="mb-4">
-                <label class="block font-medium text-gray-700 mb-2">Tipo *</label>
-                <select name="tipo" required class="w-full border border-gray-300 rounded-lg px-4 py-2">
-                    <option value="imagen">Imagen</option>
-                    <option value="video">Video</option>
-                </select>
-            </div>
+             <div class="mb-4">
+                    <label class="block font-medium text-gray-700 mb-2">Tipo *</label>
+                    <select name="tipo" required class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                        <option value="imagen">Imagen</option>
+                        <option value="video">Video</option>
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <label class="block font-medium text-gray-700 mb-2">Archivo *</label>
-                <input type="file" name="archivo" accept="image/*,video/*" required
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2">
-                <p class="text-sm text-gray-500 mt-1">Formatos: JPG, PNG, GIF, MP4, MOV, AVI (Máx. 10MB)</p>
-            </div>
+                <div class="mb-4">
+                    <label class="block font-medium text-gray-700 mb-2">Archivo *</label>
+                    <input type="file" name="archivo" accept="image/*,video/*" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                    <p class="text-sm text-gray-500 mt-1">Formatos: JPG, PNG, GIF, MP4, MOV, AVI (Máx. 10MB)</p>
+                </div>
 
             <div class="flex justify-end gap-3 pt-4">
                 <button type="button" onclick="closeModal('createGaleriaModal')"
@@ -53,3 +53,43 @@
         </form>
     </div>
 </div>
+
+<script>
+document.getElementById('createGaleriaForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Subiendo...';
+
+    try {
+        const response = await fetch('{{ route("panel.drsantana.galeria.store") }}', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification('Imagen agregada correctamente', 'success');
+            closeModal('createGaleriaModal');
+            this.reset();
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            throw new Error(result.message || 'Error al agregar imagen');
+        }
+    } catch (error) {
+        showNotification('Error: ' + error.message, 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+});
+</script>

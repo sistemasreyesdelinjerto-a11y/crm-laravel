@@ -12,6 +12,7 @@ use App\Models\Galeria;
 use App\Models\Blog;
 use App\Models\blogdr;
 use App\Models\Contacto;
+use App\Models\certificaciones;
 use App\Models\Movimiento; // <-- Importa tu modelo de movimientos
 use Illuminate\Support\Facades\DB;
 
@@ -39,7 +40,10 @@ class DoctorSantanaController extends Controller
         $blogs = blogdr::all();
         //$contactos = Contacto::latest()->paginate(10);
 
-        return view('panel.landing.drsantana.index', compact('blogs', 'galerias'));
+        $certificaciones = certificaciones::all();
+        //$contactos = Contacto::latest()->paginate(10);
+        //dd($certificaciones);
+        return view('panel.landing.drsantana.index', compact('blogs', 'galerias', 'certificaciones'));
     }
 
     public function indexsBlog()
@@ -124,7 +128,7 @@ class DoctorSantanaController extends Controller
     return redirect()->back()->with('success', 'Blog Dr. actualizado correctamente.');
 }
 
-    // Función para eliminar
+    /*Función para eliminar
     public function destroyBlogdr($id)
     {
         $blogdr = blogdr::findOrFail($id);
@@ -134,22 +138,33 @@ class DoctorSantanaController extends Controller
             Storage::disk('public')->delete('images/blog/' . $blogdr->imagen);
         }
 
-        $titulo = $blogdr->titulo;
-        $blogdr->delete();
+
+        $data = $request->only(['titulo', 'contenido', 'fecha']);
+
+        // Procesar imagen si se subió
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/blog'), $nombreArchivo);
+            $data['imagen'] = 'images/blog/' . $nombreArchivo;
+        }
+
+        $blogdr = blogdr::create($data);
 
         $this->registraMovimiento(
-            'Eliminar',
-            "Se eliminó blog Dr.: {$titulo}",
+            'Crear',
+            "Se creó blog Dr.: {$blogdr->titulo}",
             'blogdrs',
-            $id
+            $blogdr->id
         );
 
         return response()->json([
             'success' => true,
-            'message' => 'Blog Dr. eliminado correctamente.'
+            'message' => 'Blog Dr. creado correctamente.',
+            'data' => $blogdr
         ]);
     }
-
+*/
     // Función para obtener todos los blogs
     public function getBlogsdr()
     {
@@ -181,17 +196,17 @@ class DoctorSantanaController extends Controller
     public function storeGaleria(Request $request)
     {
         $request->validate([
-            'archivo' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:10048',
+            'archivo' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:204800',
+            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:1000000',
             'titulo' => 'nullable|string|max:255',
             'descripcion' => 'nullable|string',
             'tipo' => 'nullable|in:imagen,video'
         ]);
 
-
         $galeriaData = $request->only(['titulo', 'descripcion', 'tipo']);
 
-        if ($request->hasFile('archivo')) {
-            $file = $request->file('archivo');
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
             $nombreArchivo = time() . '_' . $file->getClientOriginalName();
 
             // Mover a carpeta correspondiente
@@ -203,77 +218,154 @@ class DoctorSantanaController extends Controller
 
         $galeria = Galeria::create($galeriaData);
 
-        $this->registrarMovimiento('Crear', "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 'galerias', $galeria->id);
-        return response()->json([
-            'success' => true,
-            'message' => 'Blog Dr. creado correctamente.',
-            'data' => $galeria
-        ]);
+        $this->registrarMovimiento('CREAR',
+         "Se agregó {$request->tipo} a la galería: {$galeria->titulo}",
+         'galerias', $galeria->id);
+
+
+        //dd($galeria);
+        return redirect()->back()->with('success', 'Imagen o video agregado a la galería correctamente.');
     }
 
+    public function updateGaleria(Request $request, Galeria $galeria)
+    {
+        if ($request->hasFile('imagen')) {
+            // Eliminar archivo anterior si existe
+            if ($galeria->imagen && file_exists(public_path($galeria->imagen))) {
+                unlink(public_path($galeria->imagen));
+            }
 
-public function updateGaleria(Request $request, $id)
-{
-    // Obtener registro
-    $galeria = DB::table('galerias')->where('id', $id)->first();
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
 
-    if (!$galeria) {
-        return redirect()->back()->with('error', 'Registro no encontrado.');
+            // Determinar carpeta basado en tipo o extensión
+            $tipo = $request->tipo ?? (in_array($file->getClientOriginalExtension(), ['mp4', 'mov', 'avi']) ? 'video' : 'imagen');
+            $carpeta = $tipo == 'video' ? 'videos/galeria' : 'images/galeria';
+            $file->move(public_path($carpeta), $nombreArchivo);
+
+            $galeria->imagen = $carpeta . '/' . $nombreArchivo;
+            $galeria->tipo = $tipo;
+        }
+
+        $galeria->titulo = $request->titulo ?? $galeria->titulo;
+        $galeria->descripcion = $request->descripcion ?? $galeria->descripcion;
+        $galeria->tipo = $request->tipo ?? $galeria->tipo;
+        $galeria->save();
+
+        $this->registrarMovimiento('ACTUALIZAR',
+        "Se actualizó elemento de la galería: {$galeria->titulo}",
+        'galerias', $galeria->id);
+
+        return redirect()->back()->with('success', 'Galería actualizada correctamente.');
     }
 
-    // Preparar datos a actualizar
-    $data = [
-        'titulo' => $request->titulo ?? $galeria->titulo,
-        'descripcion' => $request->descripcion ?? $galeria->descripcion,
-        'updated_at' => now(),
-    ];
-
-    // Manejo de archivo
-    if ($request->hasFile('archivo')) {
-        // Eliminar archivo anterior si existe
+    public function destroyGaleria(Galeria $galeria)
+    {
+        // Eliminar archivo físico si existe
         if ($galeria->imagen && file_exists(public_path($galeria->imagen))) {
             unlink(public_path($galeria->imagen));
         }
 
-        $file = $request->file('archivo');
-        $nombreArchivo = time() . '_' . $file->getClientOriginalName();
-
-        // Determinar carpeta
-        $tipo = $request->tipo ?? (in_array($file->getClientOriginalExtension(), ['mp4','mov','avi']) ? 'video' : 'imagen');
-        $carpeta = $tipo == 'video' ? 'videos/galeria' : 'images/galeria';
-
-        $file->move(public_path($carpeta), $nombreArchivo);
-
-        $data['imagen'] = $carpeta . '/' . $nombreArchivo;
-        $data['tipo'] = $tipo;
-    }
-
-    // Actualizar en DB
-    DB::table('galerias')->where('id', $id)->update($data);
-
-    // Registrar movimiento
-    $this->registrarMovimiento(
-        'ACTUALIZAR',
-        "Se actualizó imagen de galería: {$data['titulo']}",
-        'galerias',
-        $id
-    );
-
-    // Redireccionar con mensaje
-    return redirect()->back()->with('success', 'Galería actualizada correctamente.');
-}
-
-    public function destroyGaleria(Galeria $galeria)
-    {
-        $this->registrarMovimiento('ELIMINAR', "Se eliminó imagen de galería: {$galeria->titulo}", 'galerias', $galeria->id);
+        $this->registrarMovimiento('ELIMINAR', "Se eliminó elemento de galería: {$galeria->titulo}", 'galerias', $galeria->id);
 
         $galeria->delete();
-        return response()->json([
-            'success' => true,
-            'data' => $galeria,
-            'count' => $galeria->count()
-        ]);
+
+        return redirect()->back()->with('success', 'Elemento de la galería eliminado correctamente.');
     }
+
+
+    //------------------------------------------
+    // CERTIFICACIONES
+    //------------------------------------------
+
+    public function indexCertificaciones()
+    {
+        $certificaciones = certificaciones::all();
+        return view('panel.landing.drsantana.certificacionesIndex', compact('certificaciones'));
+    }
+
+    public function CerStore(Request $request)
+    {
+        $request->validate([
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $certificacion = new certificaciones();
+        $certificacion->titulo = $request->titulo;
+        $certificacion->descripcion = $request->descripcion;
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/certificaciones'), $nombreArchivo);
+            $certificacion->imagen = 'images/certificaciones/' . $nombreArchivo;
+        }
+
+        $certificacion->save();
+
+        $this->registraMovimiento(
+            'Crear',
+            "Se agregó la certificación: {$certificacion->titulo}",
+            'blogdrs',
+            $certificacion->id
+        );
+
+        return redirect()->back()->with('success', 'Certificación creada con éxito');
+    }
+
+    /**
+     * Actualizar certificación
+     */
+    public function CerUpdate(Request $request, $id)
+    {
+
+        $certificacion = certificaciones::findOrFail($id);
+        $certificacion->titulo = $request->titulo;
+        $certificacion->descripcion = $request->descripcion;
+
+        if ($request->hasFile('imagen')) {
+            // Borrar la imagen anterior si existe
+            if ($certificacion->imagen && file_exists(public_path($certificacion->imagen))) {
+                unlink(public_path($certificacion->imagen));
+            }
+
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/certificaciones'), $nombreArchivo);
+            $certificacion->imagen = 'images/certificaciones/' . $nombreArchivo;
+        }
+
+        $certificacion->save();
+
+        $this->registraMovimiento(
+            'Actualizar',
+            "Se actualizó la certificación: {$certificacion->titulo}",
+            'blogdrs',
+            $certificacion->id
+        );
+
+        return redirect()->back()->with('success', 'Certificación actualizada con éxito');
+    }
+
+    /**
+     * Eliminar certificación
+     */
+    public function CerDestroy($id)
+    {
+        $certificacion = certificaciones::findOrFail($id);
+
+        // Borrar imagen asociada si existe
+        if ($certificacion->imagen && file_exists(public_path($certificacion->imagen))) {
+            unlink(public_path($certificacion->imagen));
+        }
+
+        $certificacion->delete();
+
+        return redirect()->back()->with('success', 'Certificación eliminada con éxito');
+    }
+
     //Todoo esto no funciona todavia xdxdxdcx
     // -----------------------------
     // CONTACTO

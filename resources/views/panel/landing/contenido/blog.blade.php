@@ -159,7 +159,7 @@
     });
 
     // Soporte para pantallas táctiles
-    let startTouchXBlog = 0;
+    let startTouchXBlog = 0; 
     blogContainer.addEventListener('touchstart', (e) => {
         startTouchXBlog = e.touches[0].pageX;
         scrollLeftStartBlog = blogContainer.scrollLeft;
