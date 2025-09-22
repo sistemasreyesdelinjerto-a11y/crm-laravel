@@ -172,7 +172,7 @@ class DoctorSantanaController extends Controller
     public function storeGaleria(Request $request)
     {
         $request->validate([
-            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:10048',
+            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:1000000',
             'titulo' => 'nullable|string|max:255',
             'descripcion' => 'nullable|string',
             'tipo' => 'nullable|in:imagen,video'
@@ -195,6 +195,8 @@ class DoctorSantanaController extends Controller
 
         $this->registrarMovimiento('CREAR', "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 'galerias', $galeria->id);
 
+
+        //dd($galeria);
         return redirect()->back()->with('success', 'Imagen o video agregado a la galería correctamente.');
     }
 
@@ -220,6 +222,7 @@ class DoctorSantanaController extends Controller
 
         $galeria->titulo = $request->titulo ?? $galeria->titulo;
         $galeria->descripcion = $request->descripcion ?? $galeria->descripcion;
+        $galeria->tipo = $request->tipo ?? $galeria->tipo;
         $galeria->save();
 
         $this->registrarMovimiento('ACTUALIZAR', "Se actualizó elemento de la galería: {$galeria->titulo}", 'galerias', $galeria->id);
@@ -286,7 +289,7 @@ class DoctorSantanaController extends Controller
         $certificacion->titulo = $request->titulo;
         $certificacion->descripcion = $request->descripcion;
 
-        if ($request->hasFile('imagenc')) {
+        if ($request->hasFile('imagen')) {
             // Borrar la imagen anterior si existe
             if ($certificacion->imagen && file_exists(public_path($certificacion->imagen))) {
                 unlink(public_path($certificacion->imagen));

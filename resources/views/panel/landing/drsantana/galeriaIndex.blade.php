@@ -94,6 +94,12 @@
             <label class="block mb-2">Descripción</label>
             <textarea name="descripcion" class="w-full border rounded p-2 mb-4"></textarea>
 
+            <label class="block mb-2">Tipo de archivo</label>
+            <select name="tipo" class="w-full border rounded p-2 mb-4" required>
+                <option value="imagen">Imagen</option>
+                <option value="video">Video</option>
+            </select>
+
             <label class="block mb-2">Archivo</label>
             <input type="file" name="imagen" accept="image/*,video/*" required class="mb-4">
 
@@ -120,8 +126,15 @@
             <label class="block mb-2">Descripción</label>
             <textarea id="editGaleriaDescripcion" name="descripcion" class="w-full border rounded p-2 mb-4"></textarea>
 
+            <label class="block mb-2">Tipo de archivo</label>
+            <select id="editGaleriaTipo" name="tipo" class="w-full border rounded p-2 mb-4">
+                <option value="imagen">Imagen</option>
+                <option value="video">Video</option>
+            </select>
+
             <label class="block mb-2">Archivo</label>
             <input type="file" name="imagen" accept="image/*,video/*">
+
 
             <button type="submit" class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro mt-4">Guardar
                 cambios</button>
@@ -187,7 +200,9 @@
         document.getElementById('editGaleriaId').value = id;
         document.getElementById('editGaleriaTitulo').value = titulo || '';
         document.getElementById('editGaleriaDescripcion').value = descripcion || '';
+        document.getElementById("editGaleriaTipo").value = galeria.tipo;
         document.getElementById('editGaleriaForm').action = `/panel/doctor-santana/galeria/${id}`;
+        
         openModal('editGaleriaModal');
     }
 

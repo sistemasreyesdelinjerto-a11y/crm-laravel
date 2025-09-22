@@ -79,7 +79,7 @@
 
                     const currentMedia = slides[currentSlide];
                     const isVideo = texts[currentText]?.type === 'video';
-                    const displayTime = isVideo ? 10000 : 3000;
+                    const displayTime = isVideo ? 10000 : 5000;
 
                     const nextSlide = (currentSlide + 1) % slides.length;
                     const nextMedia = slides[nextSlide];
