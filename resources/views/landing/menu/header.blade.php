@@ -3,21 +3,14 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
             <!-- Logo -->
-<a href="/"
-   class="flex items-center gap-4 hover:scale-105 transform transition-all duration-300 relative">
-
-
-   <!-- Logo tipográfico -->
-   <div class="flex flex-col leading-tight pl-6">
-     <h1 class="text-2xl font-serif font-extrabold text-[#003c3c] drop-shadow-md">
-       CLÍNICA CAPILAR ÉLITE
-     </h1>
-     <span class="text-sm text-gray-300 font-medium tracking-wide">
-       by Dr. Santana
-     </span>
-   </div>
-
-</a>
+            <a href="/"
+                class="flex items-center gap-3 font-extrabold text-2xl text-beigeClaro hover:scale-105 transform transition-all duration-300">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 2c.7 3.4-1.2 5.8-2.7 7.8-1.7 2.3-2.3 3.8-1.3 5.6 1.3 2.5 5.5 2.6 7.5 0 1.5-1.9.5-4.4-1-6.2C13.2 7.8 11.9 6.2 12 4c.1-.8.4-1.4.8-2z" />
+                </svg>
+                Clínica Capilar Elite
+            </a>
 
             <!-- Menú Desktop -->
             <ul class="hidden md:flex items-center gap-8 text-lg font-semibold text-beigeClaro">
@@ -58,7 +51,7 @@
             <!-- Botón destacado -->
             <a href="#contacto"
                 class="hidden md:inline-block bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-3xl font-bold shadow-xl hover:bg-verdeClaro hover:text-beigeClaro transition-transform transform hover:-translate-y-1 hover:scale-105">
-                Agenda tu Valoración 
+                Agenda tu Valoración
             </a>
 
             <!-- Botón menú móvil -->

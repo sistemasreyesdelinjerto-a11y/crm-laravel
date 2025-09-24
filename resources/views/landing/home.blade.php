@@ -12,6 +12,8 @@
         
       @include('landing.sections.calculadora') <!-- Nueva sección -->
 
+      <!-- Casos de éxito -->
+    @include('landing.sections.casosExito')
 
     <!-- Servicios -->
 

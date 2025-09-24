@@ -44,15 +44,15 @@ tailwind.config = {
 
     <!-- Opciones desplegables -->
     <div id="whatsappMenu" class="mt-2 hidden flex-col space-y-2">
-        <a href="https://wa.me/5215512345678" target="_blank"
+        <a href="https://wa.me/5215513564250" target="_blank"
            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transition">
            Santa Fe
         </a>
-        <a href="https://wa.me/5215598765432" target="_blank"
+        <a href="https://wa.me/5215514657760" target="_blank"
            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transition">
            Pregral
         </a>
-        <a href="https://wa.me/5215533322110" target="_blank"
+        <a href="https://wa.me/5214461474799" target="_blank"
            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transition">
            Querétaro
         </a>

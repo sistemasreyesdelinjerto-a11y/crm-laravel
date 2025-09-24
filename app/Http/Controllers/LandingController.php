@@ -10,6 +10,7 @@ use App\Models\blogdr;
 use App\Models\Galeria;
 use App\Models\servicios;
 use App\Models\certificaciones;
+use App\Models\CasoExito;
 
 class LandingController extends Controller
 {
@@ -20,7 +21,13 @@ class LandingController extends Controller
         $encabezados = encabezado::all();
         $blogs = blog::all();
         $servicios = servicios::all();
-        return view('landing.home', compact('resultados', 'encabezados', 'blogs', 'servicios'));
+        $casos = CasoExito::all();
+        return view('landing.home', 
+        compact('resultados', 
+        'encabezados', 
+        'blogs', 
+        'servicios',
+        'casos'));
     }
 
 

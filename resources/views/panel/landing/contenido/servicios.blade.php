@@ -132,12 +132,6 @@
                 </div>
             @endforeach
 
-
-
-
-
-
-
     <!-- JS para scroll + arrastre -->
 <script>
     const blogContainer = document.getElementById('blogScrollContainer');

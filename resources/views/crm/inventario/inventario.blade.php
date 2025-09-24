@@ -25,7 +25,7 @@
                     class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
                 <li>
                     <a href="#" data-clinic="Santa Fe"
-                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition item_clinic">
+                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition item_clinic" selected>
                     Santa Fe
                     </a>
                 </li>

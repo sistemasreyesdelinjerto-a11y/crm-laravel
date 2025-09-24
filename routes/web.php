@@ -45,6 +45,7 @@ Route::get('/dr-santana', [LandingController::class, 'drSantana'])->name('landin
 })->name('dr-santana');*/
 
 
+Route::get('/hubspot/contacts', [HubSpotController::class, 'contacts']);
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
 
@@ -104,6 +105,13 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     // Quiénes Somos
     Route::post('landing/quienes_somos', [panelLandingController::class, 'storeQuienesSomos'])->name('landing.quienes_somos.store');
     Route::put('landing/quienes_somos/{quienes_somos}', [LandingController::class, 'updateQuienesSomos'])->name('landing.quienes_somos.update');
+
+    // Casos de Éxito
+    Route::get('casos-exito', [PanelLandingController::class, 'indexCasoexito'])->name('casos.index');
+    Route::post('casos-exito', [PanelLandingController::class, 'storeExito'])->name('casos.store');
+    Route::put('casos-exito/{caso}', [PanelLandingController::class, 'updateExito'])->name('casos.update');
+    Route::delete('casos-exito/{caso}', [PanelLandingController::class, 'destroyExito'])->name('casos.destroy');
+
 
     //Rutas del panel del DRSantana
 
