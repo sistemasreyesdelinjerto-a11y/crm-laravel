@@ -1,6 +1,8 @@
-<table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
-    <thead class="bg-gray-50">
-        <tr>
+<h2 class="text-2xl text-center font-bold mb-4">Inventario de Medicamentos</h2>
+<br>
+<table id="TablaMedicamentos" style="width:100%" class="table table-striped table-bordered display nowrap">
+    <thead class="bg-gray-dark color-palette text-white">
+        <tr style="background-color: #4298a7">            
             <th class="py-3 px-4 border-b font-semibold text-left">ID</th>
             <th class="py-3 px-4 border-b font-semibold text-left">Nombre</th>
             <th class="py-3 px-4 border-b font-semibold text-left">Stock</th>
@@ -9,18 +11,54 @@
     </thead>
     <tbody>
         <tr>
-            <td colspan="6" class="py-8 px-4 text-center text-gray-500">
-                <div class="flex flex-col items-center justify-center">
-                    <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <p class="text-lg font-medium">No hay productos registrados</p>
-                    <p class="text-sm text-gray-600 mt-1">Comienza agregando tu primer producto</p>
-                    <button class="mt-4 bg-[#1C6C73] text-white px-4 py-2 rounded-lg hover:bg-[#14565c] transition-colors">
-                        Agregar Producto
-                    </button>
-                </div>
-            </td>
+            <td>1</td>
+            <td>Cefadroxilo</td>
+            <td>100</td>
+            <td>12-12-2024</td>
         </tr>
     </tbody>
 </table>
+
+<!--- Inicia script de DataTable --->
+
+<script>
+    $(document).ready(function() {
+        $('#TablaMedicamentos').DataTable({
+            responsive: true,
+            scrollX: true,
+            autoWidth: false,
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'Excel',
+                    className: 'bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg'
+                },
+                {
+                    extend: 'pdf',
+                    text: 'PDF',
+                    className: 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg'
+                }
+            ],
+            dom: 'Bfrtip',
+            // Otras opciones de configuración si es necesario
+            //idioma
+            language: {
+                info:           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty:      "Mostrando 0 a 0 de 0 registros",
+                lengthMenu:     "Mostrar _MENU_ registros",
+                search:         "Buscar:",
+                loadingRecords: "Loading...",
+                processing:     "Procesando...",
+                zeroRecords:    "No hay registros aún",
+                paginate: {
+                    // previous: "Anterior",
+                    // next: "Siguiente"
+                    next: '→',
+                    previous: '←',
+                    first:'Inicio',
+                    last:'Ultimo'
+                },
+            },
+        });
+    });
+</script>

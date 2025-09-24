@@ -1,5 +1,11 @@
-<table id="TablaGeneral" class="table table-striped table-bordered display">
-    <thead class="bg-gray-dark color-palette">
+<h2 class="text-2xl text-center font-bold mb-4">Vista General de inventario</h2>
+<br>
+@if ($inventarios->isEmpty())
+<p>No hay articulos disponibles.</p>
+@else
+@foreach ($inventarios as $inv)
+<table id="TablaGeneral" style="width:100%" class="table table-striped table-bordered display nowrap">
+    <thead class="bg-gray-dark color-palette text-white">
         <tr style="background-color: #4298a7">
             <th>id</th>
             <th>Nombre</th>
@@ -11,41 +17,40 @@
     </thead>
     <tbody>
         <tr>
-            <td>23</td>
-            <td>Cefadroxilo</td>
-            <td>23</td>
-            <td>5656</td>
-            <td>65</td>           
-            <td>a</td>                      
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Lidocaina</td>
-            <td>253</td>
-            <td>100</td>
-            <td>654</td>           
-            <td>as</td>                      
+            <td>{{ $inv->id }}</td>
+            <td>{{ $inv->nombre }}</td>
+            <td>{{ $inv->cantidad_minima }}</td>
+            <td>{{ $inv->stock }}</td>
+            <td>{{ $inv->unidades }}</td>           
+            <td>
+                aqui van las acciones
+            </td>                      
         </tr>
     </tbody>
 </table>
+@endforeach
+@endif
+<!--- Inicia script de DataTable --->
 
 <script>
     $(document).ready(function() {
         $('#TablaGeneral').DataTable({
-            responsive: false,
+            responsive: true,
             scrollX: true,
+            autoWidth: false,
             buttons: [
-             {
-                extend: 'excel',
-                text: 'Excel',
-                className: 'bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg'
-            },
-            {
-                extend: 'pdf',
-                text: 'PDF',
-                className: 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg'
-            }
+                {
+                    extend: 'excel',
+                    text: 'Excel',
+                    className: 'bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg'
+                },
+                {
+                    extend: 'pdf',
+                    text: 'PDF',
+                    className: 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg'
+                }
             ],
+            dom: 'Bfrtip',
             // Otras opciones de configuración si es necesario
             //idioma
             language: {
@@ -68,3 +73,4 @@
         });
     });
 </script>
+

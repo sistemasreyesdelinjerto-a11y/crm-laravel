@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-   Schema::create('galerias', function (Blueprint $table) {
-    $table->id();
-    $table->string('imagen'); // ruta en storage/public
-    $table->string('titulo')->nullable();
-    $table->text('descripcion')->nullable();
-    $table->timestamps();
-});
-
+        Schema::create('inventarios', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('galerias');
+        Schema::dropIfExists('inventarios');
     }
 };

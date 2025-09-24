@@ -22,11 +22,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script> <!-- Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> <!-- PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> <!-- PDF fonts -->
-    <!-- CSS para botones -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-
-
-
+    <!-- estilos de los botones de pdf y excel -->
+    <style>
+        .dt-button.bg-green-600 {
+            background-color: #16a34a !important; /* tailwind green-600 */
+            color: #fff !important;
+        }
+        .dt-button.bg-red-600 {
+            background-color: #dc2626 !important; /* tailwind red-600 */
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body class="bg-[#DED5CE] ">
     <div class="flex h-screen overflow-hidden">

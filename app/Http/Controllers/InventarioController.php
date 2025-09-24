@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventario;
+use App\Models\Inventario; 
 use Illuminate\Http\Request;
 
 class InventarioController extends Controller
@@ -12,21 +12,49 @@ class InventarioController extends Controller
      */
     public function index()
     {
-        //$inventarios = Inventario::all();
-        return view('crm.inventario.inventario');
+        $inventarios = Inventario::all();
+        return view('crm.inventario.inventario', compact('inventarios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        public function movimiento(Request $request)
+        {
+            if ($request->is_new_product) {
+                // Crear producto nuevo
+                $producto = Inventario::create([
+                    'nombre' => $request->nombre,
+                    'categoría' => $request->categoria,
+                    'stock' => $request->stock,
+                    'ubicación' => $request->ubicacion ?? 'Bodega',
+                    'cantidad_minima' => $request->cantidad_minima ?? 0,
+                    'fecha_vencimiento' => $request->caduca,
+                    'caduca' => $request->expirationDate ? $request->expirationDate : null,
+                    'precio_unitario' => $request->precio_unitario ?? 0,
+                ]);
+            } else {
+                // Actualizar stock de producto existente
+                $producto = Inventario::findOrFail($request->product_id);
+                if ($request->movement_type == 'entrada') {
+                    $producto->stock += $request->stock;
+                } elseif ($request->movement_type == 'salida') {
+                    $producto->stock -= $request->output_quantity;
+                }
+                $producto->save();
+            }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+              return back()->with('success', 'Movimiento registrado correctamente.');
+        }
+
+
+        //Funcion para mostrar el inventario general
+        public function getProducts()
+            {
+                // Traer todos los productos existentes
+                $products = Inventario::select('id', 'nombre', 'categoria')->get();
+
+                return response()->json($products);
+            }
+
+
     public function store(Request $request)
     {
         //

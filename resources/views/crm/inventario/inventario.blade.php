@@ -5,8 +5,7 @@
 
 @section('content')
     <section class="py-10 px-6 bg-white">
-    <h1 class="text-2xl font-bold mb-4">Vista general de inventario</h1>
-    <p>Aquí puedes gestionar el inventario de productos.</p>
+    <h1 class="text-2xl text-center font-bold mb-4">Administracion de Inventario (Alpha!)</h1>
         <br><br>
     <!-- Encabezado de pagina Dropdown -->
         <div class="w-full flex justify-end mb-6">
@@ -94,8 +93,8 @@
 
             <div class="mt-6">
             <!-- Navegación de Tabs -->
-            <div class="border-b border-gray-200">
-                <nav class="flex space-x-8" aria-label="Tabs">
+        <div class="border-b border-gray-200 overflow-x-auto">
+            <nav class="flex flex-nowrap sm:flex-wrap space-x-4 sm:space-x-8 min-w-max sm:min-w-0" aria-label="Tabs">
                     <button
                         id="tab-1"
                         class="tab-button py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
@@ -141,30 +140,32 @@
 
         <script>
         function switchTab(tabNumber) {
-            // Ocultar todos los contenidos de tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            
-            // Mostrar el tab seleccionado
-            document.getElementById(`tab-content-${tabNumber}`).classList.remove('hidden');
-            
-            // Actualizar estilos de los botones
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active', 'border-[#1C6C73]', 'text-[#1C6C73]');
-                button.classList.add('border-transparent', 'text-gray-500');
-            });
-            
-            // Aplicar estilos al botón activo
-            const activeButton = document.getElementById(`tab-${tabNumber}`);
-            activeButton.classList.add('active', 'border-[#1C6C73]', 'text-[#1C6C73]');
-            activeButton.classList.remove('border-transparent', 'text-gray-500');
-        }
-
-        // Inicializar el primer tab al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            switchTab(1);
+        // Ocultar todos los contenidos de tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.add('hidden');
         });
+
+        // Mostrar el tab seleccionado
+        const activeContent = document.getElementById(`tab-content-${tabNumber}`);
+        activeContent.classList.remove('hidden');
+
+        // Actualizar estilos de los botones
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active', 'border-[#1C6C73]', 'text-[#1C6C73]');
+            button.classList.add('border-transparent', 'text-gray-500');
+        });
+
+        // Aplicar estilos al botón activo
+        const activeButton = document.getElementById(`tab-${tabNumber}`);
+        activeButton.classList.add('active', 'border-[#1C6C73]', 'text-[#1C6C73]');
+        activeButton.classList.remove('border-transparent', 'text-gray-500');
+
+        // 👇 Ajustar DataTables si hay alguna en este tab
+        setTimeout(() => {
+            $($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
+        }, 100); // pequeño delay para que ya esté visible
+    }
+
         </script>
 
 
