@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventario; 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class InventarioController extends Controller
 {
@@ -21,7 +21,7 @@ class InventarioController extends Controller
             if ($request->is_new_product) {
                 // Crear producto nuevo
                 $producto = Inventario::create([
-                // Campos BD || Campos del formulario
+                // Campos BD || Campos del formulario agregados
                     'nombre' => $request->item_name,
                     'categoria' => $request->category,
                     'stock' => $request->stock,

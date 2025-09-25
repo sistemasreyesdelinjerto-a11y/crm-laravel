@@ -70,8 +70,7 @@
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear servicio</h2>
-                    <form action="{{ route('panel.landing.servicios.store') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form action="{{ route('panel.landing.servicios.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
                         <input type="text" name="titulo" class="w-full border rounded p-2 mb-4" required>
@@ -101,7 +100,6 @@
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar servicio</h2>
 <form action="{{ route('panel.landing.servicios.update', $serv->id) }}" method="POST" enctype="multipart/form-data">
-                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <label class="block mb-2">Título</label>

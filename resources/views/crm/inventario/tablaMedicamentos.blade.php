@@ -13,7 +13,7 @@
         <tr>
             <td>1</td>
             <td>Cefadroxilo</td>
-            <td>100</td>
+            <td>100 </td>
             <td>12-12-2024</td>
         </tr>
     </tbody>

@@ -202,7 +202,7 @@
         document.getElementById('editGaleriaDescripcion').value = descripcion || '';
         document.getElementById("editGaleriaTipo").value = galeria.tipo;
         document.getElementById('editGaleriaForm').action = `/panel/doctor-santana/galeria/${id}`;
-        
+
         openModal('editGaleriaModal');
     }
 

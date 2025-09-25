@@ -6,7 +6,7 @@
             <h2 class="text-lg font-semibold text-gray-800">Registrar Movimiento de Producto</h2>
             <button onclick="closeModal('productMovementModal')" class="text-gray-500 hover:text-gray-700 text-xl">✕</button>
         </div>
-
+ 
         <!-- Body -->
         <div class="p-6">
             <form id="formAddMovement" action="{{ route('panel.inventario.movimiento') }}" method="POST" enctype="multipart/form-data">
@@ -78,7 +78,7 @@
 
                     <!-- Es medicamento -->
                     <div class="flex items-center">
-                        <input type="checkbox" id="isMedicineCheck" name="has_expiry" value="1" checked
+                        <input type="checkbox" id="isMedicineCheck" name="has_expiry" value="1"
                                class="w-4 h-4 text-[#1C6C73] border-gray-300 rounded focus:ring-[#1C6C73]"
                                onchange="toggleMedicineFields()">
                         <label for="isMedicineCheck" class="ml-2 text-gray-700">Es medicamento</label>
@@ -141,7 +141,7 @@
                             <option value="Dra Oriana">Dra Oriana</option>
                             <option value="Gaby">Gaby</option>
                             <option value="Luis">Luis</option>
-                            <option value="Sra Susana">Sra Susana</option>
+                            <option value="Sra Susana">Sra Susanaa</option>
                             <option value="Sra Liseth">Sra Liseth</option>
                             <option value="Alan">Alan</option>
                             <option value="Xochitl">Xochitl</option>
@@ -198,72 +198,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Actualizar categoría al seleccionar producto existente
-document.getElementById('itemNameSelect').addEventListener('change', function() {
-    const selectedId = parseInt(this.value);
-    const product = productsData.find(p => p.id === selectedId);
-    if (product) document.getElementById('itemsCategory').value = product.categoria;
-});
-
-// Funciones para mostrar/ocultar campos
+// Función para mostrar/ocultar campos según tipo de movimiento
 function toggleMovementFields() {
     const movementType = document.getElementById('movementType').value;
-    
     const entradaFields = document.getElementById('entradaFields');
     const salidaFields = document.getElementById('salidaFields');
-    
-    // Mostrar/ocultar
+
+    // Mostrar/ocultar campos
     entradaFields.classList.toggle('hidden', movementType !== 'entrada');
     salidaFields.classList.toggle('hidden', movementType !== 'salida');
 
     // Activar/desactivar required
-    entradaFields.querySelectorAll('input, select').forEach(el => {
-        el.required = movementType === 'entrada';
-    });
-    salidaFields.querySelectorAll('input, select').forEach(el => {
-        el.required = movementType === 'salida';
-    });
+    entradaFields.querySelectorAll('input, select').forEach(el => el.required = movementType === 'entrada');
+    salidaFields.querySelectorAll('input, select').forEach(el => el.required = movementType === 'salida');
 }
 
+// Mostrar/ocultar campos para producto nuevo
 function toggleNewProductFields() {
     const isNew = document.getElementById('newProductCheckbox').checked;
     document.getElementById('isNewProduct').value = isNew ? '1' : '0';
-    
+
     const container = document.getElementById('productNameContainer');
+
     if (isNew) {
+        // Nuevo producto: input en vez de select
         container.innerHTML = `
             <label for="itemNameInput" class="block font-medium text-gray-700 mb-2">Nombre del Nuevo Producto:</label>
             <input type="text" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]" 
-                   id="itemNameInput" name="item_name" required>
+                   id="itemNameInput" name="item_name">
         `;
     } else {
+        // Producto existente: volver a select
         container.innerHTML = `
             <label for="itemNameSelect" class="block font-medium text-gray-700 mb-2">Nombre del Producto:</label>
             <select class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]" 
-                    id="itemNameSelect" name="item_name" required>
+                    id="itemNameSelect" name="item_name">
                 <option value="" disabled selected>Seleccione un producto...</option>
+                @foreach($inventarios as $producto)
+                    <option value="{{ $producto->id }}" data-category="{{ $producto->categoria }}">
+                        {{ $producto->nombre }}
+                    </option>
+                @endforeach
             </select>
         `;
-        loadProducts(); // recargar productos
+
+        // Asignar categoría al cambiar producto
         document.getElementById('itemNameSelect').addEventListener('change', function() {
-            const selectedId = parseInt(this.value);
-            const product = productsData.find(p => p.id === selectedId);
-            if (product) document.getElementById('itemsCategory').value = product.categoría;
+            const selectedOption = this.options[this.selectedIndex];
+            const category = selectedOption.getAttribute('data-category');
+            if (category) document.getElementById('itemsCategory').value = category;
+            toggleMinimumValueField();
         });
     }
+
+    toggleMinimumValueField();
 }
 
+// Mostrar/ocultar campos de medicamento
 function toggleMedicineFields() {
     const isMedicine = document.getElementById('isMedicineCheck').checked;
     document.getElementById('expirationDateField').classList.toggle('hidden', !isMedicine);
-    document.getElementById('minimumValueField').classList.toggle('hidden', !isMedicine);
+    toggleMinimumValueField();
 }
 
+// Mostrar/ocultar cantidad mínima según producto nuevo y medicamento
+function toggleMinimumValueField() {
+    const isNew = document.getElementById('newProductCheckbox').checked;
+    const isMedicine = document.getElementById('isMedicineCheck').checked;
+    const field = document.getElementById('minimumValueField');
+
+    if (isNew && isMedicine) {
+        field.classList.remove('hidden');
+    } else {
+        field.classList.add('hidden');
+    }
+}
+
+// Mostrar/ocultar campo de precio
 function togglePriceField() {
     const showPrice = document.getElementById('toggleManualPrice').checked;
     document.getElementById('manualPriceField').classList.toggle('hidden', !showPrice);
 }
 
+// Reiniciar campos del modal
 function resetMovementFields() {
     document.getElementById('entradaFields').classList.add('hidden');
     document.getElementById('salidaFields').classList.add('hidden');
@@ -271,12 +288,14 @@ function resetMovementFields() {
     document.getElementById('minimumValueField').classList.add('hidden');
     document.getElementById('manualPriceField').classList.add('hidden');
     document.getElementById('isMedicineCheck').checked = true;
+    document.getElementById('newProductCheckbox').checked = false;
+    document.getElementById('toggleManualPrice').checked = false;
 }
 
-// Inicializar fecha y productos
+// Inicializar fecha al cargar modal
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('outputDateMovement').value = today;
-    loadProducts();
+    const outputDate = document.getElementById('outputDateMovement');
+    if (outputDate) outputDate.value = today;
 });
 </script>

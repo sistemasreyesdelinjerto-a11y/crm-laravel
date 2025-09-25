@@ -11,12 +11,6 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function index(): View
-    {
-        return view('profile.index', [
-            'user' => Auth::user(),
-        ]);
-    }
     /**
      * Display the user's profile form.
      */

@@ -7,8 +7,8 @@ use App\Models\Resultado;
 use App\Models\encabezado;
 use App\Models\blog;
 use App\Models\blogdr;
+use App\Models\Galeria;
 use App\Models\servicios;
-use App\Models\galeria;
 use App\Models\certificaciones;
 use App\Models\CasoExito;
 
@@ -65,7 +65,18 @@ class LandingController extends Controller
     }
 
     //Seccion de Dr. Santana de la pagina principal
-
+/*
+public function drSantana()
+{
+    // Obtenemos todos los posts hasta la fecha actual, ordenados por fecha y creación
+    $blogdrs = blogdr::orderBy('fecha', 'desc')
+                     ->orderBy('created_at', 'desc')
+                     ->where('fecha', '<=', now())
+                     ->get();
+$galerias = Galeria::all();
+    return view('landing.dr_santana', compact('blogdrs','galerias'));
+}
+*/
     public function drSantana()
     {
         $blogdrs = blogdr::orderBy('fecha', 'desc')

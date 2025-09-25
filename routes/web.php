@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\HubspotController;
 use App\Http\Controllers\InventarioController;
 
 use App\Http\Controllers\UserController;
@@ -34,6 +35,7 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::get('/clinicas/santafe', [LandingController::class, 'clinicaSantafe'])->name('landing.santafe');
 Route::get('/clinicas/pedregal', [LandingController::class, 'clinicaPedregal'])->name('landing.pedregal');
 Route::get('/clinicas/queretaro', [LandingController::class, 'clinicaQueretaro'])->name('landing.queretaro');
+Route::post('/contacto-hubspot', [HubspotController::class, 'submit'])->name('hubspot.submit');
 
 // Dr. Santana
 Route::get('/dr-santana', [LandingController::class, 'drSantana'])->name('landing.dr_santana');
@@ -43,6 +45,7 @@ Route::get('/dr-santana', [LandingController::class, 'drSantana'])->name('landin
 })->name('dr-santana');*/
 
 
+Route::get('/hubspot/contacts', [HubSpotController::class, 'contacts']);
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
 
@@ -72,7 +75,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::get('/landing/resultados/create', [PanelLandingController::class, 'createResultado'])->name('landing.resultado.create');
     Route::post('/landing/resultados', [PanelLandingController::class, 'storeResultado'])->name('landing.resultado.store');
 
-    //rutas de inventario
+    //rutas de inventarios
     Route::get('inventario', [InventarioController::class, 'index'])->name('inventario.index');
     Route::get('/api/products', [InventarioController::class, 'getProducts']);
     Route::post('inventario/movimiento', [InventarioController::class, 'movimientoInv'])->name('inventario.movimiento');
@@ -114,23 +117,34 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
 
     //Rutas del panel del DRSantana
 
-    //index DrSantana
+
+    // Vista principal del panel Dr. Santana
     Route::get('/doctor-santana', [PanelDoctorSantanaController::class, 'indexDrsantana'])->name('drsantana.index');
 
-    // Blog
-    Route::post('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'storeBlogdr'])->name('drsantana.blog.store');
+    // Blog Dr. Santana
+    Route::get('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'indexsBlog'])->name('drsantana.blog.index'); // vista lista de blogs
+    Route::get('/doctor-santana/blog/list', [PanelDoctorSantanaController::class, 'getBlogsdr'])->name('drsantana.blog.list'); // AJAX / JSON
+    Route::post('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'storeBlogdr'])->name('drsantana.blog.store');    Route::put('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
+    Route::delete('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
     Route::put('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
     Route::delete('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
     //Route::get('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'getBlogsdr'])->name('drsantana.blog.list');
 
-    // Trayectoria
-    Route::post('/doctor-santana/trayectoria', [PanelDoctorSantanaController::class, 'storeTrayectoria'])->name('drsantana.trayectoria.store');
-    Route::put('/doctor-santana/trayectoria/{trayectoria}', [PanelDoctorSantanaController::class, 'updateTrayectoria'])->name('drsantana.trayectoria.update');
-
-    // Galería
+    // Galería Dr. Santana
+    Route::get('/doctor-santana/galeria', [PanelDoctorSantanaController::class, 'indexGaleria'])->name('drsantana.galeria.index');
     Route::post('/doctor-santana/galeria', [PanelDoctorSantanaController::class, 'storeGaleria'])->name('drsantana.galeria.store');
     Route::put('/doctor-santana/galeria/{galeria}', [PanelDoctorSantanaController::class, 'updateGaleria'])->name('drsantana.galeria.update');
     Route::delete('/doctor-santana/galeria/{galeria}', [PanelDoctorSantanaController::class, 'destroyGaleria'])->name('drsantana.galeria.destroy');
+
+    // Trayectoria Dr. Santana
+    Route::get('/doctor-santana/trayectoria', [PanelDoctorSantanaController::class, 'indexTrayectoria'])->name('drsantana.trayectoria.index');
+    Route::post('/doctor-santana/trayectoria', [PanelDoctorSantanaController::class, 'storeTrayectoria'])->name('drsantana.trayectoria.store');
+    Route::put('/doctor-santana/trayectoria/{trayectoria}', [PanelDoctorSantanaController::class, 'updateTrayectoria'])->name('drsantana.trayectoria.update');
+    Route::delete('/doctor-santana/trayectoria/{trayectoria}', [PanelDoctorSantanaController::class, 'destroyTrayectoria'])->name('drsantana.trayectoria.destroy');
+
+    // Contacto Dr. Santana
+    Route::get('/doctor-santana/contacto', [PanelDoctorSantanaController::class, 'indexContacto'])->name('drsantana.contacto.index');
+    Route::get('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'showContacto'])->name('drsantana.contacto.show');
 
     // Certificaciones
     //Route::get('/doctor-santana/certificaciones', [PanelDoctorSantanaController::class, 'indexCertificaciones'])->name('certificaciones.index');

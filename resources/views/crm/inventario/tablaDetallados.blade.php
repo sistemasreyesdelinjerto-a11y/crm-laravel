@@ -8,7 +8,7 @@
             <th>Tipo de Movimiento</th>
             <th>Cantidad</th>
             <th>Fecha de Movimiento</th>
-            <th>Entregado a: </th>
+            <th>Entregado  a: </th>
             <th>Fecha de caducidad</th>   
         </tr>
     </thead>

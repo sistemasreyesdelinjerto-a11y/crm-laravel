@@ -1,5 +1,5 @@
 <!-- Sección: Casos de éxito -->
-<section class="py-16 px-6 bg-white">
+<section class="py-20 bg-gradient-to-b from-gray-100 via-white to-gray-100">
     <div class="max-w-6xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">
             Casos de éxito
@@ -7,7 +7,7 @@
 
         <!-- Carrusel -->
         @if ($casos->isEmpty())
-            <p>No hay casos de éxito disponibles.</p> 
+            <p>No hay casos de éxito disponibles.</p>
         @else
             <div class="swiper mySwiper">
             <div class="swiper-wrapper">
@@ -38,7 +38,7 @@
             <div class="swiper-pagination"></div>
         </div>
         @endif
-        
+
     </div>
 </section>
 

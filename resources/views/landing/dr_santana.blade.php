@@ -6,143 +6,142 @@
 
         <div class="pt-20"> <!-- Empuja todo para que no lo tape el header -->
 
-            <!-- Contenedor de imágenes -->
-            <section class="relative h-[80vh] md:h-[90vh] flex items-center justify-center text-center overflow-hidden">
-                <div class="absolute w-full h-full overflow-hidden">
-                    @foreach ($galerias as $index => $galeria)
-                        @if ($galeria->tipo == 'video')
-                            <video
-                                class="absolute w-full h-full object-cover transition-opacity duration-1000 ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
-                                muted preload="auto" loop playsinline>
-                                <source src="{{ asset($galeria->imagen) }}" type="video/mp4">
-                                Tu navegador no soporta videos.
-                            </video>
-                        @else
-                            <img src="{{ asset($galeria->imagen) }}" alt="Imagen {{ $index + 1 }}"
-                                class="absolute w-full h-full object-cover transition-opacity duration-1000 ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-                        @endif
-                    @endforeach
+         <!-- Contenedor de imágenes y videos -->
+<!-- Contenedor de imágenes y videos -->
+<section class="relative w-full flex items-center justify-center text-center overflow-hidden"
+         style="min-height: 80vh; height: auto;">
+    <div class="absolute inset-0 w-full h-full overflow-hidden">
+        @foreach ($galerias as $index => $galeria)
+            @if ($galeria->tipo == 'video')
+                <video
+                    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                    muted preload="auto" loop playsinline>
+                    <source src="{{ asset($galeria->imagen) }}" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+            @else
+                <img src="{{ asset($galeria->imagen) }}" alt="Imagen {{ $index + 1 }}"
+                     class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+            @endif
+        @endforeach
 
-                    <!-- Degradado oscuro sobre la imagen -->
-                    <div class="absolute w-full h-full bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
-                </div>
+        <!-- Degradado -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
+    </div>
 
-                <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/40"></div>
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        <h1 id="mainText"
+            class="text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-xl transition-opacity duration-1000 ease-in-out opacity-100">
+            {{ $galerias->first()->titulo ?? '' }}
+        </h1>
+        <p id="subText"
+           class="mt-4 text-base md:text-lg lg:text-xl text-beigeClaro/90 transition-opacity duration-1000 ease-in-out opacity-100">
+            {{ $galerias->first()->descripcion ?? '' }}
+        </p>
 
-                <div class="relative z-10 max-w-3xl mx-auto px-6 text-center">
-                    <!-- Texto principal -->
-                    <h1 id="mainText"
-                        class="text-5xl md:text-6xl font-extrabold drop-shadow-xl transition-opacity duration-1000 ease-in-out opacity-100">
-                        {{ $galerias->first()->titulo ?? '' }}
-                    </h1>
-                    <p id="subText"
-                        class="mt-4 text-lg md:text-xl text-beigeClaro/90 transition-opacity duration-1000 ease-in-out opacity-100">
-                        {{ $galerias->first()->descripcion ?? '' }}
-                    </p>
+        <div class="mt-8 flex flex-wrap gap-4 justify-center animate-glow">
+            <a href="#experiencia"
+               class="bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-xl font-semibold hover:bg-verdeClaro hover:text-beigeClaro transition">
+                Conoce su Trayectoria
+            </a>
+            <a href="#contacto"
+               class="bg-transparent border border-beigeCalido/80 text-beigeClaro px-6 py-3 rounded-xl hover:bg-beigeCalido/20 transition">
+                Agenda una cita
+            </a>
+        </div>
+    </div>
+</section>
 
-                    <div class="mt-8 flex gap-4 justify-center animate-glow">
-                        <a href="#experiencia"
-                            class="bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-xl font-semibold hover:bg-verdeClaro hover:text-beigeClaro transition">
-                            Conoce su Trayectoria
-                        </a>
-                        <a href="#contacto"
-                            class="bg-transparent border border-beigeCalido/80 text-beigeClaro px-6 py-3 rounded-xl hover:bg-beigeCalido/20 transition">
-                            Agenda una cita
-                        </a>
-                    </div>
-                </div>
-            </section>
 
-            <script>
-                const slides = document.querySelectorAll('.bg-slide');
 
-                const texts = [
-                    @foreach ($galerias as $gal)
-                        {
-                            main: {!! json_encode($gal->titulo) !!},
-                            sub: {!! json_encode($gal->descripcion) !!},
-                            type: {!! json_encode($gal->tipo) !!}
-                        }
-                        @if (!$loop->last)
-                            ,
-                        @endif
-                    @endforeach
-                ];
+<script>
+    const slides = document.querySelectorAll('.bg-slide');
+    const texts = [
+        @foreach ($galerias as $gal)
+            {
+                main: {!! json_encode($gal->titulo) !!},
+                sub: {!! json_encode($gal->descripcion) !!},
+                type: {!! json_encode($gal->tipo) !!}
+            }
+            @if (!$loop->last)
+                ,
+            @endif
+        @endforeach
+    ];
 
-                let currentSlide = 0;
-                let currentText = 0;
-                let slideInterval;
+    let currentSlide = 0;
+    let slideInterval;
 
-                function startSlideShow() {
-                    if (!slides.length || !texts.length) return;
-                    clearTimeout(slideInterval);
+    function startSlideShow() {
+        if (!slides.length || !texts.length) return;
+        clearTimeout(slideInterval);
 
-                    const currentMedia = slides[currentSlide];
-                    const isVideo = texts[currentText]?.type === 'video';
-                    const displayTime = isVideo ? 10000 : 5000;
+        const currentMedia = slides[currentSlide];
+        const isVideo = texts[currentSlide].type === 'video';
+        const displayTime = isVideo ? 10000 : 5000;
 
-                    const nextSlide = (currentSlide + 1) % slides.length;
-                    const nextMedia = slides[nextSlide];
+        const nextSlide = (currentSlide + 1) % slides.length;
+        const nextMedia = slides[nextSlide];
 
-                    if (nextMedia.tagName === 'VIDEO') {
-                        nextMedia.currentTime = 0;
-                        nextMedia.load();
-                    }
+        // Reset video
+        if (nextMedia.tagName === 'VIDEO') {
+            nextMedia.currentTime = 0;
+            nextMedia.load();
+        }
 
-                    slideInterval = setTimeout(() => {
-                        currentMedia.classList.remove('opacity-100');
-                        currentMedia.classList.add('opacity-0');
+        slideInterval = setTimeout(() => {
+            currentMedia.classList.remove('opacity-100');
+            currentMedia.classList.add('opacity-0');
 
-                        if (currentMedia.tagName === 'VIDEO') {
-                            currentMedia.pause();
-                            currentMedia.currentTime = 0;
-                        }
+            if (currentMedia.tagName === 'VIDEO') {
+                currentMedia.pause();
+                currentMedia.currentTime = 0;
+            }
 
-                        nextMedia.classList.remove('opacity-0');
-                        nextMedia.classList.add('opacity-100');
+            nextMedia.classList.remove('opacity-0');
+            nextMedia.classList.add('opacity-100');
 
-                        if (nextMedia.tagName === 'VIDEO') {
-                            nextMedia.play().catch(e => console.log('Auto-play prevented:', e));
-                        }
+            if (nextMedia.tagName === 'VIDEO') {
+                nextMedia.play().catch(e => console.log('Auto-play prevented:', e));
+            }
 
-                        currentSlide = nextSlide;
-                        currentText = nextSlide;
-                        updateTexts();
-                        startSlideShow();
-                    }, displayTime);
-                }
+            currentSlide = nextSlide;
+            updateTexts();
+            startSlideShow();
+        }, displayTime);
+    }
 
-                function updateTexts() {
-                    const mainText = document.getElementById('mainText');
-                    const subText = document.getElementById('subText');
+    function updateTexts() {
+        const mainText = document.getElementById('mainText');
+        const subText = document.getElementById('subText');
 
-                    if (!mainText || !subText) return;
+        if (!mainText || !subText) return;
 
-                    mainText.classList.remove('opacity-100');
-                    mainText.classList.add('opacity-0');
-                    subText.classList.remove('opacity-100');
-                    subText.classList.add('opacity-0');
+        mainText.classList.remove('opacity-100');
+        mainText.classList.add('opacity-0');
+        subText.classList.remove('opacity-100');
+        subText.classList.add('opacity-0');
 
-                    setTimeout(() => {
-                        mainText.textContent = texts[currentText]?.main || '';
-                        subText.textContent = texts[currentText]?.sub || '';
+        setTimeout(() => {
+            mainText.textContent = texts[currentSlide]?.main || '';
+            subText.textContent = texts[currentSlide]?.sub || '';
 
-                        mainText.classList.remove('opacity-0');
-                        mainText.classList.add('opacity-100');
-                        subText.classList.remove('opacity-0');
-                        subText.classList.add('opacity-100');
-                    }, 500);
-                }
+            mainText.classList.remove('opacity-0');
+            mainText.classList.add('opacity-100');
+            subText.classList.remove('opacity-0');
+            subText.classList.add('opacity-100');
+        }, 500);
+    }
 
-                document.addEventListener('DOMContentLoaded', function() {
-                    if (!slides.length || !texts.length) return;
-                    const firstMedia = slides[0];
-                    if (firstMedia && firstMedia.tagName === 'VIDEO') {
-                        firstMedia.play().catch(e => console.log('Auto-play prevented:', e));
-                    }
-                    startSlideShow();
-                });
-            </script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!slides.length) return;
+        const firstMedia = slides[0];
+        if (firstMedia.tagName === 'VIDEO') {
+            firstMedia.play().catch(e => console.log('Auto-play prevented:', e));
+        }
+        startSlideShow();
+    });
+</script>
 
 
 
@@ -253,16 +252,17 @@
                             @endif
 
                             <!-- Carrusel -->
-                            <div class="overflow-hidden">
-                                <div id="blogCarousel" class="flex transition-transform duration-300 ease-in-out gap-6">
+                            <!-- Carrusel -->
+                            <div class="overflow-x-auto -mx-3">
+                                <div id="blogCarousel" class="flex gap-6 px-3">
                                     @foreach ($blogdrs as $post)
-                                        <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+                                        <div class="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3">
                                             <div
-                                                class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow h-full">
+                                                class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition h-full flex flex-col">
                                                 <!-- Imagen -->
                                                 @if ($post->imagen)
-                                                    <img src="{{ asset('storage/images/blog/' . $post->imagen) }}"
-                                                        alt="{{ $post->titulo }}" class="w-full h-48 object-cover">
+                                                    <img src="{{ asset($post->imagen) }}" alt="{{ $post->titulo }}"
+                                                        class="w-full h-48 object-cover">
                                                 @else
                                                     <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
                                                         <span class="text-4xl">📝</span>
@@ -270,22 +270,11 @@
                                                 @endif
 
                                                 <!-- Contenido -->
-                                                <div class="p-6">
+                                                <div class="p-6 flex-1 flex flex-col">
                                                     <h3 class="text-xl font-bold text-verdeOscuro mb-3">{{ $post->titulo }}
                                                     </h3>
-
-                                                    <p class="text-sm text-verdeOscuro/60 mb-3">
-                                                        📅 {{ $post->fecha }}
-                                                    </p>
-
-                                                    <p class="text-verdeOscuro/80 mb-4 line-clamp-3">
-                                                        {{ Str::limit(strip_tags($post->contenido), 100) }}
-                                                    </p>
-
-                                                    <button onclick="openModal('blog-modal-{{ $post->id }}')"
-                                                        class="text-beigeCalido font-semibold hover:text-verdeOscuro transition inline-flex items-center">
-                                                        Leer más &rarr;
-                                                    </button>
+                                                    <p class="text-sm text-verdeOscuro/60 mb-3">📅 {{ $post->fecha }}</p>
+                                                    <p class="text-verdeOscuro/80 flex-1">{!! nl2br(e($post->contenido)) !!}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -314,48 +303,6 @@
                     @endif
                 </div>
             </section>
-
-            <!-- Modales para cada artículo (se mantienen igual) -->
-            @foreach ($blogdrs as $post)
-                <div id="blog-modal-{{ $post->id }}"
-                    class="modal fixed inset-0 z-50 items-center justify-center hidden">
-                    <div class="modal-overlay absolute inset-0 bg-black opacity-50"
-                        onclick="closeModal('blog-modal-{{ $post->id }}')"></div>
-
-                    <div
-                        class="modal-container bg-white w-full max-w-4xl rounded-2xl shadow-lg z-50 overflow-hidden mx-4 max-h-[90vh] overflow-y-auto relative">
-                        <div class="flex justify-between items-center px-6 py-4 border-b bg-verdeOscuro">
-                            <h3 class="text-lg font-semibold text-white">{{ $post->titulo }}</h3>
-                            <button onclick="closeModal('blog-modal-{{ $post->id }}')"
-                                class="text-white hover:text-gray-300 text-xl">✕</button>
-                        </div>
-
-                        <div class="p-6">
-                            @if ($post->imagen)
-                                <img src="{{ asset('storage/images/blog/' . $post->imagen) }}" alt="{{ $post->titulo }}"
-                                    class="w-full h-64 object-cover rounded-lg mb-6">
-                            @endif
-
-                            <div class="prose max-w-none">
-                                <p class="text-sm text-gray-600 mb-4">
-                                    📅 Publicado el: {{ $post->fecha }}
-                                </p>
-
-                                <div class="text-gray-700 leading-relaxed whitespace-pre-line">
-                                    {{ $post->contenido }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end px-6 py-4 border-t bg-gray-50">
-                            <button onclick="closeModal('blog-modal-{{ $post->id }}')"
-                                class="bg-verdeOscuro text-white px-5 py-2 rounded-lg hover:bg-verdeOscuro/90">
-                                Cerrar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
 
             <!-- JavaScript para el carrusel -->
             <script>
@@ -431,42 +378,6 @@
                     // Inicializar
                     updateCarousel();
                 });
-
-                // Funciones para modales (se mantienen igual)
-                function closeModal(modalId) {
-                    const modal = document.getElementById(modalId);
-                    if (modal) {
-                        modal.classList.add('hidden');
-                        document.body.style.overflow = 'auto';
-                    }
-                }
-
-                function openModal(modalId) {
-                    const modal = document.getElementById(modalId);
-                    if (modal) {
-                        modal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden';
-                    }
-                }
-
-                // Cerrar modal con ESC
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape') {
-                        const modals = document.querySelectorAll('.modal');
-                        modals.forEach(modal => {
-                            if (!modal.classList.contains('hidden')) {
-                                closeModal(modal.id);
-                            }
-                        });
-                    }
-                });
-
-                // Cerrar modal al hacer clic fuera
-                document.addEventListener('click', function(e) {
-                    if (e.target.classList.contains('modal-overlay')) {
-                        closeModal(e.target.closest('.modal').id);
-                    }
-                });
             </script>
 
             <style>
@@ -498,26 +409,7 @@
 
 
 
-            <!-- Sección: Contacto -->
-            <section id="contacto" class="py-16 px-6 bg-gray-50">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Agenda tu cita</h2>
-                    <p class="text-verdeOscuro/80 mb-8">Llena el formulario y nuestro equipo se pondrá en contacto contigo.
-                    </p>
-                    <form class="max-w-2xl mx-auto flex flex-col gap-4">
-                        <input type="text" placeholder="Nombre completo"
-                            class="p-3 rounded-xl border border-gray-300">
-                        <input type="email" placeholder="Correo electrónico"
-                            class="p-3 rounded-xl border border-gray-300">
-                        <input type="tel" placeholder="Teléfono" class="p-3 rounded-xl border border-gray-300">
-                        <textarea placeholder="Mensaje" class="p-3 rounded-xl border border-gray-300"></textarea>
-                        <button type="submit"
-                            class="bg-verdeOscuro text-beigeClaro px-6 py-3 rounded-xl font-semibold hover:bg-verdeClaro transition">
-                            Enviar
-                        </button>
-                    </form>
-                </div>
-            </section>
+
 
         </div>
         @include('landing.forms.contacto')

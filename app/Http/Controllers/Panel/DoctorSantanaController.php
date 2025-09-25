@@ -14,6 +14,7 @@ use App\Models\blogdr;
 use App\Models\Contacto;
 use App\Models\certificaciones;
 use App\Models\Movimiento; // <-- Importa tu modelo de movimientos
+use Illuminate\Support\Facades\DB;
 
 class DoctorSantanaController extends Controller
 {
@@ -37,6 +38,8 @@ class DoctorSantanaController extends Controller
         //$trayectorias = Trayectoria::latest()->paginate(10);
         $galerias = Galeria::latest()->paginate(12);
         $blogs = blogdr::all();
+        //$contactos = Contacto::latest()->paginate(10);
+
         $certificaciones = certificaciones::all();
         //$contactos = Contacto::latest()->paginate(10);
         //dd($certificaciones);
@@ -85,37 +88,47 @@ class DoctorSantanaController extends Controller
         ]);
     }
 
-    public function updateBlogdr(Request $request, $id)
-    {
+  public function updateBlogdr(Request $request, $id)
+{
+    $blog = DB::table('blogdrs')->where('id', $id)->first();
 
-        $datas = blogdr::findOrFail($id);
-        $datas->titulo = $request->input('titulo');
-        $datas->contenido = $request->input('contenido');
-        $datas->fecha = $request->input('fecha');
+    if (!$blog) {
+        return redirect()->back()->with('error', 'Registro no encontrado.');
+    }
 
-        if ($request->hasFile('imagen')) {
-            $file = $request->file('imagen');
-            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/blog'), $nombreArchivo);
-            $datas->imagen = 'images/blog/' . $nombreArchivo;
+    $data = [
+        'titulo'     => $request->input('titulo', $blog->titulo),
+        'contenido'  => $request->input('contenido', $blog->contenido),
+        'fecha'      => $request->input('fecha', $blog->fecha),
+        'updated_at' => now(),
+    ];
+
+    if ($request->hasFile('imagen')) {
+        // Eliminar imagen anterior si existe
+        if ($blog->imagen && file_exists(public_path($blog->imagen))) {
+            unlink(public_path($blog->imagen));
         }
 
-        $datas->save();
+        $file = $request->file('imagen');
+        $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images/blog'), $nombreArchivo);
 
-        $this->registraMovimiento(
-            'Actualizar',
-            "Se actualizó blog Dr.: {$datas->titulo}",
-            'blogdrs',
-            $datas->id
-        );
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Blog Dr. actualizado correctamente.',
-            'data' => $datas
-        ]);
+        $data['imagen'] = 'images/blog/' . $nombreArchivo;
     }
-    // Función para eliminar
+
+    DB::table('blogdrs')->where('id', $id)->update($data);
+
+    $this->registraMovimiento(
+        'Actualizar',
+        "Se actualizó blog Dr.: {$data['titulo']}",
+        'blogdrs',
+        $id
+    );
+
+    return redirect()->back()->with('success', 'Blog Dr. actualizado correctamente.');
+}
+
+    /*Función para eliminar
     public function destroyBlogdr($id)
     {
         $blogdr = blogdr::findOrFail($id);
@@ -125,22 +138,33 @@ class DoctorSantanaController extends Controller
             Storage::disk('public')->delete('images/blog/' . $blogdr->imagen);
         }
 
-        $titulo = $blogdr->titulo;
-        $blogdr->delete();
+
+        $data = $request->only(['titulo', 'contenido', 'fecha']);
+
+        // Procesar imagen si se subió
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/blog'), $nombreArchivo);
+            $data['imagen'] = 'images/blog/' . $nombreArchivo;
+        }
+
+        $blogdr = blogdr::create($data);
 
         $this->registraMovimiento(
-            'Eliminar',
-            "Se eliminó blog Dr.: {$titulo}",
+            'Crear',
+            "Se creó blog Dr.: {$blogdr->titulo}",
             'blogdrs',
-            $id
+            $blogdr->id
         );
 
         return response()->json([
             'success' => true,
-            'message' => 'Blog Dr. eliminado correctamente.'
+            'message' => 'Blog Dr. creado correctamente.',
+            'data' => $blogdr
         ]);
     }
-
+*/
     // Función para obtener todos los blogs
     public function getBlogsdr()
     {
@@ -172,7 +196,7 @@ class DoctorSantanaController extends Controller
     public function storeGaleria(Request $request)
     {
         $request->validate([
-            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:10048',
+            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:1000000',
             'titulo' => 'nullable|string|max:255',
             'descripcion' => 'nullable|string',
             'tipo' => 'nullable|in:imagen,video'
@@ -193,7 +217,10 @@ class DoctorSantanaController extends Controller
 
         $galeria = Galeria::create($galeriaData);
 
-        $this->registrarMovimiento('CREAR', "Se agregó {$request->tipo} a la galería: {$galeria->titulo}", 'galerias', $galeria->id);
+        $this->registrarMovimiento('CREAR',
+         "Se agregó {$request->tipo} a la galería: {$galeria->titulo}",
+         'galerias', $galeria->id);
+
 
         return redirect()->back()->with('success', 'Imagen o video agregado a la galería correctamente.');
     }
@@ -222,7 +249,9 @@ class DoctorSantanaController extends Controller
         $galeria->descripcion = $request->descripcion ?? $galeria->descripcion;
         $galeria->save();
 
-        $this->registrarMovimiento('ACTUALIZAR', "Se actualizó elemento de la galería: {$galeria->titulo}", 'galerias', $galeria->id);
+        $this->registrarMovimiento('ACTUALIZAR',
+        "Se actualizó elemento de la galería: {$galeria->titulo}",
+        'galerias', $galeria->id);
 
         return redirect()->back()->with('success', 'Galería actualizada correctamente.');
     }
@@ -299,6 +328,13 @@ class DoctorSantanaController extends Controller
         }
 
         $certificacion->save();
+
+        $this->registraMovimiento(
+            'Actualizar',
+            "Se actualizó la certificación: {$certificacion->titulo}",
+            'blogdrs',
+            $certificacion->id
+        );
 
         return redirect()->back()->with('success', 'Certificación actualizada con éxito');
     }

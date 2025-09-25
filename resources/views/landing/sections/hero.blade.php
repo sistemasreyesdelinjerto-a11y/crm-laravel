@@ -2,12 +2,12 @@
 
   <!-- Contenedor de imágenes -->
 <div class="absolute w-full h-full overflow-hidden">
-  @foreach($encabezados as $index => $encabezado) 
+  @foreach($encabezados as $index => $encabezado)
     <img src="{{ asset($encabezado->imagen) }}"
          alt="Imagen {{ $index+1 }}"
          class="absolute w-full h-full object-cover transition-opacity duration-[3000ms] ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-  @endforeach   
-  
+  @endforeach
+
   <!-- Degradado oscuro sobre la imagen -->
     <div class="absolute w-full h-full bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
   </div>
@@ -23,14 +23,14 @@
     </span>
 
    <!-- Texto principal -->
-      <h1 id="mainText" 
+      <h1 id="mainText"
           class="text-5xl md:text-6xl font-extrabold drop-shadow-xl transition-opacity duration-[3000ms] ease-in-out opacity-100">
           {{ $encabezados->first()->titulo ?? '' }}
       </h1>
       <p id="subText"
         class="mt-4 text-lg md:text-xl text-beigeClaro/90 transition-opacity duration-[3000ms] ease-in-out opacity-100">
           {{ $encabezados->first()->subtitulo ?? '' }}
-      </p> 
+      </p>
 
     <div class="mt-8 flex gap-4 justify-center animate-glow">
       <a href="#servicios" class="bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-xl font-semibold hover:bg-verdeClaro hover:text-beigeClaro transition">
@@ -45,7 +45,8 @@
 
 <script>
   const slides = document.querySelectorAll('.bg-slide');
-  let currentSlide = 0;
+  const mainText = document.getElementById("mainText");
+  const subText = document.getElementById("subText");
 
   const texts = @json($encabezados->map(function($e){
       return [
@@ -54,43 +55,34 @@
       ];
   }));
 
-  let currentText = 0;
+  let currentIndex = 0;
+  const slideDuration = 8000; // Duración de cada slide en ms
 
-  // Cambiar imágenes
-  setInterval(() => {
-    const nextSlide = (currentSlide + 1) % slides.length;
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('opacity-100', i === index);
+      slide.classList.toggle('opacity-0', i !== index);
+    });
 
-    slides[currentSlide].classList.remove('opacity-100');
-    slides[currentSlide].classList.add('opacity-0');
-
-    slides[nextSlide].classList.remove('opacity-0');
-    slides[nextSlide].classList.add('opacity-100');
-
-    currentSlide = nextSlide;
-  }, 5000);
-
-  // Cambiar textos
-  setInterval(() => {
-    const mainText = document.getElementById("mainText");
-    const subText = document.getElementById("subText");
-
-    // Desvanecer
     mainText.classList.remove('opacity-100');
     mainText.classList.add('opacity-0');
     subText.classList.remove('opacity-100');
     subText.classList.add('opacity-0');
 
     setTimeout(() => {
-      currentText = (currentText + 1) % texts.length;
-      mainText.textContent = texts[currentText].main;
-      subText.textContent = texts[currentText].sub;
-
-      // Aparecer
+      mainText.textContent = texts[index].main;
+      subText.textContent = texts[index].sub;
       mainText.classList.remove('opacity-0');
       mainText.classList.add('opacity-100');
       subText.classList.remove('opacity-0');
       subText.classList.add('opacity-100');
-    }, 1000);
-  }, 5000);
+    }, 500); // Tiempo del fade-out antes de cambiar el texto
+  }
 
+  // Inicia el slideshow
+  showSlide(currentIndex);
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }, slideDuration);
 </script>

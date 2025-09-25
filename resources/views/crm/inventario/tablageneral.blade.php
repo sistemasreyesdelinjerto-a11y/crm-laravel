@@ -9,7 +9,7 @@
             <th>id</th>
             <th>Nombre</th>
             <th>Cantidad Minima <p> Requerida</th>
-            <th>Stock actual</th>
+            <th>Stock  actual</th>
             <th>Pendiente por comprar</th>    
             <th>Acciones</th>
         </tr>

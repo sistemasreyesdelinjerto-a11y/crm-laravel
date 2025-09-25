@@ -2,7 +2,7 @@
 
 @section('title', 'Gestión de Inventario')
 
-
+ 
 @section('content')
     <section class="py-10 px-6 bg-white">
     <h1 class="text-2xl text-center font-bold mb-4">Administracion de Inventario (Alpha!)</h1>
@@ -100,7 +100,7 @@
                         class="tab-button py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
                         onclick="switchTab(1)"
                     >
-                        Vista general
+                        Vista general 
                     </button>
                     <button
                         id="tab-2"

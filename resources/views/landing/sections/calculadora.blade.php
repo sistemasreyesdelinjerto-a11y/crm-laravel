@@ -1,7 +1,7 @@
 <section id="calculadora" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
   <div class="max-w-6xl mx-auto text-center mb-16">
     <h2 class="text-5xl font-extrabold text-gray-800">Nuestros Resultados</h2>
-    <p class="text-xl text-gray-600 mt-4">Confianza respaldada por números realesssssss</p>
+    <p class="text-xl text-gray-600 mt-4">Confianza respaldada por nuestros resultados</p>
   </div>
 
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 px-6">
@@ -27,25 +27,30 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll(".counter");
-    counters.forEach(counter => {
-      counter.innerText = "0";
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".counter");
 
-      const updateCounter = () => {
-        const target = +counter.getAttribute("data-target");
-        const current = +counter.innerText.replace(/,/g, "");
-        const increment = target / 100; // velocidad
+  counters.forEach(counter => {
+    counter.innerText = "0";
+    const target = +counter.getAttribute("data-target");
 
-        if (current < target) {
-          counter.innerText = Math.ceil(current + increment).toLocaleString();
-          setTimeout(updateCounter, 15);
-        } else {
-          counter.innerText = target.toLocaleString();
-        }
-      };
+    let current = 0;
+    const duration = 2000; // Duración total del conteo en ms (2 segundos)
+    const stepTime = 15;   // Cada cuánto se actualiza el contador
+    const steps = Math.ceil(duration / stepTime);
+    const increment = target / steps;
 
-      updateCounter();
-    });
+    const updateCounter = () => {
+      current += increment;
+      if (current < target) {
+        counter.innerText = Math.ceil(current).toLocaleString();
+        setTimeout(updateCounter, stepTime);
+      } else {
+        counter.innerText = target.toLocaleString();
+      }
+    };
+
+    updateCounter();
   });
+});
 </script>

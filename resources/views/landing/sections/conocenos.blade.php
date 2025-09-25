@@ -3,9 +3,9 @@
     <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro text-center mb-10">Quiénes somos</h2>
         <p class="text-verdeOscuro/90 text-lg md:text-xl text-center max-w-4xl mx-auto">
-            En Clínica Capilar nos dedicamos a ofrecer tratamientos capilares de alta calidad. Nuestro equipo de
-            especialistas está altamente capacitado en técnicas FUE y FUT para brindar resultados naturales y duraderos.
-            Nos enfocamos en la atención personalizada y en el bienestar de cada paciente.
+           Somos una clínica especializada en brindar soluciones capilares personalizadas. Impactar positivamente la vida de nuestros pacientes al abordar de manera personalizada sus problemas de calvicie de manera segura y natural.
+
+
         </p>
 
         <div class="mt-12 grid md:grid-cols-3 gap-6">

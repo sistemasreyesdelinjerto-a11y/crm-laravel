@@ -212,7 +212,14 @@ class LandingController extends Controller
 
     public function updateEncabezado(Request $request,encabezado $encabezado)
     {
-        
+        $request->validate([
+            'titulo' => 'required|string|max:255',
+            'subtitulo' => 'required|string|max:255',
+
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // <-- ahora opcional
+        ]);
+
+
         $encabezado->titulo = $request->titulo;
         $encabezado->subtitulo = $request->subtitulo;
 
