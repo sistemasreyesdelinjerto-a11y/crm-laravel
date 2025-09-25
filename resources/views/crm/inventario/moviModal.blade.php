@@ -9,27 +9,33 @@
 
         <!-- Body -->
         <div class="p-6">
-            <form id="formAddMovement" method="post" onsubmit="handleProductMovement(event)">
+            <form id="formAddMovement" action="{{ route('panel.inventario.movimiento') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <input type="hidden" id="isNewProduct" name="is_new_product" value="0">
 
                 <!-- Tipo de movimiento -->
                 <div class="mb-4">
                     <label for="movementType" class="block font-medium text-gray-700 mb-2">Tipo de Movimiento:</label>
                     <select class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]" 
-                            id="movementType" name="movement_type" required onchange="toggleMovementFields()">
+                            id="movementType" name="tipoMovimiento" required onchange="toggleMovementFields()">
                         <option value="" disabled selected>Seleccione...</option>
                         <option value="entrada">Entrada</option>
                         <option value="salida">Salida</option>
                     </select>
                 </div>
-
+               
                 <!-- Entrada -->
                 <div id="entradaFields" class="hidden space-y-4">
                     <div id="productNameContainer">
                         <label for="itemNameSelect" class="block font-medium text-gray-700 mb-2">Nombre del Producto:</label>
-                        <select class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]" 
-                                id="itemNameSelect" name="item_name" required>
+                        <select id="itemNameSelect" name="item_name" 
+                                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]" required>
                             <option value="" disabled selected>Seleccione un producto...</option>
+                            @foreach($inventarios as $producto)
+                                <option value="{{ $producto->id }}" data-category="{{ $producto->categoria }}">
+                                    {{ $producto->nombre }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -78,7 +84,7 @@
                         <label for="isMedicineCheck" class="ml-2 text-gray-700">Es medicamento</label>
                     </div>
 
-                    <input type="hidden" id="itemLocation" name="item_location" value="Bodega">
+                    <input type="hidden" id="itemLocation" name="ubicacion" value="Bodega">
 
                     <div id="minimumValueField" class="hidden">
                         <label for="minimumValue" class="block font-medium text-gray-700 mb-2">Valor Mínimo Requerido:</label>
@@ -105,7 +111,7 @@
                                id="manualPrice" name="manualPrice" step="0.01" min="0" placeholder="Opcional">
                     </div>
                 </div>
-
+                
                 <!-- Salida -->
                 <div id="salidaFields" class="hidden space-y-4">
                     <div>
@@ -113,6 +119,11 @@
                         <select class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]" 
                                 id="productSelect" name="product_id" required>
                             <option value="" disabled selected>Seleccione un producto...</option>
+                            @foreach($inventarios as $producto)
+                                <option value="{{ $producto->id }}" data-category="{{ $producto->categoria }}">
+                                    {{ $producto->nombre }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -151,53 +162,41 @@
                                id="outputDateMovement" name="output_date" required>
                     </div>
                 </div>
+                <br>
+                <!-- Footer -->
+                <div class="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50 sticky bottom-0">
+                    <button onclick="closeModal('productMovementModal')" 
+                            class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="bg-[#1C6C73] text-white px-5 py-2 rounded-lg hover:bg-[#14565c] transition-colors font-medium">
+                        Guardar
+                    </button>
+                </div>
             </form>
         </div>
 
-        <!-- Footer -->
-        <div class="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50 sticky bottom-0">
-            <button onclick="closeModal('productMovementModal')" 
-                    class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium">
-                Cancelar
-            </button>
-            <button onclick="handleProductMovement()" 
-                    class="bg-[#1C6C73] text-white px-5 py-2 rounded-lg hover:bg-[#14565c] transition-colors font-medium">
-                Guardar
-            </button>
-        </div>
+        
     </div>
 </div>
 
 <script>
-let productsData = []; // Guardar productos para autocompletar
+// carga los productos y la categoria al cargar la pagina mediante los option
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('itemNameSelect');
+    const categoryField = document.getElementById('itemsCategory');
 
-async function loadProducts() {
-    const select1 = document.getElementById('itemNameSelect');
-    const select2 = document.getElementById('productSelect');
-    if (!select1 || !select2) return;
-
-    try {
-        const res = await fetch('/panel/api/products');
-        const products = await res.json();
-        productsData = products;
-
-        select1.innerHTML = select2.innerHTML = '<option value="" disabled selected>Seleccione un producto...</option>';
-
-        products.forEach(p => {
-            const option1 = document.createElement('option');
-            option1.value = p.id;
-            option1.textContent = p.nombre;
-            select1.appendChild(option1);
-
-            const option2 = document.createElement('option');
-            option2.value = p.id;
-            option2.textContent = p.nombre;
-            select2.appendChild(option2);
+    if (select) {
+        select.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const category = selectedOption.getAttribute('data-category');
+            if (category) {
+                categoryField.value = category;
+            }
         });
-    } catch (err) {
-        console.error('Error cargando productos:', err);
     }
-}
+});
 
 // Actualizar categoría al seleccionar producto existente
 document.getElementById('itemNameSelect').addEventListener('change', function() {
@@ -209,8 +208,21 @@ document.getElementById('itemNameSelect').addEventListener('change', function() 
 // Funciones para mostrar/ocultar campos
 function toggleMovementFields() {
     const movementType = document.getElementById('movementType').value;
-    document.getElementById('entradaFields').classList.toggle('hidden', movementType !== 'entrada');
-    document.getElementById('salidaFields').classList.toggle('hidden', movementType !== 'salida');
+    
+    const entradaFields = document.getElementById('entradaFields');
+    const salidaFields = document.getElementById('salidaFields');
+    
+    // Mostrar/ocultar
+    entradaFields.classList.toggle('hidden', movementType !== 'entrada');
+    salidaFields.classList.toggle('hidden', movementType !== 'salida');
+
+    // Activar/desactivar required
+    entradaFields.querySelectorAll('input, select').forEach(el => {
+        el.required = movementType === 'entrada';
+    });
+    salidaFields.querySelectorAll('input, select').forEach(el => {
+        el.required = movementType === 'salida';
+    });
 }
 
 function toggleNewProductFields() {
@@ -250,18 +262,6 @@ function toggleMedicineFields() {
 function togglePriceField() {
     const showPrice = document.getElementById('toggleManualPrice').checked;
     document.getElementById('manualPriceField').classList.toggle('hidden', !showPrice);
-}
-
-// Manejo del envío
-function handleProductMovement(event) {
-    if (event) event.preventDefault();
-    const formData = new FormData(document.getElementById('formAddMovement'));
-    const data = Object.fromEntries(formData.entries());
-    console.log('Datos de movimiento:', data);
-    alert('Movimiento registrado correctamente');
-    closeModal('productMovementModal');
-    document.getElementById('formAddMovement').reset();
-    resetMovementFields();
 }
 
 function resetMovementFields() {

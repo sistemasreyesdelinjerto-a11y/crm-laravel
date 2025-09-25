@@ -3,7 +3,6 @@
 @if ($inventarios->isEmpty())
 <p>No hay articulos disponibles.</p>
 @else
-@foreach ($inventarios as $inv)
 <table id="TablaGeneral" style="width:100%" class="table table-striped table-bordered display nowrap">
     <thead class="bg-gray-dark color-palette text-white">
         <tr style="background-color: #4298a7">
@@ -15,6 +14,7 @@
             <th>Acciones</th>
         </tr>
     </thead>
+    @foreach ($inventarios as $inv)
     <tbody>
         <tr>
             <td>{{ $inv->id }}</td>
@@ -27,8 +27,8 @@
             </td>                      
         </tr>
     </tbody>
+    @endforeach
 </table>
-@endforeach
 @endif
 <!--- Inicia script de DataTable --->
 

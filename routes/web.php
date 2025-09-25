@@ -75,7 +75,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     //rutas de inventario
     Route::get('inventario', [InventarioController::class, 'index'])->name('inventario.index');
     Route::get('/api/products', [InventarioController::class, 'getProducts']);
-    
+    Route::post('inventario/movimiento', [InventarioController::class, 'movimientoInv'])->name('inventario.movimiento');
 
 
     // crear encabezado

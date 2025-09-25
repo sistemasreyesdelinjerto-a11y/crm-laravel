@@ -16,19 +16,20 @@ class InventarioController extends Controller
         return view('crm.inventario.inventario', compact('inventarios'));
     }
 
-        public function movimiento(Request $request)
+        public function movimientoInv(Request $request)
         {
             if ($request->is_new_product) {
                 // Crear producto nuevo
                 $producto = Inventario::create([
-                    'nombre' => $request->nombre,
-                    'categoría' => $request->categoria,
+                // Campos BD || Campos del formulario
+                    'nombre' => $request->item_name,
+                    'categoria' => $request->category,
                     'stock' => $request->stock,
-                    'ubicación' => $request->ubicacion ?? 'Bodega',
-                    'cantidad_minima' => $request->cantidad_minima ?? 0,
-                    'fecha_vencimiento' => $request->caduca,
+                    'ubicacion' => $request->ubicacion ?? 'Bodega',
+                    'cantidad_minima' => $request->minimum_value ?? 0,
+                    'fecha_vencimiento' => $request->expirationDate,
                     'caduca' => $request->expirationDate ? $request->expirationDate : null,
-                    'precio_unitario' => $request->precio_unitario ?? 0,
+                    'precio_unitario' => $request->manualPrice ?? 0,
                 ]);
             } else {
                 // Actualizar stock de producto existente
