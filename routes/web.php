@@ -11,7 +11,7 @@ use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\HubspotController;
 use App\Http\Controllers\InventarioController;
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserController; 
 
 Route::get('/dashboard', function () {
     return view('panel.index');
@@ -79,7 +79,9 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::get('inventario', [InventarioController::class, 'index'])->name('inventario.index');
     Route::get('/api/products', [InventarioController::class, 'getProducts']);
     Route::post('inventario/movimiento', [InventarioController::class, 'movimientoInv'])->name('inventario.movimiento');
-
+    Route::put('inventario/update', [InventarioController::class, 'updateProd'])->name('inventario.update');
+    Route::delete('inventario/destroy/{id}', [InventarioController::class, 'destroyProd'])->name('inventario.destroy');
+    Route::post('inventario/salida', [InventarioController::class, 'salidaProducto'])->name('inventario.salida');
 
     // crear encabezado
     Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');
@@ -112,6 +114,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::get('casos-exito', [PanelLandingController::class, 'indexCasoexito'])->name('casos.index');
     Route::post('casos-exito', [PanelLandingController::class, 'storeExito'])->name('casos.store');
     Route::put('casos-exito/{caso}', [PanelLandingController::class, 'updateExito'])->name('casos.update');
+    Route::get('panel/casos/{id}/edit', [PanelLandingController::class, 'editCaso'])->name('casos.edit');
     Route::delete('casos-exito/{caso}', [PanelLandingController::class, 'destroyExito'])->name('casos.destroy');
 
 
@@ -124,7 +127,8 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     // Blog Dr. Santana
     Route::get('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'indexsBlog'])->name('drsantana.blog.index'); // vista lista de blogs
     Route::get('/doctor-santana/blog/list', [PanelDoctorSantanaController::class, 'getBlogsdr'])->name('drsantana.blog.list'); // AJAX / JSON
-    Route::post('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'storeBlogdr'])->name('drsantana.blog.store');    Route::put('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
+    Route::post('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'storeBlogdr'])->name('drsantana.blog.store');
+    Route::put('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
     Route::delete('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
     Route::put('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
     Route::delete('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
@@ -142,11 +146,16 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::put('/doctor-santana/trayectoria/{trayectoria}', [PanelDoctorSantanaController::class, 'updateTrayectoria'])->name('drsantana.trayectoria.update');
     Route::delete('/doctor-santana/trayectoria/{trayectoria}', [PanelDoctorSantanaController::class, 'destroyTrayectoria'])->name('drsantana.trayectoria.destroy');
 
+    // Resultados Dr. Santana
+    Route::get('/doctor-santana/resultados', [PanelDoctorSantanaController::class, 'indexResultados'])->name('drsantana.resultados.index');
+    Route::post('/doctor-santana/resultados', [PanelDoctorSantanaController::class, 'storeResultadoDR'])->name('drsantana.resultados.store');
+    Route::put('/doctor-santana/resultados/{resultado}', [PanelDoctorSantanaController::class, 'updateResultadoDR'])->name('drsantana.resultados.update');
+
     // Contacto Dr. Santana
     Route::get('/doctor-santana/contacto', [PanelDoctorSantanaController::class, 'indexContacto'])->name('drsantana.contacto.index');
     Route::get('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'showContacto'])->name('drsantana.contacto.show');
 
-    // Certificaciones
+    // Certificaciones 
     //Route::get('/doctor-santana/certificaciones', [PanelDoctorSantanaController::class, 'indexCertificaciones'])->name('certificaciones.index');
     Route::post('/certificaciones', [PanelDoctorSantanaController::class, 'CerStore'])->name('certificaciones.store');
     Route::put('/certificaciones/{id}', [PanelDoctorSantanaController::class, 'CerUpdate'])->name('certificaciones.update');

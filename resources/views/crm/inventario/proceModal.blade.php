@@ -103,4 +103,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Aquí puedes establecer el valor de clinic_exit si es necesario
     // document.getElementById('clinic_exit').value = 'valor-de-la-clinica';
 });
+
+//Cerrar el modal al hacer click afuera
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function () {
+      closeModal('quickExitModal');
+    });
+  });
+
 </script>

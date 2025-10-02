@@ -11,6 +11,7 @@ use App\Models\Galeria;
 use App\Models\servicios;
 use App\Models\certificaciones;
 use App\Models\CasoExito;
+use App\Models\resultadosdr;
 
 class LandingController extends Controller
 {
@@ -75,7 +76,7 @@ public function drSantana()
                      ->get();
 $galerias = Galeria::all();
     return view('landing.dr_santana', compact('blogdrs','galerias'));
-}
+} 
 */
     public function drSantana()
     {
@@ -86,7 +87,8 @@ $galerias = Galeria::all();
 
         $galerias = galeria::all();
         $certificaciones = certificaciones::all();
+        $resultados = resultadosdr::all();
 
-        return view('landing.dr_santana', compact('blogdrs', 'galerias', 'certificaciones'));
+        return view('landing.dr_santana', compact('blogdrs', 'galerias', 'certificaciones', 'resultados'));
     }
 }

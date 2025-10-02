@@ -9,9 +9,9 @@ use App\Models\Resultado;
 use App\Models\Movimiento;
 use App\Models\QuienesSomos;
 use App\Models\encabezado;
-use App\Models\blog;
+use App\Models\blog; 
 use App\Models\servicios;
-use App\Models\CasoExito;
+use App\Models\CasoExito; 
 use Illuminate\Support\Facades\Storage;
 
 class LandingController extends Controller
@@ -290,6 +290,13 @@ class LandingController extends Controller
 
         return redirect()->back()->with('success', 'Caso de éxito agregado correctamente.');
     }
+
+    public function editCaso($id)
+            {
+                $caso = CasoExito::findOrFail($id);
+               return redirect()->back()->with('success', 'Caso de éxito editado correctamente.');
+            }
+
 
     public function updateExito(Request $request, CasoExito $caso)
     {

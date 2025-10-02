@@ -14,17 +14,24 @@
             @if ($casos->isEmpty())
                 <p>No hay casos de éxito disponibles.</p>
             @else
-                <!-- Contenedor scroll -->
-                <div class="relative">
+                <!-- Contenedor scroll - Alpine carousel component -->
+                <div x-data="carousel()" class="relative">
                     <!-- Botón Izquierda -->
-                    <button onclick="scrollLeftCasos()"
+                    <button @click="scrollLeft"
                         class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                         ‹
                     </button>
 
                     <!-- Scroll horizontal -->
-                    <div id="casosScrollContainer"
-                        class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none">
+                    <div x-ref="container"
+                        class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none"
+                        @mousedown.prevent="startDrag($event)"
+                        @mousemove.prevent="drag($event)"
+                        @mouseup="endDrag"
+                        @mouseleave="endDrag"
+                        @touchstart="startTouch($event)"
+                        @touchmove.prevent="dragTouch($event)"
+                        @touchend="endDrag">
 
                         @foreach ($casos as $caso)
                             <div class="min-w-[350px] bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
@@ -55,7 +62,7 @@
                     </div>
 
                     <!-- Botón Derecha -->
-                    <button onclick="scrollRightCasos()"
+                    <button @click="scrollRight"
                         class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#1C6C73] text-white p-2 rounded-full shadow hover:bg-tealOscuro z-10">
                         ›
                     </button>
@@ -64,7 +71,8 @@
 
 
             <!-- Modal Crear -->
-            <div x-show="openCreate" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div x-show="openCreate" x-cloak @click.self="openCreate = false"
+                 class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                 <div class="relative bg-white rounded-lg w-96 max-h-[80vh] p-6 overflow-y-auto">
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
@@ -89,7 +97,7 @@
 
             <!-- Modal Editar -->
             @foreach ($casos as $caso)
-                <div x-show="editId === {{ $caso->id }}" x-cloak
+                <div x-show="editId === {{ $caso->id }}" x-cloak @click.self="editId = null"
                     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div class="relative bg-white rounded-lg w-96 max-h-[80vh] p-6 overflow-y-auto">
                         <button @click="editId = null"
@@ -128,19 +136,53 @@
     </main>
 </section>
 
-<!-- JS scroll -->
+<!-- Alpine carousel component (coloca una sola vez al final de la página) -->
 <script>
-    const casosContainer = document.getElementById('casosScrollContainer');
-    function scrollLeftCasos() {
-        casosContainer.scrollBy({ left: -350, behavior: 'smooth' });
+function carousel() {
+    return {
+        isDown: false,
+        startX: 0,
+        scrollLeftStart: 0,
+        scrollLeft() {
+            this.$refs.container.scrollBy({ left: -350, behavior: 'smooth' });
+        },
+        scrollRight() {
+            this.$refs.container.scrollBy({ left: 350, behavior: 'smooth' });
+        },
+        startDrag(e) {
+            this.isDown = true;
+            // pageX relativo al contenedor
+            this.startX = e.pageX - this.$refs.container.offsetLeft;
+            this.scrollLeftStart = this.$refs.container.scrollLeft;
+            this.$refs.container.style.cursor = 'grabbing';
+        },
+        drag(e) {
+            if (!this.isDown) return;
+            const x = e.pageX - this.$refs.container.offsetLeft;
+            const walk = (x - this.startX) * 2;
+            this.$refs.container.scrollLeft = this.scrollLeftStart - walk;
+        },
+        endDrag() {
+            this.isDown = false;
+            this.$refs.container.style.cursor = 'grab';
+        },
+        startTouch(e) {
+            this.startX = e.touches[0].pageX;
+            this.scrollLeftStart = this.$refs.container.scrollLeft;
+        },
+        dragTouch(e) {
+            const x = e.touches[0].pageX;
+            const walk = (x - this.startX) * 2;
+            this.$refs.container.scrollLeft = this.scrollLeftStart - walk;
+        }
     }
-    function scrollRightCasos() {
-        casosContainer.scrollBy({ left: 350, behavior: 'smooth' });
-    }
+}
 </script>
 
-<!-- CSS ocultar scrollbar -->
 <style>
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* opcional: que los items cambien cursor al arrastrar */
+.cursor-grab { cursor: grab; }
 </style>

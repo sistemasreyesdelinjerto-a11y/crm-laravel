@@ -6,13 +6,13 @@
             <h1 class="text-3xl font-bold text-[#1C6C73]">Blog Dr. Santana</h1>
             <button onclick="openModal('createBlogModal')"
                 class="bg-[#1C6C73] text-white px-4 py-2 rounded-lg hover:bg-[#14565c] transition">
-                ✨ Crear Entrada
+                Crear Entrada
             </button>
         </div>
 
         @if ($blogs->isEmpty())
             <div class="text-center py-12 bg-white rounded-lg shadow">
-                <div class="text-6xl mb-4">📝</div>
+                <div class="text-6xl mb-4"></div>
                 <p class="text-gray-600 text-lg">No hay entradas de blog disponibles.</p>
                 <p class="text-gray-500">Crea la primera entrada para comenzar.</p>
             </div>
@@ -49,7 +49,7 @@
                                 <button
                                     onclick="openEditModal({{ $blog->id }}, '{{ $blog->titulo }}', '{{ $blog->fecha }}', `{{ $blog->contenido }}`, '{{ $blog->imagen }}')"
                                     class="bg-[#1C6C73] text-white px-4 py-2 rounded-lg hover:bg-[#14565c] text-sm">
-                                    ✏️ Editar
+                                    Editar
                                 </button>
                             </div>
                         </div>

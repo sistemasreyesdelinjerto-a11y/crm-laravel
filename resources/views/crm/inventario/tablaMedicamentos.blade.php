@@ -1,5 +1,8 @@
 <h2 class="text-2xl text-center font-bold mb-4">Inventario de Medicamentos</h2>
 <br>
+@if ($medicamentos->isEmpty())
+<p>No hay medicamentos disponibles.</p>
+@else    
 <table id="TablaMedicamentos" style="width:100%" class="table table-striped table-bordered display nowrap">
     <thead class="bg-gray-dark color-palette text-white">
         <tr style="background-color: #4298a7">            
@@ -9,15 +12,22 @@
             <th class="py-3 px-4 border-b font-semibold text-left">Caduca</th>
         </tr>
     </thead>
-    <tbody>
+    @foreach ($medicamentos as $med)
+         <tbody>
         <tr>
-            <td>1</td>
-            <td>Cefadroxilo</td>
-            <td>100 </td>
-            <td>12-12-2024</td>
+            <td>{{ $med->id }}</td>
+            <td>{{ $med->name }}</td>
+            <td>{{ $med->stock }} Piezas</td>
+            @if ($med->expiry_date == null)
+            <td> No aplica </td>
+            @else
+            <td>{{ $med->expiry_date }}</td>
+            @endif
         </tr>
     </tbody>
+    @endforeach
 </table>
+@endif
 
 <!--- Inicia script de DataTable --->
 

@@ -14,6 +14,11 @@
             </div>
 
             <!-- Grid de resultados -->
+            @if ($resultados->isEmpty())
+                <div class="text-center text-gray-500">
+                    No hay resultados disponibles. ¡Crea uno nuevo!
+                </div>
+            @else
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach ($resultados as $resultado)
                     <div
@@ -26,12 +31,12 @@
                         </div>
                         <div class="flex flex-col items-end space-y-2">
                              <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
-          @if($resultado->icono_svg)
-            <img src="{{ asset($resultado->icono_svg) }}" alt="Icono" class="w-12 h-12 object-contain">
-          @else
-            <span class="text-gray-400">Sin imagen</span>
-          @endif
-        </div>
+                                @if($resultado->icono_svg)
+                                    <img src="{{ asset($resultado->icono_svg) }}" alt="Icono" class="w-12 h-12 object-contain">
+                                @else
+                                    <span class="text-gray-400">Sin imagen</span>
+                                @endif
+                                </div>
                             <button @click="editId = {{ $resultado->id }}"
                                 class="bg-[#1C6C73] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm">
                                 Editar
@@ -40,15 +45,16 @@
                     </div>
                 @endforeach
             </div>
+            @endif
 
             <!-- Modal Crear -->
-            <div x-show="openCreate" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-            @click.self="openCreate = false">
+            <div x-show="openCreate" x-cloak @click.self="openCreate = false"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                 <div class="bg-white rounded-lg w-96 p-6 relative">
-                    <button @click="openCreate = false"
+                    <button @click="openCreate = false" 
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                     <h2 class="text-xl font-bold mb-4">Crear Resultado</h2>
-                    <form action="{{ route('panel.landing.resultado.store') }}" method="POST"
+                    <form action="{{ route('panel.drsantana.resultados.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <label class="block mb-2">Título</label>
@@ -59,7 +65,7 @@
                         <input type="color" name="color" class="w-full h-10 mb-4" required>
                         <!-- Subir imagen -->
                         <label class="block mt-2">Imagen / Icono</label>
-                        <input type="file" name="icono_svg" accept="image/*,image/svg+xml" class="mt-1">
+                        <input type="file" name="icono_svg" class="mt-1">
 
                         <button type="submit"
                             class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealClaro">Crear</button>
@@ -69,14 +75,13 @@
 
             <!-- Modal Editar -->
             @foreach ($resultados as $resultado)
-                <div x-show="editId === {{ $resultado->id }}" x-cloak
-                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-                    @click.self="editId = false">
+                <div x-show="editId === {{ $resultado->id }}" x-cloak @click.self="editId = false"
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div class="bg-white rounded-lg w-96 p-6 relative">
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
                         <h2 class="text-xl font-bold mb-4">Editar Resultado</h2>
-                        <form action="{{ route('panel.landing.resultado.update', $resultado->id) }}" method="POST"
+                        <form action="{{ route('panel.drsantana.resultados.update', $resultado->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

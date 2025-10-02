@@ -1,9 +1,10 @@
-<section id="certificaciones" class="py-10 px-6 bg-gray-50 mb-12">
+<section id="certificaciones" class="py-10 px-6 bg-gray-50 mb-12"
+    x-data="{ openCreate: false, editId: null }">
     <div class="max-w-7xl mx-auto px-6">
         <!-- Título y botón Crear -->
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-[#1C6C73]">Certificaciones Dr. Santana</h1>
-            <button onclick="openModal('createCerModal')"
+            <button @click="openCreate = true"
                 class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealClaro transition">
                 Crear Certificación
             </button>
@@ -21,7 +22,8 @@
                 </button>
 
                 <!-- Scroll horizontal -->
-                <div id="CerscrollContainer" class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth">
+                <div id="CerscrollContainer"
+                    class="flex overflow-x-auto space-x-6 scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none">
                     @foreach ($certificaciones as $cert)
                         <div
                             class="min-w-[300px] bg-beigeNeutro shadow-lg rounded-lg p-6 flex justify-between items-center hover:shadow-xl transition-shadow">
@@ -38,7 +40,7 @@
                                         <span class="text-gray-400">Sin imagen</span>
                                     @endif
                                 </div>
-                                <button onclick="openModal('editCerModal{{ $cert->id }}')"
+                                <button @click="editId = {{ $cert->id }}"
                                     class="bg-[#1C6C73] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm">
                                     Editar
                                 </button>
@@ -46,10 +48,10 @@
                         </div>
 
                         <!-- Modal Editar -->
-                        <div id="editCerModal{{ $cert->id }}"
-                            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <div x-show="editId === {{ $cert->id }}" x-cloak @click.self="editId = null"
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                             <div class="bg-white rounded-lg w-96 p-6 relative">
-                                <button onclick="closeModal('editCerModal{{ $cert->id }}')"
+                                <button @click="editId = null"
                                     class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
 
                                 <h2 class="text-xl font-bold mb-4">Editar Certificación</h2>
@@ -94,9 +96,10 @@
         @endif
 
         <!-- Modal Crear -->
-        <div id="createCerModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div x-show="openCreate" x-cloak @click.self="openCreate = false"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <div class="bg-white rounded-lg w-96 p-6 relative">
-                <button onclick="closeModal('createCerModal')"
+                <button @click="openCreate = false"
                     class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
 
                 <h2 class="text-xl font-bold mb-4">Crear Certificación</h2>
@@ -112,39 +115,59 @@
                     <input type="file" name="imagen" accept="image/*" class="mt-1">
 
                     <button type="submit"
-                        class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro mt-4">Agregar</button>
+                        class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealClaro mt-4">Agregar</button>
                 </form>
             </div>
         </div>
-
     </div>
-    <!-- JS para modales -->
+
+    <!-- JS para scroll y arrastre -->
     <script>
-        function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
-        }
+        const cerContainer = document.getElementById('CerscrollContainer');
 
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-    </script>
-
-    <!-- JS para scroll -->
-    <script>
-        const container = document.getElementById('CerscrollContainer');
-
+        // Botones
         function CerscrollLeft() {
-            container.scrollBy({
-                left: -350,
-                behavior: 'smooth'
-            });
+            cerContainer.scrollBy({ left: -350, behavior: 'smooth' });
+        }
+        function CerscrollRight() {
+            cerContainer.scrollBy({ left: 350, behavior: 'smooth' });
         }
 
-        function CerscrollRight() {
-            container.scrollBy({
-                left: 350,
-                behavior: 'smooth'
-            });
-        }
+        // Drag-to-scroll (mouse y touch)
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        cerContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            cerContainer.classList.add('active');
+            startX = e.pageX - cerContainer.offsetLeft;
+            scrollLeft = cerContainer.scrollLeft;
+        });
+        cerContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        cerContainer.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        cerContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - cerContainer.offsetLeft;
+            const walk = (x - startX) * 1.2; // sensibilidad
+            cerContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // Soporte táctil
+        let touchStartX = 0;
+        cerContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            scrollLeft = cerContainer.scrollLeft;
+        });
+        cerContainer.addEventListener('touchmove', (e) => {
+            const touchX = e.touches[0].clientX;
+            const walk = (touchX - touchStartX) * 1.2;
+            cerContainer.scrollLeft = scrollLeft - walk;
+        });
     </script>
 </section>

@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Trayectoria;
 use App\Models\Galeria;
 use App\Models\Blog;
-use App\Models\blogdr;
+use App\Models\blogdr; 
 use App\Models\Contacto;
 use App\Models\certificaciones;
 use App\Models\Movimiento; // <-- Importa tu modelo de movimientos
+use App\Models\resultadosdr;
 use Illuminate\Support\Facades\DB;
 
 class DoctorSantanaController extends Controller
@@ -32,18 +33,19 @@ class DoctorSantanaController extends Controller
             'user_agent' => request()->userAgent(),
         ]);
     }
-
+ 
     public function indexDrsantana()
     {
         //$trayectorias = Trayectoria::latest()->paginate(10);
         $galerias = Galeria::latest()->paginate(12);
         $blogs = blogdr::all();
         //$contactos = Contacto::latest()->paginate(10);
+        $resultados = resultadosdr::all();
 
         $certificaciones = certificaciones::all();
         //$contactos = Contacto::latest()->paginate(10);
         //dd($certificaciones);
-        return view('panel.landing.drsantana.index', compact('blogs', 'galerias', 'certificaciones'));
+        return view('panel.landing.drsantana.index', compact('blogs', 'galerias', 'certificaciones', 'resultados'));
     }
 
     public function indexsBlog()
@@ -128,43 +130,6 @@ class DoctorSantanaController extends Controller
     return redirect()->back()->with('success', 'Blog Dr. actualizado correctamente.');
 }
 
-    /*Función para eliminar
-    public function destroyBlogdr($id)
-    {
-        $blogdr = blogdr::findOrFail($id);
-
-        // Eliminar imagen si existe
-        if ($blogdr->imagen) {
-            Storage::disk('public')->delete('images/blog/' . $blogdr->imagen);
-        }
-
-
-        $data = $request->only(['titulo', 'contenido', 'fecha']);
-
-        // Procesar imagen si se subió
-        if ($request->hasFile('imagen')) {
-            $file = $request->file('imagen');
-            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/blog'), $nombreArchivo);
-            $data['imagen'] = 'images/blog/' . $nombreArchivo;
-        }
-
-        $blogdr = blogdr::create($data);
-
-        $this->registraMovimiento(
-            'Crear',
-            "Se creó blog Dr.: {$blogdr->titulo}",
-            'blogdrs',
-            $blogdr->id
-        );
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Blog Dr. creado correctamente.',
-            'data' => $blogdr
-        ]);
-    }
-*/
     // Función para obtener todos los blogs
     public function getBlogsdr()
     {
@@ -355,6 +320,72 @@ class DoctorSantanaController extends Controller
 
         return redirect()->back()->with('success', 'Certificación eliminada con éxito');
     }
+
+    // Resultados Dr. Santana
+    public function crceaResultado()
+    {
+        $resultados = resultadosdr::all();
+        return view('panel.landing.drsantana.claculadoraDR', compact('resultados'));
+    }
+
+    public function storeResultadoDR(Request $request)
+    {
+        $request->validate([
+            'titulo' => 'required|string',
+            'color' => 'required|string',
+            'numero' => 'required|numeric',
+            'icono_svg' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $resultado = new resultadosdr();
+        $resultado->titulo = $request->titulo;
+        $resultado->color = $request->color;
+        $resultado->numero = $request->numero;
+
+        if ($request->hasFile('icono_svg')) {
+            $file = $request->file('icono_svg');
+            $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/resultadosDR'), $nombreArchivo);
+            $resultado->icono_svg = 'images/resultadosDR/' . $nombreArchivo;
+        }
+
+        $resultado->save();
+
+        $this->registrarMovimiento('Crear',
+         "Se creó resultado: {$resultado['titulo']}",
+         'resultadosdr'
+         , $resultado->id);
+
+        return redirect()->route('panel.drsantana.index')->with('success', 'Resultado creado correctamente');
+    }
+
+    public function updateResultadoDR(Request $request, resultadosdr $resultadosdr)
+{
+
+    $resultadosdr->titulo = $request->titulo;
+    $resultadosdr->numero = $request->numero;
+    $resultadosdr->color = $request->color;
+    //$resultado->updated_by = auth()->id();
+
+    if ($request->hasFile('icono_svg')) {
+        $file = $request->file('icono_svg');
+        $nombreArchivo = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('images/resultados'), $nombreArchivo);
+        $resultadosdr->icono_svg = 'images/resultados/'.$nombreArchivo;
+    }
+
+    $resultadosdr->save();
+
+    Movimiento::create([
+        //'usuario_id' => auth()->id(),
+        'tipo_movimiento' => 'Actualizar',
+        'descripcion' => 'Se actualizó el resultado: '.$resultadosdr->titulo,
+        'tabla_afectada' => 'resultados',
+        'registro_id' => $resultadosdr->id,
+    ]);
+
+    return redirect()->route('panel.drsantana.index')->with('success', 'Resultado actualizado correctamente');
+}
 
     //Todoo esto no funciona todavia xdxdxdcx
     // -----------------------------

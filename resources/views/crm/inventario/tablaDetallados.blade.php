@@ -1,5 +1,8 @@
 <h2 class="text-2xl text-center font-bold mb-4">Movimientos de inventario</h2>
 <br>
+@if ($movimientos->isEmpty())
+    <p>No hay movimientos disponibles.</p>
+@else
 <table id="TablaDetallados" style="width:100%" class="table table-striped table-bordered display nowrap">
     <thead class="bg-gray-dark color-palette text-white">
         <tr style="background-color: #4298a7">
@@ -9,22 +12,29 @@
             <th>Cantidad</th>
             <th>Fecha de Movimiento</th>
             <th>Entregado  a: </th>
-            <th>Fecha de caducidad</th>   
+            <th>Ubicacion</th>   
         </tr>
     </thead>
-    <tbody>
+    @foreach ($movimientos as $movi)
+        <tbody>
         <tr>
-            <td>2</td>
-            <td>trt</td>
-            <td>55</td>
-            <td>12-12-12</td>
-            <td>4</td>
-            <td>23232</td>
-            <td>12121</td>   
+            <td>{{ $movi->id }}</td>
+            <td>{{ $movi->nombreProducto }}</td>
+            <td>{{ $movi->tipomovimiento }}</td>
+            <td>{{ $movi->cantidad }} Piezas</td>
+            <td>{{ $movi->fechaMovimiento }}</td>
+            @if ($movi->entregadoA==NULL)
+            <td>No aplica</td>
+            @else
+            <td>{{ $movi->entregadoA }}</td>
+            @endif
+            <td>{{ $movi->ubicacion }}</td>   
         </tr>
     </tbody>
+    @endforeach
 </table>
-
+    
+@endif
 <!--- Inicia script de DataTable --->
 
 <script>

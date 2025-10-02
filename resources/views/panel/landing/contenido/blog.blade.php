@@ -54,7 +54,8 @@
 
 
             <!-- Modal Crear -->
-            <div x-show="openCreate" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div x-show="openCreate" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+              @click.self="openCreate = false">
                 <div class="bg-white rounded-lg w-96 p-6 relative">
                     <button @click="openCreate = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
@@ -80,7 +81,8 @@
             <!-- Modal Editar -->
              @foreach ($blogs as $blog)
                 <div x-show="editId === {{ $blog->id }}" x-cloak
-                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+                      @click.self="editId = false">
                     <div class="bg-white rounded-lg w-96 p-6 relative">
                         <button @click="editId = null"
                             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>

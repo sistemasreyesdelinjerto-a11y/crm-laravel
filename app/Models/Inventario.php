@@ -25,4 +25,9 @@ class Inventario extends Model
         'caduca',
         'precio_unitario',
     ];
+
+    public function movimientos()
+    {
+        return $this->hasMany(MovimientoInventario::class, 'idProducto');
+    }
 }
