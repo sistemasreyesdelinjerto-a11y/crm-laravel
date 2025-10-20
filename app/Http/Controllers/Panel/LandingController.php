@@ -29,7 +29,7 @@ class LandingController extends Controller
         compact('resultados', 
         'encabezados', 
         'blogs', 
-        'servicios',
+        'servicios', 
     'casos'));
     }
 
@@ -176,71 +176,103 @@ class LandingController extends Controller
     }
 
     public function storeEncabezado(Request $request)
-    {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'subtitulo' => 'required|string|max:255',
-            'imagen' => 'required',
-        ]);
+{
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'subtitulo' => 'required|string|max:255',
+        'contenido' => 'nullable|string',
+        //'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //'video_horizontal' => 'nullable|mimetypes:video/mp4,video/webm|max:2000000',
+        //'video_vertical' => 'nullable|mimetypes:video/mp4,video/webm|max:2000000',
+    ]);
 
+    $encabezado = $request->only(['titulo', 'subtitulo', 'contenido']);
+    $encabezado['created_by'] = Auth::id();
+    $encabezado['updated_by'] = Auth::id();
 
-        $encabezado = $request->only(['titulo', 'subtitulo']);
-        $encabezado['created_by'] = Auth::id();
-        $encabezado['updated_by'] = Auth::id();
-
-         // Guardar imagen si se sube
-
-        if ($request->hasFile('imagen')) {
-            $file = $request->file('imagen');
-            $nombreArchivo = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('images/encabezados'), $nombreArchivo);
-            $encabezado['imagen'] = 'images/encabezados/'.$nombreArchivo;
-        }
-
-        $encabezado = encabezado::create($encabezado);
-
-         $this->registrarMovimiento(
-            'Crear',
-            'Se creó un encabezado: ' . $encabezado['titulo'],
-            'encabezados',
-            $encabezado->id,
-        );
-
-
-        return redirect()->route('panel.landing.index')->with('success', 'Encabezado creado correctamente');
+    if ($request->hasFile('imagen')) {
+        $file = $request->file('imagen');
+        $nombreArchivo = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('images/encabezados'), $nombreArchivo);
+        $encabezado['imagen'] = 'images/encabezados/'.$nombreArchivo;
     }
 
-    public function updateEncabezado(Request $request,encabezado $encabezado)
-    {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'subtitulo' => 'required|string|max:255',
-
-        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // <-- ahora opcional
-        ]);
-
-
-        $encabezado->titulo = $request->titulo;
-        $encabezado->subtitulo = $request->subtitulo;
-
-        if ($request->hasFile('imagen')) {
-            $file = $request->file('imagen');
-            $nombreArchivo = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('images/encabezados'), $nombreArchivo);
-            $encabezado->imagen = 'images/encabezados/'.$nombreArchivo;
-        }
-        $encabezado->save();
-
-
-        $this->registrarMovimiento(
-            'Actualizar',
-            'Se actualizó un encabezado: ' . $encabezado->titulo,
-            'encabezados',
-            $encabezado->id,
-        );
-
-        return redirect()->route('panel.landing.index')->with('success', 'Encabezado actualizado correctamente');
+    if ($request->hasFile('video_horizontal')) {
+        $video = $request->file('video_horizontal');
+        $nombreVideo = time().'_'.$video->getClientOriginalName();
+        $video->move(public_path('videos/encabezados'), $nombreVideo);
+        $encabezado['video_horizontal'] = 'videos/encabezados/'.$nombreVideo;
     }
+
+    if ($request->hasFile('video_vertical')) {
+        $video = $request->file('video_vertical');
+        $nombreVideo = time().'_'.$video->getClientOriginalName();
+        $video->move(public_path('videos/encabezados'), $nombreVideo);
+        $encabezado['video_vertical'] = 'videos/encabezados/'.$nombreVideo;
+    }
+
+    $encabezado = encabezado::create($encabezado);
+
+    $this->registrarMovimiento('Crear', 'Se creó un encabezado: ' . $encabezado['titulo'], 'encabezados', $encabezado->id);
+
+    //dd($encabezado);
+   return redirect()->route('panel.landing.index')->with('success', 'Encabezado creado correctamente');
+}
+
+
+    public function updateEncabezado(Request $request, Encabezado $encabezado)
+        {
+            // Validación básica
+           /* $request->validate([
+                'titulo' => 'nullable|string|max:255',
+                'subtitulo' => 'nullable|string|max:255',
+                'contenido' => 'nullable|string|max:500',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'video_horizontal' => 'nullable|mimetypes:video/mp4,video/webm|max:51200', // max 50MB
+                'video_vertical' => 'nullable|mimetypes:video/mp4,video/webm|max:51200',
+            ]);*/
+
+            // Actualizar textos
+            $encabezado->titulo = $request->titulo;
+            $encabezado->subtitulo = $request->subtitulo;
+            $encabezado->contenido = $request->contenido;
+
+            // Imagen
+           /* if ($request->hasFile('imagen')) {
+                $file = $request->file('imagen');
+                $nombreArchivo = time().'_'.$file->getClientOriginalName();
+                $file->move(public_path('images/encabezados'), $nombreArchivo);
+                $encabezado->imagen = 'images/encabezados/'.$nombreArchivo;
+            }*/
+
+            // Video horizontal
+            if ($request->hasFile('video_horizontal')) {
+                $file = $request->file('video_horizontal');
+                $nombreArchivo = time().'_'.$file->getClientOriginalName();
+                $file->move(public_path('videos/encabezados'), $nombreArchivo);
+                $encabezado->video_horizontal = 'videos/encabezados/'.$nombreArchivo;
+            }
+
+            // Video vertical
+            if ($request->hasFile('video_vertical')) {
+                $file = $request->file('video_vertical');
+                $nombreArchivo = time().'_'.$file->getClientOriginalName();
+                $file->move(public_path('videos/encabezados'), $nombreArchivo);
+                $encabezado->video_vertical = 'videos/encabezados/'.$nombreArchivo;
+            }
+
+            $encabezado->save();
+
+            // Registrar movimiento
+            $this->registrarMovimiento(
+                'Actualizar',
+                'Se actualizó un encabezado: ' . $encabezado->titulo,
+                'encabezados',
+                $encabezado->id,
+            );
+
+            return redirect()->route('panel.landing.index')->with('success', 'Encabezado actualizado correctamente');
+        }
 
     public function destroyEncabezado(encabezado $encabezado)
     {

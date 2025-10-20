@@ -7,9 +7,9 @@
 
         <h2 class="text-xl font-bold mb-6 text-[#1C6C73]">Crear Certificación</h2>
 
-        <form action="{{ route('certificaciones.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('panel.certificaciones.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
+  
             <!-- Campo título -->
             <div class="mb-4">
                 <label class="block mb-2 font-medium">Título</label>

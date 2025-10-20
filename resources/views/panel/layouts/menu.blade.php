@@ -94,9 +94,9 @@
                         class="ml-auto w-4 h-4 transition-transform"></i>
                 </button>
                 <div x-show="open" x-transition class="ml-6 mt-1 space-y-1">
-                    <a href="gastos.html" class="block p-2 rounded hover:bg-[#CDAF95]">Gastos</a>
-                    <a href="cortes.html" class="block p-2 rounded hover:bg-[#CDAF95]">Cortes diarios</a>
-                    <a href="ingresos.html" class="block p-2 rounded hover:bg-[#CDAF95]">Reporte de clínica</a>
+                    <a href="{{ route('panel.gastos.index') }}" class="block p-2 rounded hover:bg-[#CDAF95]">Gastos</a>
+                    <a href="{{ route('panel.ingresos.index')}}" class="block p-2 rounded hover:bg-[#CDAF95]">Ingresos</a>
+                    <a href="{{ route('panel.cortesDiarios.index')}}" class="block p-2 rounded hover:bg-[#CDAF95]">Cortes diarios</a>
                     <a href="presupuestos.html" class="block p-2 rounded hover:bg-[#CDAF95]">Presupuestos</a>
                     <a href="cortes_caja.html" class="block p-2 rounded hover:bg-[#CDAF95]">Cortes de caja</a>
                     <a href="layout.bbva.html" class="block p-2 rounded hover:bg-[#CDAF95]">Layout de BBVA</a>
@@ -165,7 +165,7 @@
                 <div x-show="open" x-transition class="ml-6 mt-1 space-y-1">
                     <a href="{{ route('panel.landing.index') }}" class="block p-2 rounded hover:bg-[#CDAF95]">Página principal</a>
                     <a href="{{ route('panel.drsantana.index') }}" class="block p-2 rounded hover:bg-[#CDAF95]">Blog Dr. Alejandro</a>
-                
+
                 </div>
             </div>
 

@@ -14,11 +14,11 @@
                 <th>Acciones</th>
             </tr> 
         </thead>
-        @foreach ($inventarios as $inv)
             <tbody>
+                @foreach ($inventarios as $inv)
                 <tr>
                     <td>{{ $inv->id }}</td>
-                    <td>{{ $inv->name }}</td> 
+                    <td>{{ $inv->name }}</td>
                     <td>{{ $inv->minimum_required }} Piezas</td>
                     <td>{{ $inv->stock }} Piezas</td>
                     <td>{{ $inv->unidades }} Piezas</td>
@@ -52,8 +52,8 @@
 
                     </td>
                 </tr>
+            @endforeach
             </tbody>
-        @endforeach
     </table>
 @endif
 <!-- MOdales -->

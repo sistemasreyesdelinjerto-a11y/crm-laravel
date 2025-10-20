@@ -13,5 +13,8 @@ class encabezado extends Model
         'titulo',
         'subtitulo',
         'imagen',
+        'video_horizontal',
+        'video_vertical',
+        'contenido'
     ];
 }

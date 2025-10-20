@@ -23,7 +23,7 @@
                  class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
 
              <h2 class="text-xl font-bold mb-4">Editar Certificación</h2>
-             <form action="{{ route('certificaciones.update', $cert->id) }}" method="POST"
+             <form action="{{ route('panel.certificaciones.update', $cert->id) }}" method="POST"
                  enctype="multipart/form-data">
                  @csrf
                  @method('PUT')
@@ -41,7 +41,7 @@
                  <button type="submit" class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro">Guardar
                      cambios</button>
              </form>
-             <form action="{{ route('certificaciones.destroy', $cert->id) }}" method="POST"
+             <form action="{{ route('panel.certificaciones.destroy', $cert->id) }}" method="POST"
                  onsubmit="return confirm('¿Estás seguro de eliminar esta certificación?');">
                  @csrf
                  @method('DELETE')

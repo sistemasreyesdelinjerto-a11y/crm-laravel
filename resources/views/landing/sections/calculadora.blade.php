@@ -1,56 +1,56 @@
 <section id="calculadora" class="py-28 px-6 bg-gradient-to-r from-gray-100 via-white to-gray-100">
-  <div class="max-w-6xl mx-auto text-center mb-16">
-    <h2 class="text-5xl font-extrabold text-gray-800">Nuestros Resultados</h2>
-    <p class="text-xl text-gray-600 mt-4">Confianza respaldada por nuestros resultados</p>
-  </div>
+    <div class="max-w-6xl mx-auto text-center mb-16">
+        <h2 class="text-5xl font-[Poppins] text-[#1C6C73]">Nuestra Experiencia</h2>
+        <p class="text-xl text-[#4298A7] mt-4 font-[Cinzel]"></p>
+    </div>
 
-  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 px-6">
-    @foreach($resultados as $resultado)
-      <div class="shadow-2xl rounded-3xl p-14 flex flex-col md:flex-row items-center justify-between hover:scale-105 transition-transform duration-300"
-           style="background: linear-gradient(to bottom right, {{ $resultado->color }}20, #ffffff);">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 px-6">
+        @foreach ($resultados as $resultado)
+            <div class="shadow-2xl rounded-3xl p-14 flex flex-col md:flex-row items-center justify-between hover:scale-105 transition-transform duration-300"
+                style="background: linear-gradient(to bottom right, {{ $resultado->color }}20, #ffffff);">
 
-        <div class="mb-6 md:mb-0">
-          <h3 class="text-2xl font-bold text-gray-700">{{ $resultado->titulo }}</h3>
-          <p class="text-6xl font-extrabold mt-6 counter" data-target="{{ $resultado->numero }}">0</p>
-        </div>
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold text-gray-700">{{ $resultado->titulo }}</h3>
+                    <p class="text-6xl font-extrabold mt-6 counter" data-target="{{ $resultado->numero }}">0</p>
+                </div>
 
-        <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
-          @if($resultado->icono_svg)
-            <img src="{{ asset($resultado->icono_svg) }}" alt="Icono" class="w-12 h-12 object-contain">
-          @else
-            <span class="text-gray-400">Sin imagen</span>
-          @endif
-        </div>
-      </div>
-    @endforeach
-  </div>
+                <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
+                    @if ($resultado->icono_svg)
+                        <img src="{{ asset($resultado->icono_svg) }}" alt="Icono" class="w-15 h-15 object-contain">
+                    @else
+                        <span class="text-gray-400">Sin imagen</span>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+    </div>
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const counters = document.querySelectorAll(".counter");
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll(".counter");
 
-  counters.forEach(counter => {
-    counter.innerText = "0";
-    const target = +counter.getAttribute("data-target");
+        counters.forEach(counter => {
+            counter.innerText = "0";
+            const target = +counter.getAttribute("data-target");
 
-    let current = 0;
-    const duration = 2000; // Duración total del conteo en ms (2 segundos)
-    const stepTime = 15;   // Cada cuánto se actualiza el contador
-    const steps = Math.ceil(duration / stepTime);
-    const increment = target / steps;
+            let current = 0;
+            const duration = 2000; // Duración total del conteo en ms (2 segundos)
+            const stepTime = 15; // Cada cuánto se actualiza el contador
+            const steps = Math.ceil(duration / stepTime);
+            const increment = target / steps;
 
-    const updateCounter = () => {
-      current += increment;
-      if (current < target) {
-        counter.innerText = Math.ceil(current).toLocaleString();
-        setTimeout(updateCounter, stepTime);
-      } else {
-        counter.innerText = target.toLocaleString();
-      }
-    };
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.innerText = Math.ceil(current).toLocaleString();
+                    setTimeout(updateCounter, stepTime);
+                } else {
+                    counter.innerText = target.toLocaleString();
+                }
+            };
 
-    updateCounter();
-  });
-});
+            updateCounter();
+        });
+    });
 </script>

@@ -12,11 +12,11 @@
             <th>Cantidad</th>
             <th>Fecha de Movimiento</th>
             <th>Entregado  a: </th>
-            <th>Ubicacion</th>   
+            <th>Ubicacion</th>
         </tr>
     </thead>
-    @foreach ($movimientos as $movi)
         <tbody>
+    @foreach ($movimientos as $movi)
         <tr>
             <td>{{ $movi->id }}</td>
             <td>{{ $movi->nombreProducto }}</td>
@@ -28,12 +28,12 @@
             @else
             <td>{{ $movi->entregadoA }}</td>
             @endif
-            <td>{{ $movi->ubicacion }}</td>   
+            <td>{{ $movi->ubicacion }}</td>
         </tr>
-    </tbody>
     @endforeach
+    </tbody>
 </table>
-    
+
 @endif
 <!--- Inicia script de DataTable --->
 

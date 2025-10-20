@@ -1,4 +1,4 @@
-<div id="salidaProductModal" class="modal fixed inset-0 z-50 items-center justify-center hidden flex">
+<div id="salidaProductModal" class="modal fixed inset-0 z-50 items-center justify-center hidden flex backdrop-blur-sm">
     <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
 
     <div class="modal-container bg-white w-full max-w-md rounded-2xl shadow-lg z-50 overflow-hidden mx-4">

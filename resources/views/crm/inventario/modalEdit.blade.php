@@ -1,6 +1,6 @@
-<div id="editProductModal" class="modal fixed inset-0 z-50 items-center justify-center hidden flex">
-    <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div> 
-    
+<div id="editProductModal" class="modal fixed inset-0 z-50 items-center justify-center hidden flex backdrop-blur-sm">
+    <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
+
     <div class="modal-container bg-white w-full max-w-md rounded-2xl shadow-lg z-50 overflow-hidden mx-4">
         <!-- Header -->
         <div class="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
@@ -18,7 +18,7 @@
 
                 <div class="mb-4">
                     <label class="block font-medium text-gray-700 mb-2">Nombre:</label>
-                    <input type="text" id="editProductName" name="nombre" 
+                    <input type="text" id="editProductName" name="nombre"
                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]">
                 </div>
 
@@ -55,7 +55,7 @@
                     <input type="number" id="itemMinima" name="cantidad_minima" min="0"
                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73]">
                 </div>
-             
+
                 <div class="flex justify-end gap-3 pt-4">
                     <button type="button" onclick="closeModal('editProductModal')" class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium">
                         Cancelar

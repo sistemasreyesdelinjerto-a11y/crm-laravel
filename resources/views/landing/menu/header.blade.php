@@ -1,27 +1,24 @@
-<header class="fixed top-0 left-0 w-full z-50">
-    <nav class="bg-verdeOscuro/95 backdrop-blur-xl shadow-xl">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<header id="mainHeader" class="fixed top-0 left-0 w-full z-50 md:z-60">
+    <nav
+        class="bg-transparent backdrop-blur-sm border-b border-white/40 text-white shadow-none transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
             <!-- Logo -->
             <a href="/"
-                class="flex items-center gap-3 font-extrabold text-2xl text-beigeClaro hover:scale-105 transform transition-all duration-300">
-                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                        d="M12 2c.7 3.4-1.2 5.8-2.7 7.8-1.7 2.3-2.3 3.8-1.3 5.6 1.3 2.5 5.5 2.6 7.5 0 1.5-1.9.5-4.4-1-6.2C13.2 7.8 11.9 6.2 12 4c.1-.8.4-1.4.8-2z" />
-                </svg>
-                Clínica Capilar Elite
+                class="flex items-center gap-5 font-extrabold text-2xl text-white hover:scale-105 transform transition-all duration-300">
+                <img src="{{ asset('images/logos.png') }}" alt="Logo" style="height: 75px; width: auto;">
             </a>
 
             <!-- Menú Desktop -->
-            <ul class="hidden md:flex items-center gap-8 text-lg font-semibold text-beigeClaro">
+            <ul class="hidden md:flex items-center gap-8 text-sm font-bold text-white">
                 <li><a href="/"
                         class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Inicio</a></li>
-                <li><a href="#conocenos"
-                        class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Conócenos</a></li>
-                <li><a href="#servicios"
+                <li><a href="{{ route('landing.servicios') }}"
                         class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Servicios</a></li>
-                <li><a href="/dr-santana" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Dr.
-                        Santana</a></li>
+                <li><a href="{{ route('landing.tecnologias') }}"
+                        class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Tecnologías</a></li>
+                <li><a href="{{ route('landing.equipo') }}"
+                        class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Equipo</a></li>
 
                 <!-- Dropdown Clínicas Desktop -->
                 <li class="relative" id="desktopClinicas">
@@ -30,65 +27,65 @@
                         Clínicas ▼
                     </button>
                     <ul id="desktopClinicasList"
-                        class="absolute left-1/2 -translate-x-1/2 mt-3 w-60 bg-beigeCalido text-verdeOscuro rounded-3xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-2">
+                        class="absolute left-1/2 -translate-x-1/2 mt-3 w-60 bg-white/10 backdrop-blur-md border border-white/30 
+                        text-white rounded-3xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-2">
                         <li><a href="{{ route('landing.santafe') }}"
-                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Santa
+                                class="block px-5 py-3 hover:bg-white/20 rounded-xl transition-all duration-300">Santa
                                 Fe</a></li>
                         <li><a href="{{ route('landing.pedregal') }}"
-                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Pedregal</a>
+                                class="block px-5 py-3 hover:bg-white/20 rounded-xl transition-all duration-300">Pedregal</a>
                         </li>
                         <li><a href="{{ route('landing.queretaro') }}"
-                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Querétaro</a>
+                                class="block px-5 py-3 hover:bg-white/20 rounded-xl transition-all duration-300">Querétaro</a>
                         </li>
                     </ul>
                 </li>
-
 
                 <li><a href="#contacto"
                         class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Contacto</a></li>
             </ul>
 
-            <!-- Botón destacado -->
+            <!-- Botón blanco -->
             <a href="#contacto"
-                class="hidden md:inline-block bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-3xl font-bold shadow-xl hover:bg-verdeClaro hover:text-beigeClaro transition-transform transform hover:-translate-y-1 hover:scale-105">
-                Agenda tu Valoración
+                class="hidden md:inline-block border border-white text-white px-6 py-3 font-bold shadow-lg hover:bg-white hover:text-black transition-transform transform hover:-translate-y-1 hover:scale-105">
+                Agenda tu Diagnóstico
             </a>
 
             <!-- Botón menú móvil -->
             <button id="menuBtn"
-                class="md:hidden text-3xl text-beigeClaro hover:scale-110 transition-transform">☰</button>
+                class="md:hidden text-3xl text-white hover:scale-110 transition-transform relative z-50">☰</button>
         </div>
 
-        <!-- Menú móvil Overlay -->
+        <!-- Menú móvil -->
         <div id="mobileMenu"
-            class="fixed inset-0 bg-verdeOscuro/95 backdrop-blur-xl transition-transform transition-opacity duration-300 z-60 scale-0 opacity-0 overflow-auto">
-            <div class="max-w-7xl mx-auto px-6 pt-32 flex flex-col items-center space-y-6 text-2xl text-beigeClaro">
+            class="fixed top-0 left-0 w-full bg-white backdrop-blur-xl duration-300 z-50 scale-0 opacity-0 overflow-auto">
+            <div
+                class="max-w-7xl mx-auto px-6 pt-32 flex flex-col items-center space-y-6 text-2xl text-black h-auto justify-start">
+
                 <a href="/" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Inicio</a>
-                <a href="#conocenos"
-                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Conócenos</a>
-                <a href="#servicios"
+                <a href="{{ route('landing.servicios') }}"
                     class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Servicios</a>
-                <a href="/dr-santana" class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Dr.
-                    Santana</a>
+                <a href="{{ route('landing.tecnologias') }}"
+                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Tecnologías</a>
+                <a href="{{ route('landing.equipo') }}"
+                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Equipo</a>
+                <a href="{{ route('landing.tecnologias') }}"
+                    class="hover:text-beigeCalido transition-all duration-300 hover:scale-105">Tecnologías</a>
 
                 <!-- Dropdown Clínicas Móvil -->
                 <div class="relative w-full max-w-xs">
-                    <button id="clinicasBtn"
-                        class="w-full py-3 bg-beigeCalido text-verdeOscuro rounded-3xl font-bold shadow-lg hover:scale-105 transition-transform">
-                        Clínicas ▼
+                    <button
+                        class="accordion-btn w-full py-3 bg-beigeCalido text-verdeOscuro rounded-3xl font-bold shadow-lg hover:scale-105 transition-transform">
+                        Clínicas <span class="arrow transition-transform">▼</span>
                     </button>
-                    <ul id="clinicasList"
-                        class="mt-2 w-full bg-beigeCalido text-verdeOscuro rounded-3xl shadow-lg transition-all duration-300 hidden">
-                        <li><a href="/santafe"
-                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Santa
-                                Fe</a></li>
-                        <li><a href="/pedregal"
-                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Pedregal</a>
-                        </li>
-                        <li><a href="/queretaro"
-                                class="block px-5 py-3 hover:bg-verdeClaro/20 rounded-xl transition-all duration-300">Querétaro</a>
-                        </li>
-                    </ul>
+                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300">
+                        <a href="{{ route('landing.santafe') }}"
+                            class="block py-2 pl-6 hover:text-beigeCalido transition-all duration-300">Santa Fe</a>
+                        <a href="{{ route('landing.pedregal') }}"
+                            class="block py-2 pl-6 hover:text-beigeCalido transition-all duration-300">Pedregal</a>
+                        <a href="{{ route('landing.queretaro') }}"
+                            class="block py-2 pl-6 hover:text-beigeCalido transition-all duration-300">Querétaro</a>
+                    </div>
                 </div>
 
                 <a href="#contacto"
@@ -114,71 +111,119 @@
         mobileMenu.classList.toggle('opacity-0');
         mobileMenu.classList.toggle('opacity-100');
         document.body.classList.toggle('overflow-hidden');
+
+        // Ocultar botón menú mientras el menú está abierto
+        if (mobileMenu.classList.contains('scale-100')) {
+            menuBtn.classList.add('hidden');
+        } else {
+            menuBtn.classList.remove('hidden');
+        }
     });
+
     closeMenu.addEventListener('click', () => {
         mobileMenu.classList.add('scale-0', 'opacity-0');
         mobileMenu.classList.remove('scale-100', 'opacity-100');
         document.body.classList.remove('overflow-hidden');
+        menuBtn.classList.remove('hidden');
     });
 
-    // Dropdown Clínicas móvil
-    const clinicasBtn = document.getElementById('clinicasBtn');
-    const clinicasList = document.getElementById('clinicasList');
-
-    clinicasBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        clinicasList.classList.toggle('hidden');
-    });
-
+    // Cerrar menú al hacer clic fuera
     document.addEventListener('click', (e) => {
-        if (!clinicasBtn.contains(e.target) && !clinicasList.contains(e.target)) {
-            clinicasList.classList.add('hidden');
+        if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            mobileMenu.classList.add('scale-0', 'opacity-0');
+            mobileMenu.classList.remove('scale-100', 'opacity-100');
+            document.body.classList.remove('overflow-hidden');
+            menuBtn.classList.remove('hidden');
         }
     });
 
-    // Scroll suave para enlaces internos
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-            if (mobileMenu.classList.contains('scale-100')) {
-                mobileMenu.classList.remove('scale-100');
-                mobileMenu.classList.remove('opacity-100');
-                mobileMenu.classList.add('scale-0', 'opacity-0');
-                document.body.classList.remove('overflow-hidden');
+    // Dropdown Clínicas móvil
+    const accordions = document.querySelectorAll('.accordion-btn');
+    accordions.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const content = btn.nextElementSibling;
+            const arrow = btn.querySelector('.arrow');
+            if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                content.style.maxHeight = "0";
+                arrow && (arrow.style.transform = "rotate(0deg)");
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrow && (arrow.style.transform = "rotate(180deg)");
             }
         });
     });
 
+    // Scroll suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+            // Cierra menú móvil si está abierto
+            mobileMenu.classList.add('scale-0', 'opacity-0');
+            mobileMenu.classList.remove('scale-100', 'opacity-100');
+            document.body.classList.remove('overflow-hidden');
+            menuBtn.classList.remove('hidden');
+        });
+    });
+
+    // Dropdown Desktop
     const desktopClinicas = document.getElementById('desktopClinicas');
     const desktopClinicasList = document.getElementById('desktopClinicasList');
 
-    let dropdownTimeout;
+    if (desktopClinicas && desktopClinicasList) {
+        let dropdownTimeout;
 
-    function openDesktopDropdown() {
-        clearTimeout(dropdownTimeout);
-        desktopClinicasList.style.opacity = '1';
-        desktopClinicasList.style.pointerEvents = 'auto';
-        desktopClinicasList.style.transform = 'translateY(0)';
+        function openDesktopDropdown() {
+            clearTimeout(dropdownTimeout);
+            desktopClinicasList.style.opacity = '1';
+            desktopClinicasList.style.pointerEvents = 'auto';
+            desktopClinicasList.style.transform = 'translateY(0)';
+        }
+
+        function closeDesktopDropdown() {
+            dropdownTimeout = setTimeout(() => {
+                desktopClinicasList.style.opacity = '0';
+                desktopClinicasList.style.pointerEvents = 'none';
+                desktopClinicasList.style.transform = 'translateY(-0.5rem)';
+            }, 200);
+        }
+        desktopClinicas.addEventListener('mouseenter', openDesktopDropdown);
+        desktopClinicas.addEventListener('mouseleave', closeDesktopDropdown);
+        desktopClinicasList.addEventListener('mouseenter', openDesktopDropdown);
+        desktopClinicasList.addEventListener('mouseleave', closeDesktopDropdown);
     }
 
-    function closeDesktopDropdown() {
-        dropdownTimeout = setTimeout(() => {
-            desktopClinicasList.style.opacity = '0';
-            desktopClinicasList.style.pointerEvents = 'none';
-            desktopClinicasList.style.transform = 'translateY(-0.5rem)';
-        }, 200); // espera 200ms antes de cerrar, para que no se cierre al mover rápido
-    }
+    // Cambios de scroll
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const nav = header.querySelector('nav');
+        const buttons = header.querySelectorAll('a, button');
 
-    // Mantener abierto mientras el mouse esté en el <li> o en el <ul>
-    desktopClinicas.addEventListener('mouseenter', openDesktopDropdown);
-    desktopClinicas.addEventListener('mouseleave', closeDesktopDropdown);
-    desktopClinicasList.addEventListener('mouseenter', openDesktopDropdown);
-    desktopClinicasList.addEventListener('mouseleave', closeDesktopDropdown);
+        if (scrollY > 650) {
+            nav.classList.remove('text-white', 'border-white/40');
+            nav.classList.add('text-black', 'border-gray-800', 'bg-white/90', 'shadow-lg');
+            buttons.forEach(btn => {
+                btn.classList.remove('text-white', 'border-white');
+                btn.classList.add('text-gray-800', 'border-gray-700');
+            });
+            mobileMenu.classList.remove('bg-white/92', 'text-black');
+            mobileMenu.classList.add('bg-white/90', 'text-black', 'border-b', 'border-gray-800');
+        } else {
+            nav.classList.remove('text-black', 'border-gray-800', 'bg-white/90', 'shadow-lg');
+            nav.classList.add('text-white', 'border-white/40');
+            buttons.forEach(btn => {
+                btn.classList.remove('text-gray-800', 'border-gray-700');
+                btn.classList.add('text-white', 'border-white');
+            });
+            mobileMenu.classList.remove('bg-white/90', 'text-black', 'border-b', 'border-gray-800');
+            mobileMenu.classList.add('bg-white/92', 'text-black');
+        }
+    });
 </script>

@@ -17,7 +17,7 @@
 
     <!-- Servicios -->
 
-    @include('landing.sections.servicios')
+   <!-- @include('landing.sections.servicios') -->
 
     <!-- Blog -->
     @include('landing.blog.listado')

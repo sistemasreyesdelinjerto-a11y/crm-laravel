@@ -55,6 +55,14 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        /* Para BunnyCDN */
+        'bunny' => [
+            'api_key' => env('BUNNY_API_KEY'),
+            'storage_zone' => env('BUNNY_STORAGE_ZONE'),
+            'region' => env('BUNNY_REGION'),
+            'host' => env('BUNNY_HOST'),
+        ],
+
 
     ],
 

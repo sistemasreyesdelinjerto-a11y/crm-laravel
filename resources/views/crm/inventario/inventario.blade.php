@@ -3,9 +3,9 @@
 @section('title', 'Gestión de Inventario')
 
 
-@section('content') 
+@section('content')
     <section class="py-10 px-6 bg-white">
-        <h1 class="text-2xl text-center font-bold mb-4">Administracion de Inventario (Beta!)</h1>
+        <h1 class="text-2xl text-center font-bold mb-8 text-[#1C6C73]">Administracion de Inventario (Beta Testing!)</h1>
         <br><br>
         <!-- Encabezado de pagina Dropdown -->
         <div class="w-full flex justify-end mb-6">

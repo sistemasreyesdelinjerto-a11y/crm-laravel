@@ -5,11 +5,20 @@
         <!-- Título y botón Crear -->
         <div class="flex justify-between items-center mb-9">
             <h1 class="text-3xl font-bold text-tealOscuro">Conócenos</h1>
+              @if ($encabezados->count() < 1)
             <button @click="openCreate = true"
                 class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealClaro transition">
-                Crear encabezado
+                Crear encabezado 
             </button>
+                @else
+            <button @click="openCreate = true"
+                class="bg-[#4298A7] text-white px-4 py-2 rounded hover:bg-tealClaro transition" disabled>
+                Crear encabezado 
+            </button>
+                @endif
         </div>
+        
+
 
         @if ($encabezados->isEmpty())
             <p>No hay encabezados disponibles.</p>
@@ -40,10 +49,17 @@
                             </div>
                             <div class="flex flex-col items-end space-y-2">
                                 <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
-                                    @if($enca->imagen)
-                                        <img src="{{ asset($enca->imagen) }}" alt="imagen" class="w-12 h-12 object-contain">
+                                    @if($enca->video_horizontal)
+                                        <img src="{{ asset($enca->video_horizontal) }}" alt="video" class="w-12 h-12 object-contain">
                                     @else
-                                        <span class="text-gray-400">Sin imagen</span>
+                                        <span class="text-gray-400">Sin video</span>
+                                    @endif
+                                </div>
+                                 <div class="w-20 h-20 rounded-lg flex items-center justify-center bg-white shadow-lg">
+                                    @if($enca->video_vertical)
+                                        <img src="{{ asset($enca->video_vertical) }}" alt="video" class="w-12 h-12 object-contain">
+                                    @else
+                                        <span class="text-gray-400">Sin video</span>
                                     @endif
                                 </div>
                                 <button @click="editId = {{ $enca->id }}"
@@ -73,12 +89,20 @@
                 <form action="{{ route('panel.landing.encabezado.store') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    <label class="block mb-2">Título</label>
+                    <label class="block mb-2">Contenido del texto pequeño superior</label>
                     <input type="text" name="titulo" class="w-full border rounded p-2 mb-4" required>
-                    <label class="block mb-2">SubTítulo</label>
+                    <label class="block mb-2">Contenido del texto resaltado</label>
+                    <input type="text" name="contenido" class="w-full border rounded p-2 mb-4" required>
+                    <label class="block mb-2">Contenido del texto pequeño inferior</label>
                     <input type="text" name="subtitulo" class="w-full border rounded p-2 mb-4" required>
-                    <label class="block mt-2">Imagen</label>
-                    <input type="file" name="imagen" accept="image/*" class="mt-1">
+                    <!--<label class="block mt-2">Imagen</label>
+                    <input type="file" name="imagen" accept="image/*" class="mt-1">-->
+                    <label class="block mt-2">Video/Imagen Horizontal (PC)</label>
+                    <input type="file" name="video_horizontal" class="mt-1">
+
+                    <label class="block mt-2">Video/Imagen Vertical (Móvil)</label>
+                    <input type="file" name="video_vertical"  class="mt-1">
+
                     <br><br>
                     <button type="submit"
                         class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealClaro">Agregar</button>
@@ -87,40 +111,73 @@
         </div>
 
         <!-- Modal Editar -->
-        @foreach ($encabezados as $enca)
-            <div x-show="editId === {{ $enca->id }}" x-cloak @click.self="editId = null"
-                class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                <div class="bg-white rounded-lg w-96 p-6 relative">
-                    <button @click="editId = null"
-                        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
-                    <h2 class="text-xl font-bold mb-4">Editar Encabezado</h2>
-                    <form action="{{ route('panel.landing.encabezado.update', $enca->id) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <label class="block mb-2">Título</label>
-                        <input type="text" name="titulo" value="{{ $enca->titulo }}"
-                            class="w-full border rounded p-2 mb-4">
-                        <label class="block mb-2">SubTítulo</label>
-                        <input type="text" name="subtitulo" value="{{ $enca->subtitulo }}"
-                            class="w-full border rounded p-2 mb-4">
-                        <label class="block mt-2">Imagen</label>
-                        <input type="file" name="imagen" accept="image/*,image/svg+xml" class="mt-1">
-                        <br><br>
-                        <button type="submit"
-                            class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro">Guardar Cambios</button>
-                    </form>
-                    <form action="{{ route('panel.landing.encabezado.destroy', $enca->id) }}" method="POST"
-                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este encabezado?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-tealOscuro text-sm mt-4">
-                            Borrar
-                        </button>
-                    </form>
-                </div>
-            </div>
-        @endforeach
+@foreach ($encabezados as $enca)
+    <div x-show="editId === {{ $enca->id }}" x-cloak @click.self="editId = null"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div class="bg-white rounded-lg w-96 p-6 relative max-h-[90vh] overflow-auto">
+            <button @click="editId = null"
+                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+            <h2 class="text-xl font-bold mb-4">Editar Encabezado</h2>
+
+            <form action="{{ route('panel.landing.encabezado.update', $enca->id) }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <!-- Título -->
+                <label class="block mb-2">Título</label>
+                <input type="text" name="titulo" value="{{ $enca->titulo }}"
+                    class="w-full border rounded p-2 mb-4">
+
+                <!-- Subtítulo -->
+                <label class="block mb-2">Subtítulo</label>
+                <input type="text" name="subtitulo" value="{{ $enca->subtitulo }}"
+                    class="w-full border rounded p-2 mb-4">
+
+                <!-- Contenido (texto medio) -->
+                <label class="block mb-2">Contenido</label>
+                <input type="text" name="contenido" value="{{ $enca->contenido }}"
+                    class="w-full border rounded p-2 mb-4">
+
+                <!-- Video Horizontal -->
+                <label class="block mb-2">Video/imagen Horizontal</label>
+                <input type="file" name="video_horizontal" accept="video/mp4,video/webm" class="w-full mb-4">
+                @if($enca->video_horizontal)
+                    <video src="{{ asset($enca->video_horizontal) }}" controls class="w-full mb-4"></video>
+                @endif
+
+                <!-- Video Vertical -->
+                <label class="block mb-2">Video/imagen Vertical</label>
+                <input type="file" name="video_vertical" accept="video/mp4,video/webm" class="w-full mb-4">
+                @if($enca->video_vertical)
+                    <video src="{{ asset($enca->video_vertical) }}" controls class="w-full mb-4"></video>
+                @endif
+
+                <!-- Imagen
+                <label class="block mb-2">Imagen</label>
+                <input type="file" name="imagen" accept="image/*,image/svg+xml" class="w-full mb-4">
+                @if($enca->imagen)
+                    <img src="{{ asset($enca->imagen) }}" alt="Imagen actual" class="w-full mb-4">
+                @endif
+                    -->
+                <!-- Botón Guardar -->
+                <button type="submit"
+                    class="bg-[#1C6C73] text-white px-4 py-2 rounded hover:bg-tealOscuro w-full">Guardar Cambios</button>
+            </form>
+
+            <!-- Botón Borrar -->
+            <form action="{{ route('panel.landing.encabezado.destroy', $enca->id) }}" method="POST"
+                onsubmit="return confirm('¿Estás seguro de que deseas eliminar este encabezado?');" class="mt-4">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-[#ff1616] text-white px-3 py-1 rounded hover:bg-red-700 w-full text-sm">
+                    Borrar
+                </button>
+            </form>
+        </div>
+    </div>
+@endforeach
+
     </main>
 </section>
 

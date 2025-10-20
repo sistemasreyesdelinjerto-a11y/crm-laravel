@@ -2,12 +2,18 @@
 @section('title', 'Clínica Pedregal')
 
 @section('content')
-    @include('landing.menu.header')
+    @include('landing.menu.headerX')
 
-    <div class="pt-28">
-           <div class="max-w-6xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Sucursal Pedregal</h2>
-             </div>
+    <!-- Banner estático -->
+    <section class="relative w-full h-64 md:h-96 bg-cover bg-center"
+        style="background-image: url('{{ asset('images/clinicaPedregal/PED3.jpg') }}');">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative z-10 flex items-center justify-center h-full">
+            <h1 class="text-white text-3xl md:text-5xl font-bold text-center">Sucursal Pedregal</h1>
+        </div>
+    </section>
+
+    <div class="pt-15"> <!-- Empuja todo para que no lo tape el header -->
         <!-- Sección: Ubicación -->
         <section class="py-16 px-6 bg-white">
             <div class="max-w-6xl mx-auto text-center">
@@ -112,7 +118,8 @@
         <section class="py-16 px-6 bg-white">
             <div class="max-w-5xl mx-auto text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Recorrido a Pedregal</h2>
-                <p class="text-verdeOscuro/80 mb-4">Explora la ruta en tiempo real desde tu ubicación hasta nuestra clínica.
+                <p class="text-verdeOscuro/80 mb-4">Explora la ruta en tiempo real desde tu ubicación hasta nuestra
+                    clínica.
                 </p>
 
                 <!-- Contenedor del mapa dinámico -->
@@ -131,7 +138,7 @@
             </div>
         </section>
     </div>
-        @include('landing.forms.contacto')
+    @include('landing.forms.contacto')
 
 
     @include('landing.sections.footer')

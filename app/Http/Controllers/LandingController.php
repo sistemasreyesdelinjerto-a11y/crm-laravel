@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Resultado;
 use App\Models\encabezado;
-use App\Models\blog;
+use App\Models\Blog;
 use App\Models\blogdr;
 use App\Models\Galeria;
 use App\Models\servicios;
@@ -20,13 +20,13 @@ class LandingController extends Controller
     {
         $resultados = Resultado::all();
         $encabezados = encabezado::all();
-        $blogs = blog::all();
+        $blogs = Blog::all();
         $servicios = servicios::all();
         $casos = CasoExito::all();
-        return view('landing.home', 
-        compact('resultados', 
-        'encabezados', 
-        'blogs', 
+        return view('landing.home',
+        compact('resultados',
+        'encabezados',
+        'blogs',
         'servicios',
         'casos'));
     }
@@ -65,6 +65,18 @@ class LandingController extends Controller
         return view('landing.queretaro');
     }
 
+    public function equipo(){
+        return view('landing.equipo');
+    }
+
+    public function tecnologias(){
+        return view('landing.tecnologias');
+    }
+
+    public function servicios(){
+        //$servicios = servicios::all();
+        return view('landing.servicios');
+    }
     //Seccion de Dr. Santana de la pagina principal
 /*
 public function drSantana()
@@ -76,7 +88,7 @@ public function drSantana()
                      ->get();
 $galerias = Galeria::all();
     return view('landing.dr_santana', compact('blogdrs','galerias'));
-} 
+}
 */
     public function drSantana()
     {

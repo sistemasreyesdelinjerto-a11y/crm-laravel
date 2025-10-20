@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
@@ -64,7 +64,7 @@ class DoctorSantanaController extends Controller
             'imagen' => 'nullable',
         ]);
 
-        $data = $request->only(['titulo', 'contenido', 'fecha']);
+        $data = $request->only(['titulo', 'contenido', 'fecha', 'link']);
 
         // Procesar imagen si se subió
         if ($request->hasFile('imagen')) {
@@ -83,52 +83,49 @@ class DoctorSantanaController extends Controller
             $blogdr->id
         );
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Blog Dr. creado correctamente.',
-            'data' => $blogdr
-        ]);
+          return redirect()->back()->with('success', 'Blog Dr. actualizado correctamente.');
     }
 
-  public function updateBlogdr(Request $request, $id)
-{
-    $blog = DB::table('blogdrs')->where('id', $id)->first();
+        public function updateBlogdr(Request $request, $id)
+        {
+            $blog = DB::table('blogdrs')->where('id', $id)->first();
 
-    if (!$blog) {
-        return redirect()->back()->with('error', 'Registro no encontrado.');
-    }
+            if (!$blog) {
+                return redirect()->back()->with('error', 'Registro no encontrado.');
+            }
 
-    $data = [
-        'titulo'     => $request->input('titulo', $blog->titulo),
-        'contenido'  => $request->input('contenido', $blog->contenido),
-        'fecha'      => $request->input('fecha', $blog->fecha),
-        'updated_at' => now(),
-    ];
+            $data = [
+                'titulo'     => $request->input('titulo', $blog->titulo),
+                'contenido'  => $request->input('contenido', $blog->contenido),
+                'fecha'      => $request->input('fecha', $blog->fecha),
+                'link'       => $request->input('link', $blog->link),
+                'updated_at' => now(),
+            ];
 
-    if ($request->hasFile('imagen')) {
-        // Eliminar imagen anterior si existe
-        if ($blog->imagen && file_exists(public_path($blog->imagen))) {
-            unlink(public_path($blog->imagen));
+            if ($request->hasFile('imagen')) {
+                // Eliminar imagen anterior si existe
+                if ($blog->imagen && file_exists(public_path($blog->imagen))) {
+                    unlink(public_path($blog->imagen));
+                }
+
+                $file = $request->file('imagen');
+                $nombreArchivo = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/blog'), $nombreArchivo);
+
+                $data['imagen'] = 'images/blog/' . $nombreArchivo;
+            }
+
+            DB::table('blogdrs')->where('id', $id)->update($data);
+
+            $this->registraMovimiento(
+                'Actualizar',
+                "Se actualizó blog Dr.: {$data['titulo']}",
+                'blogdrs',
+                $id
+            );
+
+            return redirect()->back()->with('success', 'Blog Dr. actualizado correctamente.');
         }
-
-        $file = $request->file('imagen');
-        $nombreArchivo = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('images/blog'), $nombreArchivo);
-
-        $data['imagen'] = 'images/blog/' . $nombreArchivo;
-    }
-
-    DB::table('blogdrs')->where('id', $id)->update($data);
-
-    $this->registraMovimiento(
-        'Actualizar',
-        "Se actualizó blog Dr.: {$data['titulo']}",
-        'blogdrs',
-        $id
-    );
-
-    return redirect()->back()->with('success', 'Blog Dr. actualizado correctamente.');
-}
 
     // Función para obtener todos los blogs
     public function getBlogsdr()
@@ -148,6 +145,31 @@ class DoctorSantanaController extends Controller
             ], 500);
         }
     }
+
+    public function destroyBlogdr($id)
+{
+    $blog = blogdr::find($id);
+
+    if (!$blog) {
+        return redirect()->back()->with('error', 'Entrada no encontrada.');
+    }
+
+    // Eliminar imagen si existe
+    if ($blog->imagen && file_exists(public_path($blog->imagen))) {
+        unlink(public_path($blog->imagen));
+    }
+
+    $blog->delete();
+
+    $this->registraMovimiento(
+        'Eliminar',
+        "Se eliminó blog Dr.: {$blog->titulo}",
+        'blogdrs',
+        $id
+    );
+
+    return redirect()->back()->with('success', 'Entrada eliminada correctamente.');
+}
 
     // -----------------------------
     // GALERÍA

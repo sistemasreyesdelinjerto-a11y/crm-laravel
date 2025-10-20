@@ -1,40 +1,46 @@
-<!-- INFORMACIÓN DE LA CLÍNICA -->
-<section id="conocenos" class="py-16 px-6 bg-white">
-    <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro text-center mb-10">Quiénes somos</h2>
-        <p class="text-verdeOscuro/90 text-lg md:text-xl text-center max-w-4xl mx-auto">
-           Somos una clínica especializada en brindar soluciones capilares personalizadas. Impactar positivamente la vida de nuestros pacientes al abordar de manera personalizada sus problemas de calvicie de manera segura y natural.
+<section id="conocenos" class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
 
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
 
-        </p>
+            <div class="relative w-full max-w-sm mx-auto rounded-xl overflow-hidden shadow-2xl">
 
-        <div class="mt-12 grid md:grid-cols-3 gap-6">
-            <article
-                class="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://www.losreyesdelinjerto.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-09-at-4.19.56-PM.jpeg" alt="Equipo Profesional"
-                    class="w-20 h-20 rounded-full mb-4 object-cover">
-                <h3 class="font-semibold text-xl mb-2 text-verdeOscuro">Equipo Profesional</h3>
-                <p class="text-sm text-verdeOscuro/80">Contamos con médicos especializados en injertos capilares y
-                    tratamientos estéticos personalizados.</p>
-            </article>
+                <div class="relative w-full aspect-[9/16] lg:h-[600px] lg:aspect-auto">
+                    <video class="absolute top-0 left-0 w-full h-full object-cover" autoplay loop muted playsinline>
+                        <source src="{{ asset('images/tecnologias/trivellini.mp4') }}" type="video/mp4">
+                        Tu navegador no soporta la reproducción de video.
+                    </video>
+                </div>
+            </div>
 
-            <article
-                class="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://www.losreyesdelinjerto.com/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-14-at-3.08.11-PM-2.jpeg" alt="Instalaciones Modernas"
-                    class="w-20 h-20 rounded-full mb-4 object-cover">
-                <h3 class="font-semibold text-xl mb-2 text-verdeOscuro">Instalaciones Modernas</h3>
-                <p class="text-sm text-verdeOscuro/80">Nuestras clínicas cuentan con tecnología de punta y espacios
-                    cómodos para cada paciente.</p>
-            </article>
+            <div class="lg:pl-8">
+                <p class="uppercase text-sm font-semibold text-gray-500 tracking-widest mb-2">Regeneramos más que solo
+                    cabello.
+                    Transformamos la manera en que te miras, y cómo te sientes.</p>
 
-            <article
-                class="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://www.losreyesdelinjerto.com/wp-content/uploads/2025/02/LRI-servicio-injerto_capilar.jpg" alt="Atención Personalizada"
-                    class="w-20 h-20 rounded-full mb-4 object-cover">
-                <h3 class="font-semibold text-xl mb-2 text-verdeOscuro">Atención Personalizada</h3>
-                <p class="text-sm text-verdeOscuro/80">Cada tratamiento se adapta a las necesidades de nuestros
-                    pacientes, asegurando resultados naturales y satisfactorios.</p>
-            </article>
+                <h2 class="text-4xl md:text-5xl font-bold text-verdeOscuro leading-tight mb-6">
+                    Así Comienza<br class="hidden sm:inline">Tu transformación <span class="text-teal-700"></span>
+                </h2>
+
+                <p class="text-verdeOscuro/90 text-lg mb-6">
+                    Iniciamos con un diagnóstico preciso de tu cuero cabelludo, con ayuda de la inteligencia artificial.
+                    Esto nos permite conocer el tipo de alopecia que presentas y definir el tratamiento necesario para
+                    ti.
+                </p>
+
+                <p class="text-verdeOscuro/80 text-md mb-8">
+                    
+                </p>
+
+                <!--<div>
+                    <a href="{{ route('landing.tecnologias') }}"
+                       class="inline-block border-2 border-verdeOscuro text-verdeOscuro font-semibold py-3 px-6 hover:bg-verdeOscuro hover:text-white transition duration-300">
+                        Conoce nuestra tecnología
+                    </a>
+                -->
+            </div>
         </div>
+
+    </div>
     </div>
 </section>

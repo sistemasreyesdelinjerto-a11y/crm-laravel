@@ -9,7 +9,7 @@
                 Crear Certificación
             </button>
         </div>
-
+ 
         @if ($certificaciones->isEmpty())
             <p>No hay certificaciones disponibles.</p>
         @else

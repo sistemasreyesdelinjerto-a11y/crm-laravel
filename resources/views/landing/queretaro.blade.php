@@ -2,15 +2,19 @@
     @section('title', 'Clínica Querétaro')
 
     @section('content')
-        @include('landing.menu.header')
+        @include('landing.menu.headerX')
         <!-- Tailwind ya lo tendrás -->
+        <!-- Banner estático -->
+        <section class="relative w-full h-64 md:h-96 bg-cover bg-center"
+            style="background-image: url('{{ asset('images/clinicaQRO/QRO3.jpeg') }}');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="relative z-10 flex items-center justify-center h-full">
+                <h1 class="text-white text-3xl md:text-5xl font-bold text-center">Sucursal Queretaro</h1>
+            </div>
+        </section>
 
-
-        <div class="pt-28">
-             <div class="max-w-6xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Sucursal Queretaro</h2>
-             </div>
-                 <!-- Empuja todo para que no lo tape el header -->
+        <div class="pt-15">
+            <!-- Empuja todo para que no lo tape el header -->
             <!-- Sección: Ubicación -->
             <section class="py-16 px-6 bg-white">
                 <div class="max-w-6xl mx-auto text-center">
@@ -138,7 +142,7 @@
                 </div>
             </section>
         </div>
-    @include('landing.forms.contacto')
+        @include('landing.forms.contacto')
 
         @include('landing.sections.footer')
 

@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\DoctorSantanaController as PanelDoctorSantanaController; // panel Dr. Santana
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\finanzasController;
 use App\Http\Controllers\HubspotController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\BunnyController;
 
-use App\Http\Controllers\UserController; 
+use App\Http\Controllers\UserController;
 
 Route::get('/dashboard', function () {
     return view('panel.index');
@@ -26,6 +28,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+//Prueba del PDF
+use Mpdf\Mpdf;
+
+Route::get('/test-mpdf', function() {
+    $mpdf = new Mpdf();
+    $mpdf->WriteHTML('<h1>Hola Mundo</h1>');
+    return $mpdf->Output('test.pdf', 'I');
+});
 
 
 
@@ -35,17 +45,16 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::get('/clinicas/santafe', [LandingController::class, 'clinicaSantafe'])->name('landing.santafe');
 Route::get('/clinicas/pedregal', [LandingController::class, 'clinicaPedregal'])->name('landing.pedregal');
 Route::get('/clinicas/queretaro', [LandingController::class, 'clinicaQueretaro'])->name('landing.queretaro');
-Route::post('/contacto-hubspot', [HubspotController::class, 'submit'])->name('hubspot.submit');
+//Route::post('/contacto-hubspot', [HubspotController::class, 'submit'])->name('hubspot.submit');
 
 // Dr. Santana
 Route::get('/dr-santana', [LandingController::class, 'drSantana'])->name('landing.dr_santana');
-
-/*Route::get('/dr-santana', function () {
-    return view('landing.dr_santana'); // nombre de la vista
-})->name('dr-santana');*/
-
-
-Route::get('/hubspot/contacts', [HubSpotController::class, 'contacts']);
+//Equipo
+Route::get('/equipo', [LandingController::class, 'equipo'])->name('landing.equipo');
+// Tecnologías
+Route::get('/tecnologias', [LandingController::class, 'tecnologias'])->name('landing.tecnologias');
+//
+Route::get('/servicios', [LandingController::class, 'servicios'])->name('landing.servicios');
 
 Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () {
 
@@ -82,6 +91,34 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::put('inventario/update', [InventarioController::class, 'updateProd'])->name('inventario.update');
     Route::delete('inventario/destroy/{id}', [InventarioController::class, 'destroyProd'])->name('inventario.destroy');
     Route::post('inventario/salida', [InventarioController::class, 'salidaProducto'])->name('inventario.salida');
+    //Kits medicos
+    Route::get('/productos', [InventarioController::class, 'getProductos'])->name('getProductos'); // Trae todos los productos disponibles
+    Route::get('/obtener', [InventarioController::class, 'getKit'])->name('getKit');         // Trae los productos del kit (por tipo y clínica)
+    Route::post('/guardar', [InventarioController::class, 'guardarKit'])->name('guardarKit');    // Guarda o actualiza los kits
+
+    //Salida rapida
+    Route::post('/salidas-rapidas', [InventarioController::class, 'registrarSalidaRapida'])->name('salidas.rapidas');
+
+    //Rutas de apartado de finanzas
+    //Rutas de gastos
+    Route::get('gastos', [finanzasController::class, 'indexGastos'])->name('gastos.index');
+    Route::post('/gastos/guardarGasto', [finanzasController::class, 'guardarGasto'])->name('gastos.guardar');
+    Route::put('/gastos/{id}', [finanzasController::class, 'actualizarGasto'])->name('gastos.actualizar');
+    Route::delete('/gastos/{id}', [finanzasController::class, 'eliminarGasto'])->name('gastos.eliminar');
+    //Suma de totales de gastos
+    Route::get('/gastos/fechas', [finanzasController::class, 'getGastosPorFechas'])->name('gastos.fechas');
+
+    //Rutas de ingresos
+    Route::get('ingresos', [finanzasController::class, 'indexIngresos'])->name('ingresos.index');
+    Route::get('ingresos-transacciones/data', [finanzasController::class, 'getTransacciones'])->name('ingresosTransacciones.data');
+
+    //Rustas de cortes diarios
+    Route::get('cortesDiarios', [finanzasController::class, 'indexCortesDiarios'])->name('cortesDiarios.index');
+    Route::post('/load-all-daily', [finanzasController::class, 'loadAllDaily'])->name('corte.loadAllDaily');
+    Route::post('/load-total-daily', [finanzasController::class, 'loadTotalDaily'])->name('corte.loadTotalDaily');
+    Route::post('/add-sign', [finanzasController::class, 'addSignByDay'])->name('corte.addSignByDay');
+    Route::post('/delete-sign', [finanzasController::class, 'deleteSignByDay'])->name('corte.deleteSignByDay');
+    Route::post('/generate-cash-closing', [finanzasController::class, 'generateCashClosingDaily'])->name('corte.generateCashClosingDaily');
 
     // crear encabezado
     Route::post('landing/encabezado', [PanelLandingController::class, 'storeEncabezado'])->name('landing.encabezado.store');
@@ -131,7 +168,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::put('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
     Route::delete('/doctor-santana/blog/{id}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
     Route::put('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'updateBlogdr'])->name('drsantana.blog.update');
-    Route::delete('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
+    //Route::delete('/doctor-santana/blog/{blog}', [PanelDoctorSantanaController::class, 'destroyBlogdr'])->name('drsantana.blog.destroy');
     //Route::get('/doctor-santana/blog', [PanelDoctorSantanaController::class, 'getBlogsdr'])->name('drsantana.blog.list');
 
     // Galería Dr. Santana
@@ -155,7 +192,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::get('/doctor-santana/contacto', [PanelDoctorSantanaController::class, 'indexContacto'])->name('drsantana.contacto.index');
     Route::get('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'showContacto'])->name('drsantana.contacto.show');
 
-    // Certificaciones 
+    // Certificaciones
     //Route::get('/doctor-santana/certificaciones', [PanelDoctorSantanaController::class, 'indexCertificaciones'])->name('certificaciones.index');
     Route::post('/certificaciones', [PanelDoctorSantanaController::class, 'CerStore'])->name('certificaciones.store');
     Route::put('/certificaciones/{id}', [PanelDoctorSantanaController::class, 'CerUpdate'])->name('certificaciones.update');
@@ -167,3 +204,39 @@ Route::prefix('panel')->name('panel.')->middleware(['auth'])->group(function () 
     Route::put('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'updateContacto'])->name('drsantana.contacto.update');
     Route::delete('/doctor-santana/contacto/{contacto}', [PanelDoctorSantanaController::class, 'destroyContacto'])->name('drsantana.contacto.destroy');
 });
+
+//Rutas para BunnyCDN
+Route::prefix('bunny')->group(function () {
+    Route::get('/{lead_id}', [BunnyController::class, 'index'])->name('bunny.index');
+    Route::get('listar/{lead_id}', [BunnyController::class, 'listar'])->name('bunny.listar');
+    Route::post('subir', [BunnyController::class, 'subir'])->name('bunny.subir');
+    Route::get('mostrar/{lead_id}/{archivo}', [BunnyController::class, 'mostrar'])->name('bunny.mostrar');
+    Route::delete('borrar/{lead_id}/{archivo}', [BunnyController::class, 'borrar'])->name('bunny.borrar');
+});
+
+
+
+//Prueba de BunnyCDN
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
+
+Route::get('/test-bunny', function () {
+    $url = 'https://' . env('BUNNY_HOST') . '/' . env('BUNNY_STORAGE_ZONE') . '/';
+    $apiKey = env('BUNNY_API_KEY');
+
+    try {
+        $response = Http::withHeaders([
+            'AccessKey' => $apiKey,
+        ])->get($url);
+
+        if ($response->successful()) {
+            return "✅ Conexión exitosa. Código de estado: " . $response->status();
+        } else {
+            return "❌ Error: " . $response->body();
+        }
+    } catch (\Exception $e) {
+        return "⚠️ Excepción: " . $e->getMessage();
+    }
+});
+
+

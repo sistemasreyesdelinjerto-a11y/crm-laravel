@@ -1,16 +1,21 @@
-<div id="quickExitModal" class="modal fixed inset-0 z-50 items-center justify-center hidden">
+<!-- Modal Salida Rápida -->
+<div id="quickExitModal" class="modal fixed inset-0 z-50 items-center justify-center hidden flex backdrop-blur-sm">
     <div class="modal-overlay absolute inset-0 bg-black opacity-50"></div>
-    
+
     <div class="modal-container bg-white w-full max-w-md rounded-2xl shadow-lg z-50 overflow-hidden mx-4">
         <!-- Header -->
         <div class="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
             <h2 class="text-lg font-semibold text-gray-800">Salida Rápida</h2>
             <button onclick="closeModal('quickExitModal')" class="text-gray-500 hover:text-gray-700 text-xl">✕</button>
         </div>
-
+ 
         <!-- Body -->
         <div class="p-6">
-            <form id="formquickExit" method="post" onsubmit="handleQuickExit(event)">
+
+            <!-- Formulario -->
+            <form id="formquickExit" method="POST" action="{{ route('panel.salidas.rapidas') }}" enctype="multipart/form-data">
+                @csrf
+
                 <div class="mb-4">
                     <label for="receivedBy" class="block font-medium text-gray-700 mb-2">Seleccionar a quién se le entrega:</label>
                     <select id="receivedBy" name="received_by" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73] focus:border-transparent" required>
@@ -33,7 +38,7 @@
                     </select>
                 </div>
 
-                <input type="hidden" name="clinic" id="clinic_exit">
+                <input type="hidden" name="clinic" id="clinic_exit" value="Santa fe">
 
                 <div class="mb-4">
                     <label for="type" class="block font-medium text-gray-700 mb-2">Tipo:</label>
@@ -46,22 +51,26 @@
 
                 <div class="mb-4">
                     <label for="outputDate" class="block font-medium text-gray-700 mb-2">Fecha:</label>
-                    <input type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73] focus:border-transparent" id="outputDate" name="output_date" required>
+                    <input type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C6C73] focus:border-transparent" id="outputDate" name="output_date" value="{{ date('Y-m-d') }}" required>
                 </div>
 
+                <div class="flex justify-end gap-3 pt-4">
+                     <button type="submit" class="bg-[#1C6C73] text-white px-5 py-2 rounded-lg hover:bg-[#14565c] transition-colors font-medium">
+                        Enviar
+                    </button>
+                </div>
                 <div class="flex justify-end gap-3 pt-4">
                     <button type="button" onclick="closeModal('quickExitModal')" class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium">
                         Cancelar
                     </button>
-                    <button type="submit" class="bg-[#1C6C73] text-white px-5 py-2 rounded-lg hover:bg-[#14565c] transition-colors font-medium">
-                        Enviar
-                    </button>
                 </div>
+                
             </form>
         </div>
     </div>
 </div>
 
+<!-- Estilos Modal -->
 <style>
 .modal {
     transition: opacity 0.25s ease;
@@ -76,39 +85,19 @@
 }
 </style>
 
+<!-- Script para abrir/cerrar modal -->
 <script>
-// Función para manejar el envío del formulario
-function handleQuickExit(event) {
-    event.preventDefault();
-    
-    // Aquí va tu lógica para procesar el formulario
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    
-    console.log('Datos de salida rápida:', data);
-    
-    // Simulación de envío (reemplaza con tu lógica real)
-    setTimeout(() => {
-        alert('Salida rápida registrada correctamente');
-        closeModal('quickExitModal');
-        event.target.reset(); // Limpiar formulario
-    }, 500);
+function openModal(id) {
+    document.getElementById(id).classList.remove('hidden');
+}
+function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
 }
 
-// Establecer fecha actual por defecto
-document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('outputDate').value = today;
-    
-    // Aquí puedes establecer el valor de clinic_exit si es necesario
-    // document.getElementById('clinic_exit').value = 'valor-de-la-clinica';
-});
-
-//Cerrar el modal al hacer click afuera
-  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+//Cerrar al hacer click afuera
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', function () {
-      closeModal('quickExitModal');
+        closeModal('quickExitModal');
     });
-  });
-
+});
 </script>

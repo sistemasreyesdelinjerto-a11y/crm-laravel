@@ -1,50 +1,94 @@
-<section id="" class="relative h-[92vh] mt-[64px] flex items-center justify-center text-beigeClaro overflow-hidden">
+<section class="relative h-screen flex flex-col items-center justify-center text-beigeClaro overflow-hidden pt-20">    
+    <div class="absolute w-full h-full overflow-hidden">
+        
+        @php
+            $horizontal = $encabezados->first()?->video_horizontal;
+            $vertical = $encabezados->first()?->video_vertical;
 
-  <!-- Contenedor de imágenes -->
-<div class="absolute w-full h-full overflow-hidden">
-  @foreach($encabezados as $index => $encabezado)
-    <img src="{{ asset($encabezado->imagen) }}"
-         alt="Imagen {{ $index+1 }}"
-         class="absolute w-full h-full object-cover transition-opacity duration-[3000ms] ease-in-out bg-slide {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-  @endforeach
+            function isVideo($file) {
+                $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                return in_array($ext, ['mp4','webm','ogg']);
+            }
+        @endphp 
 
-  <!-- Degradado oscuro sobre la imagen -->
-    <div class="absolute w-full h-full bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
-  </div>
+        @if($horizontal)
+            @if(isVideo($horizontal))
+                <video autoplay muted loop playsinline class="hidden md:block w-full h-full object-cover">
+                    <source src="{{ asset($horizontal) }}" type="video/mp4">
+                </video>
+            @else
+                <img src="{{ asset($horizontal) }}" alt="Banner" loading="lazy" class="hidden md:block w-full h-full object-cover">
+            @endif
+        @endif
 
-  <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/40"></div>
+        @if($vertical)
+            @if(isVideo($vertical))
+                <video preload="none" autoplay muted loop playsinline class="block md:hidden w-full h-full object-cover">
+                    <source src="{{ asset($vertical) }}" type="video/mp4">
+                </video>
+            @else
+                <img src="{{ asset($vertical) }}" alt="Banner" loading="lazy" class="block md:hidden w-full h-full object-cover">
+            @endif
+        @endif
 
-  <div class="relative z-10 max-w-3xl mx-auto px-6 text-center">
-    <span class="inline-flex items-center gap-2 text-sm tracking-wide bg-beigeCalido/90 text-verdeOscuro px-3 py-1 rounded-full animate-floaty">
-      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.1 21.3l-1.1-1C6 16 3 13.2 3 9.8 3 7.1 5.1 5 7.8 5c1.5 0 3 .7 4 1.9C12.8 5.7 14.3 5 15.8 5 18.5 5 20.6 7.1 20.6 9.8c0 3.4-3 6.2-8 10.6l-1.1.9z"/>
-      </svg>
-      Conócenos
-    </span>
-
-   <!-- Texto principal -->
-      <h1 id="mainText"
-          class="text-5xl md:text-6xl font-extrabold drop-shadow-xl transition-opacity duration-[3000ms] ease-in-out opacity-100">
-          {{ $encabezados->first()->titulo ?? '' }}
-      </h1>
-      <p id="subText"
-        class="mt-4 text-lg md:text-xl text-beigeClaro/90 transition-opacity duration-[3000ms] ease-in-out opacity-100">
-          {{ $encabezados->first()->subtitulo ?? '' }}
-      </p>
-
-    <div class="mt-8 flex gap-4 justify-center animate-glow">
-      <a href="#servicios" class="bg-beigeCalido text-verdeOscuro px-6 py-3 rounded-xl font-semibold hover:bg-verdeClaro hover:text-beigeClaro transition">
-        Ver servicios
-      </a>
-      <a href="#contacto" class="bg-transparent border border-beigeCalido/80 text-beigeClaro px-6 py-3 rounded-xl hover:bg-beigeCalido/20 transition">
-        Agenda una valoración
-      </a>
+        <div class="absolute w-full h-full bg-gradient-to-b from-black/40 via-black/20 to-black/40"></div>
     </div>
-  </div>
+
+
+    <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/30 to-black/50"></div>
+
+    <div class="relative z-30 max-w-5xl px-6 md:px-16 text-center mx-auto flex flex-col items-center gap-4">
+        
+        <p class="font-[Playfair Display] text-xl md:text-2xl font-medium">
+            {{ $encabezados->first()->titulo ?? 'Bienvenido a Clínica Capilar' }}
+        </p>
+
+        <br>
+        <h1 class="font-[Playfair Display] text-3xl md:text-5xl lg:text-6xl font-bold leading-snug">
+            {{ $encabezados->first()->contenido ?? 'Recupera tu confianza y estilo con nuestros tratamientos' }}
+        </h1>
+        <br>
+
+        <p class="font-[Playfair Display] text-xl md:text-2xl font-medium">
+            {{ $encabezados->first()->subtitulo ?? 'Resultados naturales y permanentes' }}
+        </p>
+
+        <a href="#contacto"
+            class="mt-8 bg-[#1C6C73] text-white px-8 py-3 font-semibold hover:bg-tealOscuro transition">
+            AGENDA TU DIAGNÓSTICO
+        </a>
+        
+        </div>
+
+   <div class="relative z-30 w-full pt-16 pb-10 px-6 md:px-16">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-center sm:justify-between gap-4 sm:gap-x-12 text-white font-[Playfair Display] **text-lg** md:**text-xl**">
+        
+        <a href="/servicios" class="flex items-center gap-2 hover:text-teal-400 transition">
+            <span class="**w-4 h-4** bg-[#1C6C73] rounded-full inline-block"></span>
+            Micro Transplante Capilar
+        </a>
+        
+        <a href="/servicios" class="flex items-center gap-2 hover:text-teal-400 transition">
+            <span class="**w-4 h-4** bg-[#1C6C73] rounded-full inline-block"></span>
+            Micro Transplante de barba
+        </a>
+        
+        <a href="/servicios" class="flex items-center gap-2 hover:text-teal-400 transition">
+            <span class="**w-4 h-4** bg-[#1C6C73] rounded-full inline-block"></span>
+            Terapia Regenerativa Capilar
+        </a>
+        
+    </div>
+</div>
+    </div>
 </section>
+ 
+<!-- Importar fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
 
 <script>
-  const slides = document.querySelectorAll('.bg-slide');
+  const slides = document.querySelectorAll('.bg-slide'); // imágenes (solo si no hay video)
   const mainText = document.getElementById("mainText");
   const subText = document.getElementById("subText");
 
@@ -56,14 +100,9 @@
   }));
 
   let currentIndex = 0;
-  const slideDuration = 8000; // Duración de cada slide en ms
+  const slideDuration = 8000; // Duración de cada cambio
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('opacity-100', i === index);
-      slide.classList.toggle('opacity-0', i !== index);
-    });
-
+  function showText(index) {
     mainText.classList.remove('opacity-100');
     mainText.classList.add('opacity-0');
     subText.classList.remove('opacity-100');
@@ -76,13 +115,32 @@
       mainText.classList.add('opacity-100');
       subText.classList.remove('opacity-0');
       subText.classList.add('opacity-100');
-    }, 500); // Tiempo del fade-out antes de cambiar el texto
+    }, 500);
   }
 
-  // Inicia el slideshow
-  showSlide(currentIndex);
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % slides.length;
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('opacity-100', i === index);
+      slide.classList.toggle('opacity-0', i !== index);
+    });
+    showText(index);
+  }
+
+  // Inicia el ciclo
+  /*if (slides.length > 0) {
     showSlide(currentIndex);
-  }, slideDuration);
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      showSlide(currentIndex);
+    }, slideDuration);
+  } else {
+    showText(currentIndex);
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % texts.length;
+      showText(currentIndex);
+    }, slideDuration);
+  }*/
 </script>
+
+<!-- Importar fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">

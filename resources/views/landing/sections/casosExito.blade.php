@@ -2,7 +2,7 @@
 <section class="py-20 bg-gradient-to-b from-gray-100 via-white to-gray-100">
     <div class="max-w-6xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">
-            Casos de éxito
+           ¡Estos son algunos de nuestros miles de casos de exíto!
         </h2>
 
         <!-- Carrusel -->

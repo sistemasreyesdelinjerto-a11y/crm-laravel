@@ -2,18 +2,18 @@
 <br>
 @if ($medicamentos->isEmpty())
 <p>No hay medicamentos disponibles.</p>
-@else    
+@else
 <table id="TablaMedicamentos" style="width:100%" class="table table-striped table-bordered display nowrap">
     <thead class="bg-gray-dark color-palette text-white">
-        <tr style="background-color: #4298a7">            
+        <tr style="background-color: #4298a7">
             <th class="py-3 px-4 border-b font-semibold text-left">ID</th>
             <th class="py-3 px-4 border-b font-semibold text-left">Nombre</th>
             <th class="py-3 px-4 border-b font-semibold text-left">Stock</th>
             <th class="py-3 px-4 border-b font-semibold text-left">Caduca</th>
         </tr>
     </thead>
-    @foreach ($medicamentos as $med)
          <tbody>
+    @foreach ($medicamentos as $med)
         <tr>
             <td>{{ $med->id }}</td>
             <td>{{ $med->name }}</td>
@@ -24,8 +24,8 @@
             <td>{{ $med->expiry_date }}</td>
             @endif
         </tr>
+        @endforeach
     </tbody>
-    @endforeach
 </table>
 @endif
 

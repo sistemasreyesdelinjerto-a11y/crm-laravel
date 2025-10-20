@@ -205,22 +205,43 @@
             <!-- Sección: Trayectoria y logros -->
             <section id="experiencia" class="py-16 px-6 bg-gray-50">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">Trayectoria del Dr. Santana</h2>
-                    <p class="text-verdeOscuro/80 mb-6">
-                        Más de 8 años de experiencia en injerto capilar, reconocido internacionalmente por sus técnicas
-                        avanzadas de injerto.
+                    <h2 class="text-3xl md:text-4xl font-bold text-verdeOscuro mb-6">El Dr. Santana</h2>
+                    <p class="text-verdeOscuro/80 text-justify mb-6">
+                        El Dr. Alejandro Santana es el director médico de la "Clínica Capilar Élite", clínica de trasplante
+                        capilar en México, graduado en la Facultad de Medicina de la Universidad de Guadalajara.
                         <br>
-                        El Dr. Alejandro Santana es el director médico de la clínica capilar elite, clínica de trasplante
-                        capilar en México.
+                        Se dedica al tratamiento de la pérdida de cabello tanto en hombres como en mujeres.
+                        Ha realizado más de 1000 procedimientos a lo largo de su carrera. 
+                        Como forma de retribuir a la comunidad, 
+                        también ha realizado procedimientos gratuitos a víctimas de quemaduras. 
                         <br>
-                        Nació en Guadalajara y se graduó en la Facultad de Medicina de la Universidad de Guadalajara.
+                        Su constante búsqueda de la perfección en sus procedimientos le ha llevado a mantenerse al día de las 
+                        últimas innovaciones y tecnologías a través de diversos cursos y certificaciones.
+                        <br>
+                        Actualmente es miembro activo de:
                     </p>
                     <ul class="text-left text-verdeOscuro/90 list-disc list-inside space-y-2">
-                        <li>Certificaciones nacionales e internacionales en injerto capilar.</li>
-                        <li>Participación en congresos y conferencias médicas.</li>
-                        <li>+1500 pacientes satisfechos.</li>
-                        <li>Investigaciones y publicaciones sobre trasplante capilar.</li>
+                        <li>Sociedad Mundial de Tricología | 2022 - Actualidad</li>
+                        <li>Sociedad Internacional de Cirugía de Restauración Capilar | 2024 - Actualidad</li>
+                        <li>Instituto Mundial FUE | 2022 - Actualidad</li>
+                        <li>Alianza Internacional de Cirujanos de Restauración Capilar | 2022 - Actualidad</li>
+                        <li>Sociedad Internacional de Tricoscopia | 2023 - Actualidad</li>
+                        <li>Sociedad Ibero Latinoamericana de Trasplante de Cabello | 2024 - Actualidad</li>
                     </ul>
+                    <br>
+                    <p class="text-verdeOscuro/80 text-justify mb-6">
+                     Ademas esta certificado en las siguentes instituciones: 
+                    </p>
+                    <ul class="text-left text-verdeOscuro/90 list-disc list-inside space-y-2">
+                        <li>Técnica FUE de trasplante capilar por el Colegio Iberoamericano de Dermatología | Buenos Aires, Argentina | 2022.</li>
+                        <li>Maestría en Tricología por el Colegio Mexicano de Tricología y Trasplante Capilar | Guadalajara, México | 2022.</li>
+                        <li>Maestría en Tricología por AMIR | Ciudad de México, México | 2023.</li>
+                    </ul>
+                    <br>
+                     <p class="text-verdeOscuro/80 text-justify mb-6">
+                     Gracias a su amplia experiencia, ha podido garantizar resultados naturales y de alta densidad, 
+                     así como un procedimiento indoloro y sin cicatrices significativas para sus pacientes. 
+                    </p>
                 </div>
             </section>
 
@@ -328,6 +349,14 @@
                                                 <h3 class="text-xl font-bold text-verdeOscuro mb-3">{{ $post->titulo }}</h3>
                                                 <p class="text-sm text-verdeOscuro/60 mb-3">📅 {{ $post->fecha }}</p>
                                                 <p class="text-verdeOscuro/80 flex-1 line-clamp-4 whitespace-pre-line">{!! nl2br(e($post->contenido)) !!}</p>
+                                                @if ($post->link)
+                                                <p class="mt-2">
+                                                    🔗 <a href="{{ $post->link }}" target="_blank" class="text-[#1C6C73] hover:underline">
+                                                        Ver enlace
+                                                    </a>
+                                                </p>
+                                                 @endif
+
                                             </div>
                                         </div>
                                     </div>
